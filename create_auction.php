@@ -10,7 +10,7 @@
 */
 ?>
 
-<div class="container"> hugo
+<div class="container"> Devan + Hugo
 
 <!-- Create auction form -->
 <div style="max-width: 800px; margin: 10px auto">
