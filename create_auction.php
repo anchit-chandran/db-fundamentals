@@ -10,7 +10,7 @@
 */
 ?>
 
-<div class="container">
+<div class="container"> hugo
 
 <!-- Create auction form -->
 <div style="max-width: 800px; margin: 10px auto">
