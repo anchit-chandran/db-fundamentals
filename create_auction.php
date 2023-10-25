@@ -10,7 +10,7 @@
 */
 ?>
 
-<div class="container"> Devan + Hugo -> test 1 -> test 2
+<div class="container"> Devan + Hugo -> abc, def
 
 <!-- Create auction form -->
 <div style="max-width: 800px; margin: 10px auto">
