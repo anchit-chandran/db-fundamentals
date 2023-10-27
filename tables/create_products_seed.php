@@ -41,7 +41,7 @@ if (runQuery($createProductTable)) {
 $seedProducts = "INSERT INTO Product (name, description, auctionStartDatetime, auctionEndDatetime, state, sellerId, subcategoryId)
     VALUES 
     ('Tesco Extra Mature Cheddar Cheese, 400g', 'Tasteless lump of rubber', '2016-06-18 10:34:09', '2026-02-23 21:14:54', 'Brand New', 1, 1),
-    ('Sainsbury\'s Gouda Cheese, 256g', 'Tasteless lump of rubber', '2021-06-18 10:34:09', '2022-09-24 01:03:55', 'Slightly Used', 1, 1),
+    ('Sainsbury\'s Gouda Cheese, 256g', 'Half eaten', '2021-06-18 10:34:09', '2022-09-24 01:03:55', 'Slightly Used', 1, 1),
     ('Cheese Slice From The Sink', 'Try at your peril', '2022-10-03 21:54:13', '2026-01-31 18:08:41', 'Used', 1, 1);";
 
 if (runQuery($seedProducts)) {
@@ -61,7 +61,7 @@ if ($productTable) {
         echo "Name: " . $row['name'] . "<br>";
         echo "Description: " . $row['description'] . "<br>";
         echo "Auction Start Datetime: " . $row['auctionStartDatetime'] . "<br>";
-        echo "Auction Etart Datetime: " . $row['auctionEndDatetime'] . "<br>";
+        echo "Auction End Datetime: " . $row['auctionEndDatetime'] . "<br>";
         echo "State: " . $row['state'] . "<br>";
         echo "Seller ID: " . $row['sellerId'] . "<br>";
         echo "Subcategory ID: " . $row['subcategoryId'] . "<br>";
