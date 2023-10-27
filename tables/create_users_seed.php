@@ -1,7 +1,7 @@
 <?php
 
 // Contains db connection code
-include 'database.php';
+include_once 'database.php';
 
 // Drop table if exists
 $dropSql = "DROP TABLE IF EXISTS User";
