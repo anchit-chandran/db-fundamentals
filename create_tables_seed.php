@@ -13,7 +13,7 @@ if ($tableExists) {
     echo "Error dropping table. ";
 }
 
-// SQL to create table
+// create User table
 $createUserTable = "CREATE TABLE User (
       userId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
       email VARCHAR(254) NOT NULL,
@@ -24,7 +24,6 @@ $createUserTable = "CREATE TABLE User (
       isSuperuser BOOL DEFAULT FALSE
   );
   ";
-
 if (runQuery($createUserTable)) {
     echo "Successfully created User Table";
 } else {
@@ -43,9 +42,10 @@ if (runQuery($seedUsers)) {
     echo "Error seeding Users ";
 }
 
+// Look at Users
+echo "<h1>User Table</h1> <br>";
 $getAllUserTable = "SELECT * FROM User";
 $userTable = runQuery($getAllUserTable);
-
 if ($userTable) {
     // Loop through each row in the result set
     while ($row = $userTable->fetch_assoc()) {
