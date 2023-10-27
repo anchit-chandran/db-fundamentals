@@ -3,14 +3,16 @@
 // Contains db connection code
 include_once 'database.php';
 
+echo "<h1>User Table</h1> <br>";
+
 // Drop table if exists
 $dropSql = "DROP TABLE IF EXISTS User";
 $tableExists = runQuery($dropSql);
 
 if ($tableExists) {
-    echo "Old Table User dropped. ";
+    echo "Old Table User dropped. <br>";
 } else {
-    echo "Error dropping table. ";
+    echo "Error dropping table.  <br>";
 }
 
 // create User table
@@ -25,9 +27,9 @@ $createUserTable = "CREATE TABLE User (
   );
   ";
 if (runQuery($createUserTable)) {
-    echo "Successfully created User Table";
+    echo "Successfully created User Table <br>";
 } else {
-    echo "Error creating User table ";
+    echo "Error creating User table  <br>";
 }
 
 $seedUsers = "INSERT INTO User (email, password, firstName, lastName, isActive, isSuperuser) 
@@ -37,26 +39,26 @@ $seedUsers = "INSERT INTO User (email, password, firstName, lastName, isActive, 
     ('superuser@example.com', 'hashedpassword3', 'Alice', 'Johnson', FALSE, TRUE);";
 
 if (runQuery($seedUsers)) {
-    echo "Successfully seeded Users.";
+    echo "Successfully seeded Users. <br>";
 } else {
-    echo "Error seeding Users ";
+    echo "Error seeding Users <br>";
 }
 
 // Look at Users
-echo "<h1>User Table</h1> <br>";
 $getAllUserTable = "SELECT * FROM User";
 $userTable = runQuery($getAllUserTable);
 if ($userTable) {
     // Loop through each row in the result set
     while ($row = $userTable->fetch_assoc()) {
+        echo "-----------------------<br>";
         echo "User ID: " . $row['userId'] . "<br>";
         echo "Email: " . $row['email'] . "<br>";
         echo "First Name: " . $row['firstName'] . "<br>";
         echo "Last Name: " . $row['lastName'] . "<br>";
         echo "Is Active: " . ($row['isActive'] ? 'Yes' : 'No') . "<br>";
         echo "Is Superuser: " . ($row['isSuperuser'] ? 'Yes' : 'No') . "<br>";
-        echo "-----------------------<br>";
     }
+    echo "-----------------------<br>";
 } else {
     echo "Error executing query.";
 }
