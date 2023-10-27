@@ -63,6 +63,12 @@ if ($productTable) {
         echo "Description: " . $row['description'] . "<br>";
         echo "Auction Start Datetime: " . $row['auctionStartDatetime'] . "<br>";
         echo "Auction End Datetime: " . $row['auctionEndDatetime'] . "<br>";
+        
+        echo "Reserve Price: " . $row['reservePrice'] . "<br>";
+        echo "Start Price: " . $row['startPrice'] . "<br>";
+        echo "Created At: " . $row['createdAt'] . "<br>";
+        echo "Updated At: " . $row['updatedAt'] . "<br>";
+        echo "Image Location: " . $row['image'] . "<br>";
         echo "State: " . $row['state'] . "<br>";
         echo "Seller ID: " . $row['sellerId'] . "<br>";
         echo "Subcategory ID: " . $row['subcategoryId'] . "<br>";
