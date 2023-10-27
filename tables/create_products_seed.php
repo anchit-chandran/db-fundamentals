@@ -3,19 +3,21 @@
 // Contains db connection code
 include_once 'database.php';
 
+echo "<h1>Product Table</h1> <br>";
+
 // Drop table if exists
 $dropSql = "DROP TABLE IF EXISTS Product";
 $tableExists = runQuery($dropSql);
 
 if ($tableExists) {
-    echo "Old Table Product dropped. ";
+    echo "Old Table Product dropped. <br>";
 } else {
-    echo "Error dropping table. ";
+    echo "Error dropping table. <br>";
 }
 
 // create Product table
 $createProductTable = "CREATE TABLE Product (
-    productId INT NOT NULL AUTO_INCREMENT,
+    productId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(500) NOT NULL,
     description VARCHAR(1000) NOT NULL,
     auctionStartDatetime DATETIME NOT NULL,
@@ -27,15 +29,14 @@ $createProductTable = "CREATE TABLE Product (
     image LONGBLOB,
     state ENUM('Brand New', 'Slightly Used', 'Used'),
     sellerId INT NOT NULL,
-    subcategoryId INT NOT NULL,
-    PRIMARY KEY (productId)
+    subcategoryId INT NOT NULL
 );
 
   ";
 if (runQuery($createProductTable)) {
-    echo "Successfully created Product Table";
+    echo "Successfully created Product Table <br>";
 } else {
-    echo "Error creating Product table ";
+    echo "Error creating Product table <br>";
 }
 
 $seedProducts = "INSERT INTO Product (name, description, auctionStartDatetime, auctionEndDatetime, state, sellerId, subcategoryId)
@@ -45,18 +46,18 @@ $seedProducts = "INSERT INTO Product (name, description, auctionStartDatetime, a
     ('Cheese Slice From The Sink', 'Try at your peril', '2022-10-03 21:54:13', '2026-01-31 18:08:41', 'Used', 1, 1);";
 
 if (runQuery($seedProducts)) {
-    echo "Successfully seeded Products.";
+    echo "Successfully seeded Products. <br>";
 } else {
-    echo "Error seeding Products ";
+    echo "Error seeding Products <br>";
 }
 
 // Look at Products
-echo "<h1>Product Table</h1> <br>";
 $getAllProductTable = "SELECT * FROM Product";
 $productTable = runQuery($getAllProductTable);
 if ($productTable) {
     // Loop through each row in the result set
     while ($row = $productTable->fetch_assoc()) {
+        echo "-----------------------<br>";
         echo "Product ID: " . $row['productId'] . "<br>";
         echo "Name: " . $row['name'] . "<br>";
         echo "Description: " . $row['description'] . "<br>";
@@ -65,8 +66,8 @@ if ($productTable) {
         echo "State: " . $row['state'] . "<br>";
         echo "Seller ID: " . $row['sellerId'] . "<br>";
         echo "Subcategory ID: " . $row['subcategoryId'] . "<br>";
-        echo "-----------------------<br>";
     }
+    echo "-----------------------<br>";
 } else {
     echo "Error executing query.";
 }
