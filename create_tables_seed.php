@@ -60,3 +60,5 @@ if ($userTable) {
 } else {
     echo "Error executing query.";
 }
+
+?>
