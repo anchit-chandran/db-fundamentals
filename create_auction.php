@@ -8,6 +8,30 @@
     header('Location: browse.php');
   }
 */
+include_once 'database.php';
+$query = 'SELECT categoryId, categoryName FROM Category';
+$result = runQuery($query);
+$categories = array();
+if ($result) {
+  while ($row = $result->fetch_assoc()) {
+    $categories[] = $row;
+  }
+
+} else {
+  echo "Error";
+}
+$query = 'SELECT categoryId, subCategoryName, subCategoryId FROM SubCategory';
+$result = runQuery($query);
+$subcategories = array();
+if ($result) {
+  while ($row = $result->fetch_assoc()) {
+    $subcategories[] = $row;
+  }
+
+} else {
+  echo "Error";
+}
+
 ?>
 
 <div class="container">
@@ -24,7 +48,7 @@
       before they try to send it, but that kind of functionality should be
       extremely low-priority / only done after all database functions are
       complete. -->
-      <form method="post" action="create_auction_result.php">
+      <form method="post" action="create_auction_result.php" id="createAuctionForm">
         <div class="form-group row">
           <label for="auctionTitle" class="col-sm-2 col-form-label text-right">Title of auction</label>
           <div class="col-sm-10">
@@ -43,12 +67,80 @@
           <label for="auctionCategory" class="col-sm-2 col-form-label text-right">Category</label>
           <div class="col-sm-10">
             <select class="form-control" id="auctionCategory">
+            <option value="">Choose...</option>
+            <?php
+            foreach ($categories as $category) {
+                echo "<option value=\"{$category['categoryId']}\">{$category['categoryName']}</option>";
+            }
+            ?>
+            </select>
+            <small id="categoryHelp" class="form-text text-muted"><span class="text-danger">* Required.</span> Select a category for this item.</small>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="auctionSubCategory" class="col-sm-2 col-form-label text-right">Subcategory</label>
+          <div class="col-sm-10">
+            <select class="form-control" id="auctionSubCategory">
+              
+              <script>
+                const categoryChoice = document.getElementById("auctionCategory");
+                categoryChoice.addEventListener("change", () => {
+                  const selectedCategory = categoryChoice.value;
+                  fetchSubcategory(selectedCategory);
+                })
+                function fetchSubcategory(categoryId) {
+                  const subcategoryChoice = document.getElementById("auctionSubCategory");
+                  subcategoryChoice.innerHTML = "";
+                  if (categoryId !== "") {
+                    
+                    var subcategories = <?php echo json_encode($subcategories); ?>;
+                    for (var i = 0; i < subcategories.length; i++) {
+                          if (subcategories[i].categoryId === categoryId) {
+                            var option = document.createElement("option");
+                            option.text = subcategories[i].subCategoryName;
+                            option.value = subcategories[i].subCategoryId;
+                            subcategoryChoice.add(option)
+                          }
+                          
+                        }
+
+                  } 
+                    else {
+                        var option = document.createElement("option");
+                          option.text = "Choose category first";
+                          option.value = "";
+                          subcategoryChoice.add(option);
+                  }
+                }
+                fetchSubcategory("")
+              </script>
+            </select>
+
+            <small id="subcategoryHelp" class="form-text text-muted"><span class="text-danger">* Required.</span> Select a subcategory for this item.</small>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="auctionCondition" class="col-sm-2 col-form-label text-right">Item Condition</label>
+          <div class="col-sm-10">
+            <select class="form-control" id="auctionCondition">
+              <option value="">Choose...</option>
+              <option value="brandNew">Brand New</option>
+              <option value="slightlyUsed">Slightly Used</option>
+              <option value="used">Used</option>
+            </select>
+            <small id="conditionHelp" class="form-text text-muted"><span class="text-danger">* Required.</span> Select a condition for this item.</small>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="auctionImage" class="col-sm-2 col-form-label text-right">Item Image</label>
+          <div class="col-sm-10">
+            <select class="form-control" id="auctionImage">
               <option selected>Choose...</option>
               <option value="fill">Fill me in</option>
               <option value="with">with options</option>
               <option value="populated">populated from a database?</option>
             </select>
-            <small id="categoryHelp" class="form-text text-muted"><span class="text-danger">* Required.</span> Select a category for this item.</small>
+            <small id="imageHelp" class="form-text text-muted"><span class="text-danger">* Required.</span> Upload image for this listing</small>
           </div>
         </div>
         <div class="form-group row">
@@ -60,7 +152,7 @@
               </div>
               <input type="number" class="form-control" id="auctionStartPrice">
             </div>
-            <small id="startBidHelp" class="form-text text-muted"><span class="text-danger">* Required.</span> Initial bid amount.</small>
+            <small id="startBidHelp" class="form-text text-muted"><span class="text-danger">* Required.</span> Initial bid amount. Amount must be a valid number and greater than or equal to 0</small>
           </div>
         </div>
         <div class="form-group row">
@@ -79,11 +171,104 @@
           <label for="auctionEndDate" class="col-sm-2 col-form-label text-right">End date</label>
           <div class="col-sm-10">
             <input type="datetime-local" class="form-control" id="auctionEndDate">
-            <small id="endDateHelp" class="form-text text-muted"><span class="text-danger">* Required.</span> Day for the auction to end.</small>
+            <small id="endDateHelp" class="form-text text-muted"><span class="text-danger">* Required.</span> Day for the auction to end. Day must be in the future.</small>
           </div>
         </div>
         <button type="submit" class="btn btn-primary form-control">Create Auction</button>
       </form>
+      <script>
+        const form = document.getElementById("createAuctionForm");
+        const titleInput = document.getElementById("auctionTitle");
+        const titleHelp = document.getElementById("titleHelp");
+        const categoryInput = document.getElementById("auctionCategory");
+        const categoryHelp = document.getElementById("categoryHelp");
+        const conditionInput = document.getElementById("auctionCondition");
+        const conditionHelp = document.getElementById("conditionHelp");
+        const startPriceInput = document.getElementById("auctionStartPrice");
+        const startPriceHelp = document.getElementById("startBidHelp");
+        const endDateInput = document.getElementById("auctionEndDate");
+        const endDateHelp = document.getElementById("endDateHelp");
+        form.addEventListener("submit", function (event) {
+          if (!validateForm()) {
+            event.preventDefault();
+          }
+        })
+        titleInput.addEventListener("input", function () {
+          validateTitle();
+        })
+        categoryInput.addEventListener("change", function () {
+          
+          validateCategory();
+        })
+        conditionInput.addEventListener("change", function () {
+          validateCondition();
+        })
+        startPriceInput.addEventListener("input", function () {
+          validateStartPrice();
+        })
+        endDateInput.addEventListener("input", function () {
+          validateEndDate();
+        })
+        function validateForm() {
+          let isValid = true;
+          if (!validateTitle()) {
+            isValid = false;
+          } if (!validateCategory()) {
+            isValid = false
+          }
+        }
+        function validateTitle() {
+          const titleValue = titleInput.value.trim()
+          if (titleValue === ""){
+            titleHelp.classList.remove("d-none")
+            return false
+          } else {
+            titleHelp.classList.add("d-none")
+            return true
+          }
+        }
+        function validateCategory() {
+          if (categoryInput.value === "") {
+            categoryHelp.classList.remove("d-none")
+            return false
+          } else {
+            categoryHelp.classList.add("d-none")
+            return true
+          }
+        }
+        function validateCondition() {
+          if (conditionInput.value === "") {
+            conditionHelp.classList.remove("d-none")
+            return false
+          } else {
+            conditionHelp.classList.add("d-none")
+            return true
+          }
+        }
+        function validateStartPrice() {
+
+          if (isNaN(startPriceInput.value) || parseFloat(startPriceInput.value) < 0 || startPriceInput.value === "") {
+            // startPriceHelp.textContent = "Starting Price must be a valid number and greater than or equal to 0.";
+            startPriceHelp.classList.remove("d-none")
+            return false
+          } else {
+            startPriceHelp.classList.add("d-none")
+            return true
+          }
+        }
+        function validateEndDate() {
+          const selectedDate = new Date(endDateInput.value)
+          const currDate = new Date()
+          if (selectedDate <= currDate) {
+            endDateHelp.classList.remove("d-none")
+            return false
+          } else {
+            endDateHelp.classList.add("d-none")
+            return true
+          }
+        }
+
+      </script>
     </div>
   </div>
 </div>
