@@ -134,14 +134,12 @@ if ($result) {
         <div class="form-group row">
           <label for="auctionImage" class="col-sm-2 col-form-label text-right">Item Image</label>
           <div class="col-sm-10">
-            <select class="form-control" id="auctionImage">
-              <option selected>Choose...</option>
-              <option value="fill">Fill me in</option>
-              <option value="with">with options</option>
-              <option value="populated">populated from a database?</option>
-            </select>
-            <small id="imageHelp" class="form-text text-muted"><span class="text-danger">* Required.</span> Upload image for this listing</small>
+          <input type="file" id="auctionImage" name="auctionImage" accept=".jpg, .jpeg, .png," required>
+          <button type="button" id="removeImage" class="d-none" onclick="clearImage()">Remove</button>
+            <small id="imageHelp" class="form-text text-muted">Upload image for this listing (.jpg, .jpeg, .png) max: 5 MB</small>
+            
           </div>
+          
         </div>
         <div class="form-group row">
           <label for="auctionStartPrice" class="col-sm-2 col-form-label text-right">Starting price</label>
@@ -184,10 +182,30 @@ if ($result) {
         const categoryHelp = document.getElementById("categoryHelp");
         const conditionInput = document.getElementById("auctionCondition");
         const conditionHelp = document.getElementById("conditionHelp");
+        const imageInput = document.getElementById("auctionImage");  
+        const removeButton = document.getElementById("removeImage");
+        const imageHelp = document.getElementById("imageHelp")
         const startPriceInput = document.getElementById("auctionStartPrice");
         const startPriceHelp = document.getElementById("startBidHelp");
         const endDateInput = document.getElementById("auctionEndDate");
         const endDateHelp = document.getElementById("endDateHelp");
+        function clearImage() {
+          
+          removeButton.classList.add("d-none");
+          imageInput.value = "";
+          imageHelp.innerHTML = "Upload image for this listing (.jpg, .jpeg, .png) max: 5 MB";
+
+        }
+        imageInput.addEventListener("change", function () {
+          validateImage();
+          if (this.value!="") {
+            removeButton.classList.remove("d-none")
+          } else {
+            
+            removeButton.classList.add("d-none")
+          } 
+
+        })
         form.addEventListener("submit", function (event) {
           if (!validateForm()) {
             event.preventDefault();
@@ -215,7 +233,13 @@ if ($result) {
             isValid = false;
           } if (!validateCategory()) {
             isValid = false
-          }
+          }  if (!validateCondition()) {
+            isValid = false
+          }  if (!validateStartPrice()) {
+            isValid = false
+          }  if (!validateEndDate()) {
+            isValid = false
+          } 
         }
         function validateTitle() {
           const titleValue = titleInput.value.trim()
@@ -245,6 +269,24 @@ if ($result) {
             return true
           }
         }
+        function validateImage() {
+          const maxSize = 5242880;
+          if (imageInput.files.length === 0) {
+            imageHelp.innerHTML = "Upload image for this listing (.jpg, .jpeg, .png) max: 5 MB"
+            return true
+          }
+          const image = imageInput.files[0]
+          const imageSize = image.size;
+          if (imageSize > maxSize) {
+                imageInput.value = "";
+                imageHelp.innerHTML = "File is too large. Maximum size is 5 MB.";
+                return false;
+          }
+          imageHelp.innerHTML = "";
+          return true
+
+        }
+
         function validateStartPrice() {
 
           if (isNaN(startPriceInput.value) || parseFloat(startPriceInput.value) < 0 || startPriceInput.value === "") {
