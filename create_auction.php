@@ -166,10 +166,26 @@ if ($result) {
           </div>
         </div>
         <div class="form-group row">
+          <label for="auctionEndDate" class="col-sm-2 col-form-label text-right">Start date</label>
+          <div class="col-sm-10">
+            <div class="input-group"> 
+            <div class="input-group-prepend">
+            <button type="button" id="startNow" class="" onclick="currDate()">Start Now</button>
+              </div>
+            <input type="datetime-local" class="form-control" id="auctionStartDate">
+            </div>
+            <small id="startDateHelp" class="form-text text-muted"><span class="text-danger">* Required.</span> Day for the auction to end. Day must be in the future or now</small>
+            
+            
+          </div>
+          
+
+        </div>
+        <div class="form-group row">
           <label for="auctionEndDate" class="col-sm-2 col-form-label text-right">End date</label>
           <div class="col-sm-10">
             <input type="datetime-local" class="form-control" id="auctionEndDate">
-            <small id="endDateHelp" class="form-text text-muted"><span class="text-danger">* Required.</span> Day for the auction to end. Day must be in the future.</small>
+            <small id="endDateHelp" class="form-text text-muted"><span class="text-danger">* Required.</span> Day for the auction to end. Date must be after start date</small>
           </div>
         </div>
         <button type="submit" class="btn btn-primary form-control">Create Auction</button>
@@ -187,6 +203,8 @@ if ($result) {
         const imageHelp = document.getElementById("imageHelp")
         const startPriceInput = document.getElementById("auctionStartPrice");
         const startPriceHelp = document.getElementById("startBidHelp");
+        const startDateInput = document.getElementById("auctionStartDate")
+        const startDateHelp = document.getElementById("startDateHelp");
         const endDateInput = document.getElementById("auctionEndDate");
         const endDateHelp = document.getElementById("endDateHelp");
         function clearImage() {
@@ -206,6 +224,17 @@ if ($result) {
           } 
 
         })
+        function currDate() {
+          const currDate = new Date();
+          startDateInput.value =currDate.toISOString().slice(0,16);
+          startDateHelp.classList.add("d-none");
+          validateEndDate()
+        }
+        startDateInput.addEventListener("input", function() {
+          validateStartDate()
+          validateEndDate()
+        })
+
         form.addEventListener("submit", function (event) {
           if (!validateForm()) {
             event.preventDefault();
@@ -236,6 +265,8 @@ if ($result) {
           }  if (!validateCondition()) {
             isValid = false
           }  if (!validateStartPrice()) {
+            isValid = false
+          } if (!validateStartDate()) {
             isValid = false
           }  if (!validateEndDate()) {
             isValid = false
@@ -298,10 +329,24 @@ if ($result) {
             return true
           }
         }
+        function validateStartDate() {
+          const selectedDate = new Date(startDateInput.value)
+          const currDate = new Date()
+          if (selectedDate < currDate) {
+            startDateHelp.classList.remove("d-none")
+            return false
+          } else {
+            startDateHelp.classList.add("d-none")
+            return true
+          }
+        }
+        
+
         function validateEndDate() {
           const selectedDate = new Date(endDateInput.value)
+          const startDate = new Date(startDateInput.value)
           const currDate = new Date()
-          if (selectedDate <= currDate) {
+          if (selectedDate <= currDate || selectedDate <= startDate || endDateInput.value === "") {
             endDateHelp.classList.remove("d-none")
             return false
           } else {
