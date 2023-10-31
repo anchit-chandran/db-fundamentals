@@ -1,18 +1,29 @@
 <?php
 
-// TODO: Extract $_POST variables, check they're OK, and attempt to login.
-// Notify user of success/failure and redirect/give navigation options.
-
-// For now, I will just set session variables and redirect.
+include_once 'database.php';
 
 session_start();
-$_SESSION['logged_in'] = true;
-$_SESSION['username'] = "test";
-$_SESSION['account_type'] = "buyer";
 
-echo('<div class="text-center">You are now logged in! You will be redirected shortly.</div>');
 
-// Redirect to index after 5 seconds
-header("refresh:5;url=index.php");
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $email = $_POST['email'];
+    $password_raw = $_POST['password'];
 
-?>
+    $userFound = runQuery("SELECT email, password FROM User WHERE email='{$email}'");
+
+    if ($userFound) {
+        while ($row = $userFound->fetch_assoc()) {
+            
+            if (password_verify($password_raw, $row['password'])) {
+                echo 'logging in';
+            } else {
+                echo 'user not found';
+            };
+        }
+
+    } else {
+        echo 'User does not exist';
+    }
+} 
+
+header("refresh:1;url=index.php");
