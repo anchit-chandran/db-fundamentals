@@ -134,7 +134,7 @@ if ($result) {
         <div class="form-group row">
           <label for="auctionImage" class="col-sm-2 col-form-label text-right">Item Image</label>
           <div class="col-sm-10">
-          <input type="file" id="auctionImage" name="auctionImage" accept=".jpg, .jpeg, .png," required>
+          <input type="file" id="auctionImage" name="auctionImage" accept=".jpg, .jpeg, .png,">
           <button type="button" id="removeImage" class="d-none" onclick="clearImage()">Remove</button>
             <small id="imageHelp" class="form-text text-muted">Upload image for this listing (.jpg, .jpeg, .png) max: 5 MB</small>
             
@@ -225,7 +225,8 @@ if ($result) {
 
         })
         function currDate() {
-          const currDate = new Date();
+          var currDate = new Date();
+          currDate.setMinutes(currDate.getMinutes()+1);
           startDateInput.value =currDate.toISOString().slice(0,16);
           startDateHelp.classList.add("d-none");
           validateEndDate()
@@ -236,7 +237,9 @@ if ($result) {
         })
 
         form.addEventListener("submit", function (event) {
-          if (!validateForm()) {
+          const valid = validateForm();
+          console.log(valid);
+          if (!valid) {
             event.preventDefault();
           }
         })
@@ -264,13 +267,16 @@ if ($result) {
             isValid = false
           }  if (!validateCondition()) {
             isValid = false
-          }  if (!validateStartPrice()) {
+          }  if (!validateImage()){
+            isValid = false;
+          } if (!validateStartPrice()) {
             isValid = false
           } if (!validateStartDate()) {
             isValid = false
           }  if (!validateEndDate()) {
             isValid = false
           } 
+          return isValid;
         }
         function validateTitle() {
           const titleValue = titleInput.value.trim()
@@ -332,6 +338,7 @@ if ($result) {
         function validateStartDate() {
           const selectedDate = new Date(startDateInput.value)
           const currDate = new Date()
+          
           if (selectedDate < currDate) {
             startDateHelp.classList.remove("d-none")
             return false
