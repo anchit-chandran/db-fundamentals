@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light mx-2">
+<nav class="navbar navbar-expand-lg navbar-light bg-light mx-2 justify-content-between">
     <a class="navbar-brand" href="index.php">Db-friends</a>
     <ul class="navbar-nav ml-auto">
         <li class='nav-item'>
@@ -17,7 +17,7 @@
 
                 echo '<a class="nav-link" href="logout.php">Logout</a>';
             } else {
-                echo '<a class="nav-link" href="sign_in.php">Login</a>';
+                echo "<a class='nav-link' href='CONTENT_sign_in.php'>Login</a>";
             }
             ?>
 
@@ -33,21 +33,21 @@
         <?php
         if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'buyer') {
             echo ('
-	<li class="nav-item mx-1">
-      <a class="nav-link" href="mybids.php">My Bids</a>
-    </li>
-	<li class="nav-item mx-1">
-      <a class="nav-link" href="recommendations.php">Recommended</a>
-    </li>');
+                <li class="nav-item mx-1">
+                  <a class="nav-link" href="mybids.php">My Bids</a>
+                </li>
+                <li class="nav-item mx-1">
+                  <a class="nav-link" href="recommendations.php">Recommended</a>
+                </li>');
         }
         if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'seller') {
             echo ('
-	<li class="nav-item mx-1">
-      <a class="nav-link" href="mylistings.php">My Listings</a>
-    </li>
-	<li class="nav-item ml-3">
-      <a class="nav-link btn border-light" href="create_auction.php">+ Create auction</a>
-    </li>');
+                <li class="nav-item mx-1">
+                  <a class="nav-link" href="mylistings.php">My Listings</a>
+                </li>
+                <li class="nav-item ml-3">
+                  <a class="nav-link btn border-light" href="create_auction.php">+ Create auction</a>
+                </li>');
         }
         ?>
     </ul>

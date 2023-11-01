@@ -1,4 +1,4 @@
-<?php include_once("header.php")?>
+<?php include_once("CONTENT_header.php")?>
 <?php include_once 'database.php'?>
 <?php require("utilities.php")?>
 
@@ -207,7 +207,3 @@
 
 
 </div>
-
-
-
-<?php include_once("footer.php")?>

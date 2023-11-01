@@ -1,5 +1,6 @@
 <?php
 session_start();
+$base_url = 'https://localhost/db-fundamentals';
 ?>
 
 
@@ -7,15 +8,15 @@ session_start();
 <html lang="en">
 
 <head>
-    <?php include('header.php') ?>
+    <?php include('./CONTENT_header.php') ?>
 </head>
 
 <body>
 
     <!-- Navbars -->
-    <?php include('navbar.php') ?>
+    <?php include('./CONTENT_navbar.php') ?>
 
-    <main class='container'>
+    <main class='container h-100'>
         <?php
         if (isset($content)) {
             include($content);
@@ -25,7 +26,7 @@ session_start();
 
     <!-- FOOTER -->
     <footer>
-        <?php include('footer.php') ?>
+        <?php include('./CONTENT_footer.php') ?>
     </footer>
 
 </body>
