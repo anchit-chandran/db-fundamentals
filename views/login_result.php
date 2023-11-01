@@ -1,6 +1,6 @@
 <?php
 
-include_once 'database.php';
+include_once('../database.php');
 
 session_start();
 
@@ -14,13 +14,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($userFound) {
         while ($row = $userFound->fetch_assoc()) {
             
+            // LOG IN USER
             if (password_verify($password_raw, $row['password'])) {
+
                 $_SESSION['userId'] = $row['userId'];
                 $_SESSION['isSuperuser'] = $row['isSuperuser'];
                 $_SESSION['logged_in'] = True;
-            };
+                header("refresh:0;url=../index.php");
+            }
         };
     };
-} 
-
-header("refresh:0;url=index.php");
+    echo 'email or password not correct';
+};
