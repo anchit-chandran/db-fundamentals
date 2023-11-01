@@ -4,8 +4,6 @@
 // ONLY after the user's login credentials have been verified via a 
 // database query.
 session_start();
-$_SESSION['logged_in'] = false;
-$_SESSION['account_type'] = 'seller';
 ?>
 
 
@@ -23,11 +21,14 @@ $_SESSION['account_type'] = 'seller';
   <!-- Custom CSS file -->
   <link rel="stylesheet" href="css/custom.css">
 
-  <title>[My Auction Site] <!--CHANGEME!--></title>
+  <!-- HTMX -->
+  <script src="https://unpkg.com/htmx.org@1.9.6" integrity="sha384-FhXw7b6AlE/jyjlZH5iHa/tTe9EpJ1Y55RjcgPbjeWMskSxZt1v9qkxLJWNJaGni" crossorigin="anonymous"></script>
 
-  
+
+  <title>Db-frens <!--CHANGEME!--></title>
+
+
 </head>
-
 
 <body>
 
@@ -35,12 +36,20 @@ $_SESSION['account_type'] = 'seller';
   <nav class="navbar navbar-expand-lg navbar-light bg-light mx-2">
     <a class="navbar-brand" href="#">Site Name <!--CHANGEME!--></a>
     <ul class="navbar-nav ml-auto">
+      <li class='nav-item'>
+        <?php
+          if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
+            echo '<a class="nav-link" href="profile.php">Hey, ANCHIT 👋</a>';
+          }
+          ?>
+      </li>
       <li class="nav-item">
 
         <?php
         // Displays either login or logout on the right, depending on user's
         // current status (session).
         if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
+
           echo '<a class="nav-link" href="logout.php">Logout</a>';
         } else {
           echo '<button type="button" class="btn nav-link" data-toggle="modal" data-target="#loginModal">Login</button>';
@@ -48,6 +57,7 @@ $_SESSION['account_type'] = 'seller';
         ?>
 
       </li>
+      
     </ul>
   </nav>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">

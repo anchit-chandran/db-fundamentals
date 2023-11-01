@@ -2,13 +2,13 @@
 
 session_start();
 
-unset($_SESSION['logged_in']);
-unset($_SESSION['account_type']);
+// Unset all session avariables
+$_SESSION = array();
+
 setcookie(session_name(), "", time() - 360);
 session_destroy();
 
 
 // Redirect to index
 header("Location: index.php");
-
 ?>
