@@ -17,7 +17,7 @@
 
                 echo '<a class="nav-link" href="logout.php">Logout</a>';
             } else {
-                echo "<a class='nav-link' href='CONTENT_sign_in.php'>Login</a>";
+                echo "<a class='nav-link' href='login.php'>Login</a>";
             }
             ?>
 

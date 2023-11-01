@@ -8,13 +8,13 @@ $base_url = 'https://localhost/db-fundamentals';
 <html lang="en">
 
 <head>
-    <?php include('./CONTENT_header.php') ?>
+    <?php include('CONTENT_header.php') ?>
 </head>
 
 <body>
 
     <!-- Navbars -->
-    <?php include('./CONTENT_navbar.php') ?>
+    <?php include('CONTENT_navbar.php') ?>
 
     <main class='container h-100'>
         <?php
@@ -26,7 +26,7 @@ $base_url = 'https://localhost/db-fundamentals';
 
     <!-- FOOTER -->
     <footer>
-        <?php include('./CONTENT_footer.php') ?>
+        <?php include('CONTENT_footer.php') ?>
     </footer>
 
 </body>
