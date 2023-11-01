@@ -1,48 +1,38 @@
-<div class="container">
-<h2 class="my-3">Register new account</h2>
-
-<!-- Create auction form -->
-<form method="POST" action="process_registration.php">
-  <div class="form-group row">
-    <label for="accountType" class="col-sm-2 col-form-label text-right">Registering as a:</label>
-	<div class="col-sm-10">
-	  <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" name="accountType" id="accountBuyer" value="buyer" checked>
-        <label class="form-check-label" for="accountBuyer">Buyer</label>
-      </div>
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" name="accountType" id="accountSeller" value="seller">
-        <label class="form-check-label" for="accountSeller">Seller</label>
-      </div>
-      <small id="accountTypeHelp" class="form-text-inline text-muted"><span class="text-danger">* Required.</span></small>
-	</div>
-  </div>
-  <div class="form-group row">
-    <label for="email" class="col-sm-2 col-form-label text-right">Email</label>
-	<div class="col-sm-10">
-      <input type="text" class="form-control" id="email" placeholder="Email">
-      <small id="emailHelp" class="form-text text-muted"><span class="text-danger">* Required.</span></small>
-	</div>
-  </div>
-  <div class="form-group row">
-    <label for="password" class="col-sm-2 col-form-label text-right">Password</label>
-    <div class="col-sm-10">
-      <input type="password" class="form-control" id="password" placeholder="Password">
-      <small id="passwordHelp" class="form-text text-muted"><span class="text-danger">* Required.</span></small>
+<div class="row justify-content-center signin_row">
+    <div class="signin_form_col col-6">
+        <h2 class='pb-2 border-bottom'>Register</h2>
+        <form method="POST" action='#'>
+            <!-- <div id="errorDiv" class="mt-2 text-danger">
+                <?php if (isset($failed_login)) {
+                    echo $failed_login;
+                } ?>
+            </div> -->
+            <div class="row">
+                <div class="col">
+                    <label for="email" class="form-label">First name</label>
+                    <input id='first_name' name='first_name' type="text" class="form-control" aria-label="First name">
+                </div>
+                <div class="col">
+                    <label for="last_name" class="form-label">Last name</label>
+                    <input id='last_name' name='last_name' type="text" class="form-control" aria-label="Last name">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <input name='email' type="email" class="form-control" id="email" aria-describedby="emailHelp">
+                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            </div>
+            <div class="mb-3">
+                <label for="inputPassword1" class="form-label">Password</label>
+                <input type="password" class="form-control" name='password1' id="inputPassword1">
+            </div>
+            <div class="mb-3">
+                <label for="inputPassword2" class="form-label">Repeat password</label>
+                <input type="password" class="form-control" name='password2' id="inputPassword2" aria-describedby="pw2Help">
+                <div id="pw2Help" class="form-text">Please type your password again.</div>
+            </div>
+            <button type="submit" class="btn btn-primary">Create account</button>
+            <a class="btn btn-secondary" href='login.php'>Login</a>
+        </form>
     </div>
-  </div>
-  <div class="form-group row">
-    <label for="passwordConfirmation" class="col-sm-2 col-form-label text-right">Repeat password</label>
-    <div class="col-sm-10">
-      <input type="password" class="form-control" id="passwordConfirmation" placeholder="Enter password again">
-      <small id="passwordConfirmationHelp" class="form-text text-muted"><span class="text-danger">* Required.</span></small>
-    </div>
-  </div>
-  <div class="form-group row">
-    <button type="submit" class="btn btn-primary form-control">Register</button>
-  </div>
-</form>
-
-<div class="text-center">Already have an account? <a href="" data-toggle="modal" data-target="#loginModal">Login</a>
-
 </div>
