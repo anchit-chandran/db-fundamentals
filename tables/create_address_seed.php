@@ -24,8 +24,7 @@ $createAddressTable = "CREATE TABLE Address (
       city VARCHAR(189) NOT NULL,
       address_3 VARCHAR(50),
       address_2 VARCHAR(50),
-      address_1 VARCHAR(50) NOT NULL,
-      userId INT NOT NULL
+      address_1 VARCHAR(50) NOT NULL
   );
   ";
 if (runQuery($createAddressTable)) {
@@ -34,18 +33,18 @@ if (runQuery($createAddressTable)) {
     echo "Error creating Address table <br>";
 }
 
-$seedAddresss = "INSERT INTO Address (phoneNumber, zipCode, county, city, address_1, userId)
+$seedaddress = "INSERT INTO Address (phoneNumber, zipCode, county, city, address_1)
     VALUES 
-    ('+44(0)2080590939', 'WC1E 6BT', 'Greater London', 'London', 'UCL', 1),
-    ('+44(0)1234567890', 'W1T 5AS', 'Greater London', 'London', '124-125 Tottenham Ct Rd', 1);";
+    ('+44(0)2080590939', 'WC1E 6BT', 'Greater London', 'London', 'UCL'),
+    ('+44(0)1234567890', 'W1T 5AS', 'Greater London', 'London', '124-125 Tottenham Ct Rd');";
 
-if (runQuery($seedAddresss)) {
-    echo "Successfully seeded Addresss. <br>";
+if (runQuery($seedaddress)) {
+    echo "Successfully seeded address. <br>";
 } else {
-    echo "Error seeding Addresss <br>";
+    echo "Error seeding address <br>";
 }
 
-// Look at Addresss
+// Look at Address
 $getAllAddressTable = "SELECT * FROM Address";
 $addressTable = runQuery($getAllAddressTable);
 if ($addressTable) {
@@ -54,13 +53,12 @@ if ($addressTable) {
         echo "-----------------------<br>";
         echo "Address ID: " . $row['addressId'] . "<br>";
         echo "Phone Number: " . $row['phoneNumber'] . "<br>";
-        echo "Zip Code: " . $row['zipCode'] . "<br>";
-        echo "County: " . $row['county'] . "<br>";
-        echo "City: " . $row['city'] . "<br>";
         echo "Address 1: " . $row['address_1'] . "<br>";
         echo "Address 2: " . $row['address_2'] . "<br>";
         echo "Address 3: " . $row['address_3'] . "<br>";
-        echo "User ID: " . $row['userId'] . "<br>";
+        echo "City: " . $row['city'] . "<br>";
+        echo "County: " . $row['county'] . "<br>";
+        echo "Zip Code: " . $row['zipCode'] . "<br>";
     }
     echo "-----------------------<br>";
 } else {

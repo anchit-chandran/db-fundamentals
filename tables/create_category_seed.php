@@ -38,7 +38,7 @@ if (runQuery($seedCategorys)) {
     echo "Error seeding Categorys <br>";
 }
 
-// Look at Categorys
+// Look at Categories
 $getAllCategoryTable = "SELECT * FROM Category";
 $categoryTable = runQuery($getAllCategoryTable);
 if ($categoryTable) {

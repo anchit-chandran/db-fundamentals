@@ -18,11 +18,9 @@ if ($tableExists) {
 // create Orders table
 $createOrdersTable = "CREATE TABLE Orders (
     orderId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    paymentMethod VARCHAR(500) NOT NULL,
+    userId INT NOT NULL, 
     state ENUM('Processing', 'Shipped', 'Delivered'),    
-    productId INT NOT NULL,
-    userId INT NOT NULL,
-    addressId INT NOT NULL
+    productId INT NOT NULL
 );
 
   ";
@@ -33,10 +31,10 @@ if (runQuery($createOrdersTable)) {
     echo "Error creating Orders table <br>";
 }
 
-$seedOrders = "INSERT INTO Orders (paymentMethod, state, productId, userId, addressId)
+$seedOrders = "INSERT INTO Orders (state, productId, userId)
     VALUES 
-    ('card XXXX XXXX XXXX XXXX', 'Processing', 1, 1, 1),
-    ('paypal XXXXXXXX', 'Shipped', 1, 2, 3)
+    ('Processing', 1, 1),
+    ('Shipped', 2, 2)
     ;";
 
 if (runQuery($seedOrders)) {
@@ -52,12 +50,10 @@ if ($orderTable) {
     // Loop through each row in the result set
     while ($row = $orderTable->fetch_assoc()) {
         echo "-----------------------<br>";
-        echo "Orders ID: " . $row['orderId'] . "<br>";
-        echo "Payment Method: " . $row['paymentMethod'] . "<br>";
+        echo "Order ID: " . $row['orderId'] . "<br>";
         echo "State: " . $row['state'] . "<br>";
         echo "Product ID: " . $row['productId'] . "<br>";
         echo "User ID: " . $row['userId'] . "<br>";
-        echo "Address ID: " . $row['addressId'] . "<br>";
     }
     echo "-----------------------<br>";
 } else {

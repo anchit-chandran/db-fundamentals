@@ -31,7 +31,8 @@ if (runQuery($createSubCategoryTable)) {
 $seedSubCategorys = "INSERT INTO SubCategory (subCategoryName, categoryId)
     VALUES 
     ('Cheese', 1),
-    ('Not Cheese', 1);";
+    ('Food but not cheese', 1),
+    ('Toothbrush', 2);";
 
 if (runQuery($seedSubCategorys)) {
     echo "Successfully seeded SubCategorys. <br>";
