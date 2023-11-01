@@ -20,8 +20,7 @@ $createBidTable = "CREATE TABLE Bid (
     bidId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     amount DECIMAL(10,2) NOT NULL,
     bidTime DATETIME DEFAULT CURRENT_TIMESTAMP,
-    userId INT NOT NULL,
-    paymentId INT NOT NULL
+    userId INT NOT NULL
 );";
 
 if (runQuery($createBidTable)) {
@@ -30,11 +29,11 @@ if (runQuery($createBidTable)) {
     echo "Error creating Bid table <br>";
 }
 
-$seedBids = "INSERT INTO Bid (amount, bidTime, userId, paymentId)
+$seedBids = "INSERT INTO Bid (amount, bidTime, userId)
     VALUES 
-    (123.45, '2023-06-18 10:34:09', 1, 1),
-    (900.00, '2022-02-10 10:08:41', 1, 2),
-    (100.99, '2022-09-30 18:44:02', 2, 1);";
+    (123.45, '2023-06-18 10:34:09', 1),
+    (900.00, '2022-02-10 10:08:41', 1),
+    (100.99, '2022-09-30 18:44:02', 2);";
 
 if (runQuery($seedBids)) {
     echo "Successfully seeded Bids. <br>";
@@ -53,7 +52,6 @@ if ($bidTable) {
         echo "Amount: " . $row['amount'] . "<br>";
         echo "Bid Time: " . $row['bidTime'] . "<br>";
         echo "User ID: " . $row['userId'] . "<br>";
-        echo "Payment ID: " . $row['paymentId'] . "<br>";
     }
     echo "-----------------------<br>";
 } else {

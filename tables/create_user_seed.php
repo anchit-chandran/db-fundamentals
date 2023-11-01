@@ -23,7 +23,9 @@ $createUserTable = "CREATE TABLE User (
       firstName VARCHAR(100) NOT NULL,
       lastName VARCHAR(100) NOT NULL,
       isActive BOOL DEFAULT FALSE,
-      isSuperuser BOOL DEFAULT FALSE
+      isSuperuser BOOL DEFAULT FALSE,
+      paymentId INT NOT NULL,
+      addressId INT NOT NULL
   );
   ";
 if (runQuery($createUserTable)) {
@@ -32,11 +34,14 @@ if (runQuery($createUserTable)) {
     echo "Error creating User table  <br>";
 }
 
-$seedUsers = "INSERT INTO User (email, password, firstName, lastName, isActive, isSuperuser) 
+// HASHED PW
+$hashedPass = password_hash("pw", PASSWORD_DEFAULT);
+
+$seedUsers = "INSERT INTO User (email, password, firstName, lastName, isActive, isSuperuser, paymentId, addressId) 
     VALUES 
-    ('user1@example.com', 'hashedpassword1', 'John', 'Doe', TRUE, FALSE),
-    ('user2@example.com', 'hashedpassword2', 'Jane', 'Smith', TRUE, FALSE),
-    ('superuser@example.com', 'hashedpassword3', 'Alice', 'Johnson', FALSE, TRUE);";
+    ('user1@example.com', '{$hashedPass}', 'John', 'Doe', TRUE, FALSE, 1, 1),
+    ('user2@example.com', '{$hashedPass}', 'Jane', 'Smith', TRUE, FALSE, 3, 2),
+    ('superuser@example.com', '{$hashedPass}', 'Alice', 'Johnson', FALSE, TRUE, 2, 3);";
 
 if (runQuery($seedUsers)) {
     echo "Successfully seeded Users. <br>";
@@ -53,10 +58,13 @@ if ($userTable) {
         echo "-----------------------<br>";
         echo "User ID: " . $row['userId'] . "<br>";
         echo "Email: " . $row['email'] . "<br>";
+        echo "Password: {$row['password']}<br>";
         echo "First Name: " . $row['firstName'] . "<br>";
         echo "Last Name: " . $row['lastName'] . "<br>";
         echo "Is Active: " . ($row['isActive'] ? 'Yes' : 'No') . "<br>";
         echo "Is Superuser: " . ($row['isSuperuser'] ? 'Yes' : 'No') . "<br>";
+        echo "Payment ID: " . $row['paymentId'] . "<br>";
+        echo "Address ID: " . $row['addressId'] . "<br>";
     }
     echo "-----------------------<br>";
 } else {
