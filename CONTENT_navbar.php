@@ -1,13 +1,4 @@
-<?php
-function logged_in()
-{
-    if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
-        return true;
-    } else {
-        return false;
-    }
-}
-?>
+<?php include_once("utilities.php")?>
 
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light mx-2 justify-content-between">
