@@ -1,5 +1,9 @@
 /* Any custom CSS you would like to specify for your site can go here. */
 
+:root {
+    --danger: red;
+  }
+
 body {
     display: flex;
     flex-direction: column;
@@ -15,4 +19,9 @@ main.container {
 /* LOGIN FORM */
 .signin_row {
     margin-top: 10vh;
+}
+
+/* FORM STYLINGS */
+.form_error {
+    color: var(--danger);
 }
