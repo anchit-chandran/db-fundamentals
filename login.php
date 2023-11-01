@@ -1,4 +1,4 @@
 <?php
-  $content='CONTENT_register.php';
+  $content='CONTENT_sign_in.php';
   include('templates/base.php');
 ?>
