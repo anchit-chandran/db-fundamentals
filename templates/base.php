@@ -9,6 +9,15 @@ $base_url = 'https://localhost/db-fundamentals';
 
 <head>
     <?php include('CONTENT_header.php') ?>
+    <title>
+        <?php
+        if (isset($title)) {
+            echo $title;
+        } else {
+            echo '⏰NO TITLE';
+        }
+        ?>
+        </title>
 </head>
 
 <body>
