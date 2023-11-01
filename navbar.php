@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light mx-2">
-    <a class="navbar-brand" href="./browse.php">Db-friends</a>
+    <a class="navbar-brand" href="index.php">Db-friends</a>
     <ul class="navbar-nav ml-auto">
         <li class='nav-item'>
             <?php
@@ -28,7 +28,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <ul class="navbar-nav align-middle">
         <li class="nav-item mx-1">
-            <a class="nav-link" href="browse.php">Browse</a>
+            <a class="nav-link" href="index.php">Browse</a>
         </li>
         <?php
         if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'buyer') {
