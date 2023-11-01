@@ -28,14 +28,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         };
     };
-    echo 'email or password not correct';
+
+    // FAILED LOGIN
+    $failed_login = 'Please enter a correct email address and password. Note that both fields may be case-sensitive.';
 };
 ?>
 
-
 <div class="row justify-content-center signin_row">
     <div class="signin_form_col col-6">
-        <form method="POST" action="./login.php">
+        <h2 class='pb-2 border-bottom'>Sign in</h2>
+        <form method="POST" action='#'>
+            <div id="errorDiv" class="mt-2 text-danger">
+                <?php if (isset($failed_login)) {
+                    echo $failed_login;
+                } ?>
+            </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Email address</label>
                 <input name='email' type="email" class="form-control" id="email" aria-describedby="emailHelp">
@@ -45,7 +52,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <label for="exampleInputPassword1" class="form-label">Password</label>
                 <input type="password" class="form-control" name='password' id="exampleInputPassword1">
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Login</button>
+            <a class="btn btn-secondary" href='register.php'>Create account</a>
         </form>
     </div>
 </div>
