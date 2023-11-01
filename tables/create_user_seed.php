@@ -25,8 +25,10 @@ $createUserTable = "CREATE TABLE User (
       isActive BOOL DEFAULT FALSE,
       isSuperuser BOOL DEFAULT FALSE,
       paymentId INT NOT NULL,
-      addressId INT NOT NULL
-  );
+      addressId INT NOT NULL,
+      FOREIGN KEY (paymentId) REFERENCES Payment(paymentId),
+      FOREIGN KEY (addressId) REFERENCES Address(addressId)
+  ) ENGINE=INNODB;
   ";
 if (runQuery($createUserTable)) {
     echo "Successfully created User Table <br>";

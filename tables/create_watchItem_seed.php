@@ -19,8 +19,10 @@ if ($tableExists) {
 $createWatchItemTable = "CREATE TABLE WatchItem (
       watchItemId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
       userId INT NOT NULL,
-      productId INT NOT NULL
-  );
+      productId INT NOT NULL,
+      FOREIGN KEY (userId) REFERENCES User(userId),
+      FOREIGN KEY (productId) REFERENCES Product(productId)
+  ) ENGINE=INNODB;
   ";
 if (runQuery($createWatchItemTable)) {
     echo "Successfully created WatchItem Table <br>";

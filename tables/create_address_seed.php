@@ -25,7 +25,7 @@ $createAddressTable = "CREATE TABLE Address (
       address_3 VARCHAR(50),
       address_2 VARCHAR(50),
       address_1 VARCHAR(50) NOT NULL
-  );
+  ) ENGINE=INNODB;
   ";
 if (runQuery($createAddressTable)) {
     echo "Successfully created Address Table <br>";

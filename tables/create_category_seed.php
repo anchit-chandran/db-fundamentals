@@ -19,7 +19,7 @@ if ($tableExists) {
 $createCategoryTable = "CREATE TABLE Category (
       categoryId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
       categoryName VARCHAR(100)
-  );
+  ) ENGINE=InnoDB;
   ";
 if (runQuery($createCategoryTable)) {
     echo "Successfully created Category Table <br>";

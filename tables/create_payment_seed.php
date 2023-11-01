@@ -20,7 +20,7 @@ $createPaymentTable = "CREATE TABLE Payment (
       paymentId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
       paymentMethod VARCHAR(100) NOT NULL,
       paymentDetails VARCHAR(500) NOT NULL
-  );
+  ) ENGINE=INNODB;
   ";
 if (runQuery($createPaymentTable)) {
     echo "Successfully created Payment Table <br>";

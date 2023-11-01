@@ -19,8 +19,9 @@ if ($tableExists) {
 $createSubCategoryTable = "CREATE TABLE SubCategory (
       subCategoryId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
       subCategoryName VARCHAR(100),
-      categoryId INT NOT NULL
-  );
+      categoryId INT NOT NULL,
+      FOREIGN KEY (categoryId) REFERENCES Category(categoryId) ON DELETE CASCADE
+  ) ENGINE=INNODB ;
   ";
 if (runQuery($createSubCategoryTable)) {
     echo "Successfully created SubCategory Table <br>";
@@ -32,6 +33,7 @@ $seedSubCategorys = "INSERT INTO SubCategory (subCategoryName, categoryId)
     VALUES 
     ('Cheese', 1),
     ('Food but not cheese', 1),
+    ('TEST ITEM', 1),
     ('Toothbrush', 2);";
 
 if (runQuery($seedSubCategorys)) {

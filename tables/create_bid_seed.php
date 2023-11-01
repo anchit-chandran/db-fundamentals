@@ -20,8 +20,11 @@ $createBidTable = "CREATE TABLE Bid (
     bidId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     amount DECIMAL(10,2) NOT NULL,
     bidTime DATETIME DEFAULT CURRENT_TIMESTAMP,
-    userId INT NOT NULL
-);";
+    productId INT NOT NULL,
+    userId INT NOT NULL,
+    FOREIGN KEY (productId) REFERENCES Product(productId),
+    FOREIGN KEY (userId) REFERENCES User(userId)
+) ENGINE=INNODB;";
 
 if (runQuery($createBidTable)) {
     echo "Successfully created Bid Table <br>";
@@ -29,11 +32,11 @@ if (runQuery($createBidTable)) {
     echo "Error creating Bid table <br>";
 }
 
-$seedBids = "INSERT INTO Bid (amount, bidTime, userId)
+$seedBids = "INSERT INTO Bid (amount, bidTime, productId, userId)
     VALUES 
-    (123.45, '2023-06-18 10:34:09', 1),
-    (900.00, '2022-02-10 10:08:41', 1),
-    (100.99, '2022-09-30 18:44:02', 2);";
+    (123.45, '2023-06-18 10:34:09', 1, 1),
+    (900.00, '2022-02-10 10:08:41', 2, 1),
+    (100.99, '2022-09-30 18:44:02', 1, 2);";
 
 if (runQuery($seedBids)) {
     echo "Successfully seeded Bids. <br>";

@@ -21,8 +21,10 @@ $createFeedbackTable = "CREATE TABLE Feedback (
     comment VARCHAR(100) NOT NULL,
     rating INT,
     productId INT NOT NULL,
-    userId INT NOT NULL
-);
+    userId INT NOT NULL,
+    FOREIGN KEY (productId) REFERENCES Product(productId),
+    FOREIGN KEY (userId) REFERENCES User(userId)
+) ENGINE=INNODB;
 
   ";
 if (runQuery($createFeedbackTable)) {

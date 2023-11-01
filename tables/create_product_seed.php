@@ -28,9 +28,11 @@ $createProductTable = "CREATE TABLE Product (
     updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     image LONGBLOB,
     state ENUM('Brand New', 'Slightly Used', 'Used'),
-    sellerId INT NOT NULL,
-    subcategoryId INT NOT NULL
-);
+    userId INT NOT NULL,
+    subcategoryId INT NOT NULL,
+    FOREIGN KEY (userId) REFERENCES User(userId),
+    FOREIGN KEY (subcategoryId) REFERENCES SubCategory(subcategoryId)
+) ENGINE=INNODB;
 
   ";
 if (runQuery($createProductTable)) {
@@ -39,7 +41,7 @@ if (runQuery($createProductTable)) {
     echo "Error creating Product table <br>";
 }
 
-$seedProducts = "INSERT INTO Product (name, description, auctionStartDatetime, auctionEndDatetime, state, sellerId, subcategoryId)
+$seedProducts = "INSERT INTO Product (name, description, auctionStartDatetime, auctionEndDatetime, state, userId, subcategoryId)
     VALUES 
     ('Tesco Extra Mature Cheddar Cheese, 400g', 'Tasteless lump of rubber', '2016-06-18 10:34:09', '2026-02-23 21:14:54', 'Brand New', 1, 1),
     ('Sainsbury\'s Gouda Cheese, 256g', 'Half eaten', '2021-06-18 10:34:09', '2022-09-24 01:03:55', 'Slightly Used', 1, 1),
@@ -70,7 +72,7 @@ if ($productTable) {
         echo "Updated At: " . $row['updatedAt'] . "<br>";
         echo "Image Location: " . $row['image'] . "<br>";
         echo "State: " . $row['state'] . "<br>";
-        echo "Seller ID: " . $row['sellerId'] . "<br>";
+        echo "User (seller) ID: " . $row['userId'] . "<br>";
         echo "Subcategory ID: " . $row['subcategoryId'] . "<br>";
     }
     echo "-----------------------<br>";

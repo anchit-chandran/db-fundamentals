@@ -20,8 +20,10 @@ $createOrdersTable = "CREATE TABLE Orders (
     orderId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     userId INT NOT NULL, 
     state ENUM('Processing', 'Shipped', 'Delivered'),    
-    productId INT NOT NULL
-);
+    productId INT NOT NULL,
+    FOREIGN KEY (userId) REFERENCES User(userId),
+    FOREIGN KEY (productId) REFERENCES Product(productId)
+) ENGINE=INNODB;
 
   ";
 
