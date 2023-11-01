@@ -1,6 +1,7 @@
 <?php include_once("utilities.php")?>
 
 
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light mx-2 justify-content-between">
     <div class="container">
         <a class="navbar-brand" href="index.php">Db-friends</a>
