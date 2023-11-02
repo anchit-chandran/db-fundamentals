@@ -76,7 +76,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ('{$email}', '{$hashedPass}', '{$firstName}', '{$lastName}', FALSE, FALSE);";
 
         if (runQuery($queryInsertNewUser)) {
-            header("Location:successful_registration.php");
+
+            $to = $email;
+            $subject = "Confirm registration";
+            $message = "Hi, there... Please click here to activate your account.";
+            $header = "From: DB-FUNDAMENTALS GROUP";
+            if(mail($to, $subject, $message, $header)){
+                header("Location:successful_registration.php");
+            }else{
+                echo "Sorry, failed while sending mail!";
+            }
+
         }
     }
 }
