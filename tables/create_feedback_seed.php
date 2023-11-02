@@ -24,8 +24,8 @@ $createFeedbackTable = "CREATE TABLE Feedback (
     rating INT,
     productId INT NOT NULL,
     userId INT NOT NULL,
-    FOREIGN KEY (productId) REFERENCES Product(productId),
-    FOREIGN KEY (userId) REFERENCES User(userId)
+    FOREIGN KEY (productId) REFERENCES Product(productId) ON DELETE CASCADE,
+    FOREIGN KEY (userId) REFERENCES User(userId) ON DELETE CASCADE
 ) ENGINE=INNODB;
 
   ";
@@ -37,9 +37,8 @@ if (runQuery($createFeedbackTable)) {
 
 $seedFeedbacks = "INSERT INTO Feedback (comment, rating, productId, userId)
     VALUES 
-    ('Nice product. Highly Recommended', 5, 1, 1),
-    ('Order did not arrive', 1, 2, 1),
-    ('Ok but could be better', 3, 1, 2);";
+    ('Nice product. Highly Recommended.', 5, 4, 2),
+    ('Order did not arrive.', 1, 1, 1);";
 
 if (runQuery($seedFeedbacks)) {
     echo "Successfully seeded Feedbacks. <br>";

@@ -22,8 +22,8 @@ $createWatchItemTable = "CREATE TABLE WatchItem (
       watchItemId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
       userId INT NOT NULL,
       productId INT NOT NULL,
-      FOREIGN KEY (userId) REFERENCES User(userId),
-      FOREIGN KEY (productId) REFERENCES Product(productId)
+      FOREIGN KEY (userId) REFERENCES User(userId) ON DELETE CASCADE,
+      FOREIGN KEY (productId) REFERENCES Product(productId) ON DELETE CASCADE
   ) ENGINE=INNODB;
   ";
 if (runQuery($createWatchItemTable)) {

@@ -23,28 +23,28 @@ $createSubCategoryTable = "CREATE TABLE SubCategory (
       subCategoryName VARCHAR(100),
       categoryId INT NOT NULL,
       FOREIGN KEY (categoryId) REFERENCES Category(categoryId) ON DELETE CASCADE
-  ) ENGINE=INNODB;
-  ";
+  ) ENGINE=INNODB;";
+  
 if (runQuery($createSubCategoryTable)) {
     echo "Successfully created SubCategory Table <br>";
 } else {
     echo "Error creating SubCategory table  <br>";
 }
 
-$seedSubCategorys = "INSERT INTO SubCategory (subCategoryName, categoryId)
+$seedSubCategories = "INSERT INTO SubCategory (subCategoryName, categoryId)
     VALUES 
     ('Cheese', 1),
     ('Food but not cheese', 1),
-    ('TEST ITEM', 1),
+    ('Skateboard', 2),
     ('Toothbrush', 2);";
 
-if (runQuery($seedSubCategorys)) {
-    echo "Successfully seeded SubCategorys. <br>";
+if (runQuery($seedSubCategories)) {
+    echo "Successfully seeded SubCategories. <br>";
 } else {
-    echo "Error seeding SubCategorys <br>";
+    echo "Error seeding SubCategories <br>";
 }
 
-// Look at SubCategorys
+// Look at SubCategories
 $getAllSubCategoryTable = "SELECT * FROM SubCategory";
 $subCategoryTable = runQuery($getAllSubCategoryTable);
 if ($subCategoryTable) {

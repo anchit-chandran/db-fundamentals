@@ -26,8 +26,8 @@ $createUserTable = "CREATE TABLE User (
       lastName VARCHAR(100) NOT NULL,
       isActive BOOL DEFAULT FALSE,
       isSuperuser BOOL DEFAULT FALSE
-  ) ENGINE=INNODB;
-  ";
+  ) ENGINE=INNODB;";
+  
 if (runQuery($createUserTable)) {
     echo "Successfully created User Table <br>";
 } else {

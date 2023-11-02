@@ -23,8 +23,8 @@ $createOrdersTable = "CREATE TABLE Orders (
     userId INT NOT NULL, 
     state ENUM('Processing', 'Shipped', 'Delivered'),    
     productId INT NOT NULL,
-    FOREIGN KEY (userId) REFERENCES User(userId),
-    FOREIGN KEY (productId) REFERENCES Product(productId)
+    FOREIGN KEY (userId) REFERENCES User(userId) ON DELETE CASCADE,
+    FOREIGN KEY (productId) REFERENCES Product(productId) ON DELETE CASCADE
 ) ENGINE=INNODB;
 
   ";
@@ -38,7 +38,7 @@ if (runQuery($createOrdersTable)) {
 $seedOrders = "INSERT INTO Orders (state, productId, userId)
     VALUES 
     ('Processing', 1, 1),
-    ('Shipped', 2, 2)
+    ('Shipped', 4, 2)
     ;";
 
 if (runQuery($seedOrders)) {

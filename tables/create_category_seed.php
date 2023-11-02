@@ -29,15 +29,15 @@ if (runQuery($createCategoryTable)) {
     echo "Error creating Category table  <br>";
 }
 
-$seedCategorys = "INSERT INTO Category (categoryName)
+$seedCategories = "INSERT INTO Category (categoryName)
     VALUES 
     ('Food'),
     ('Not Food');";
 
-if (runQuery($seedCategorys)) {
-    echo "Successfully seeded Categorys. <br>";
+if (runQuery($seedCategories)) {
+    echo "Successfully seeded Categories. <br>";
 } else {
-    echo "Error seeding Categorys <br>";
+    echo "Error seeding Categories <br>";
 }
 
 // Look at Categories
