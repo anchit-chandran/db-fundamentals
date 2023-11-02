@@ -21,7 +21,9 @@ runQuery("SET GLOBAL FOREIGN_KEY_CHECKS = 1;");
 $createPaymentTable = "CREATE TABLE Payment (
       paymentId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
       paymentMethod VARCHAR(100) NOT NULL,
-      paymentDetails VARCHAR(500) NOT NULL
+      paymentDetails VARCHAR(500) NOT NULL,
+      userId INT NOT NULL,
+      FOREIGN KEY (userId) REFERENCES User(userId) ON DELETE CASCADE
   ) ENGINE=INNODB;
   ";
 if (runQuery($createPaymentTable)) {
@@ -30,10 +32,11 @@ if (runQuery($createPaymentTable)) {
     echo "Error creating Payment table <br>";
 }
 
-$seedPayments = "INSERT INTO Payment (paymentMethod, paymentDetails)
+$seedPayments = "INSERT INTO Payment (paymentMethod, paymentDetails, userId)
     VALUES 
-    ('Direct Debit', 'XXXX XXXX XXXX XXXX'),
-    ('Paypal', 'Account Number YYYY YYYY');";
+    ('Direct Debit', 'XXXX XXXX XXXX XXXX', 1),
+    ('Direct Debit', 'ABCD BDCA CDAB DCBA', 3),
+    ('Paypal', 'Account Number YYYY YYYY', 2);";
 
 if (runQuery($seedPayments)) {
     echo "Successfully seeded Payments. <br>";
@@ -49,9 +52,9 @@ if ($paymentTable) {
     while ($row = $paymentTable->fetch_assoc()) {
         echo "-----------------------<br>";
         echo "Payment ID: " . $row['paymentId'] . "<br>";
-
         echo "Payment Method: " . $row['paymentMethod'] . "<br>";
         echo "Payment Details: " . $row['paymentDetails'] . "<br>";
+        echo "User ID: " . $row['userId'] . "<br>";
     }
     echo "-----------------------<br>";
 } else {
