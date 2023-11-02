@@ -6,6 +6,7 @@ include_once 'database.php';
 echo "<h1>Payment Table</h1> <br>";
 
 // Drop table if exists
+runQuery("SET GLOBAL FOREIGN_KEY_CHECKS = 0;");
 $dropSql = "DROP TABLE IF EXISTS Payment";
 $tableExists = runQuery($dropSql);
 
@@ -14,6 +15,7 @@ if ($tableExists) {
 } else {
     echo "Error dropping table. <br>";
 }
+runQuery("SET GLOBAL FOREIGN_KEY_CHECKS = 1;");
 
 // create Payment table
 $createPaymentTable = "CREATE TABLE Payment (

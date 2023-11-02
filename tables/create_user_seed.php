@@ -6,6 +6,7 @@ include_once 'database.php';
 echo "<h1>User Table</h1> <br>";
 
 // Drop table if exists
+runQuery("SET GLOBAL FOREIGN_KEY_CHECKS = 0;");
 $dropSql = "DROP TABLE IF EXISTS User";
 $tableExists = runQuery($dropSql);
 
@@ -14,6 +15,7 @@ if ($tableExists) {
 } else {
     echo "Error dropping table.  <br>";
 }
+runQuery("SET GLOBAL FOREIGN_KEY_CHECKS = 1;");
 
 // create User table
 $createUserTable = "CREATE TABLE User (
@@ -26,8 +28,8 @@ $createUserTable = "CREATE TABLE User (
       isSuperuser BOOL DEFAULT FALSE,
       paymentId INT NOT NULL,
       addressId INT NOT NULL,
-      FOREIGN KEY (paymentId) REFERENCES Payment(paymentId),
-      FOREIGN KEY (addressId) REFERENCES Address(addressId)
+      FOREIGN KEY (paymentId) REFERENCES Payment(paymentId) ON DELETE CASCADE,
+      FOREIGN KEY (addressId) REFERENCES Address(addressId) ON DELETE CASCADE
   ) ENGINE=INNODB;
   ";
 if (runQuery($createUserTable)) {
