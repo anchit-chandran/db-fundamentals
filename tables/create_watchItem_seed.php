@@ -6,6 +6,7 @@ include_once 'database.php';
 echo "<h1>WatchItem Table</h1> <br>";
 
 // Drop table if exists
+runQuery("SET GLOBAL FOREIGN_KEY_CHECKS = 0;");
 $dropSql = "DROP TABLE IF EXISTS WatchItem";
 $tableExists = runQuery($dropSql);
 
@@ -14,13 +15,16 @@ if ($tableExists) {
 } else {
     echo "Error dropping table.  <br>";
 }
+runQuery("SET GLOBAL FOREIGN_KEY_CHECKS = 1;");
 
 // create WatchItem table
 $createWatchItemTable = "CREATE TABLE WatchItem (
       watchItemId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
       userId INT NOT NULL,
-      productId INT NOT NULL
-  );
+      productId INT NOT NULL,
+      FOREIGN KEY (userId) REFERENCES User(userId) ON DELETE CASCADE,
+      FOREIGN KEY (productId) REFERENCES Product(productId) ON DELETE CASCADE
+  ) ENGINE=INNODB;
   ";
 if (runQuery($createWatchItemTable)) {
     echo "Successfully created WatchItem Table <br>";

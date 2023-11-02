@@ -6,6 +6,7 @@ include_once 'database.php';
 echo "<h1>Bid Table</h1> <br>";
 
 // Drop table if exists
+runQuery("SET GLOBAL FOREIGN_KEY_CHECKS = 0;");
 $dropSql = "DROP TABLE IF EXISTS Bid";
 $tableExists = runQuery($dropSql);
 
@@ -14,14 +15,18 @@ if ($tableExists) {
 } else {
     echo "Error dropping table. <br>";
 }
+runQuery("SET GLOBAL FOREIGN_KEY_CHECKS = 1;");
 
 // create Bid table
 $createBidTable = "CREATE TABLE Bid (
     bidId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     amount DECIMAL(10,2) NOT NULL,
     bidTime DATETIME DEFAULT CURRENT_TIMESTAMP,
-    userId INT NOT NULL
-);";
+    productId INT NOT NULL,
+    userId INT NOT NULL,
+    FOREIGN KEY (productId) REFERENCES Product(productId) ON DELETE CASCADE,
+    FOREIGN KEY (userId) REFERENCES User(userId) ON DELETE CASCADE
+) ENGINE=INNODB;";
 
 if (runQuery($createBidTable)) {
     echo "Successfully created Bid Table <br>";
@@ -29,11 +34,16 @@ if (runQuery($createBidTable)) {
     echo "Error creating Bid table <br>";
 }
 
-$seedBids = "INSERT INTO Bid (amount, bidTime, userId)
+$seedBids = "INSERT INTO Bid (amount, bidTime, productId, userId)
     VALUES 
-    (123.45, '2023-06-18 10:34:09', 1),
-    (900.00, '2022-02-10 10:08:41', 1),
-    (100.99, '2022-09-30 18:44:02', 2);";
+    (123.45, '2023-01-18 10:34:09', 1, 1),
+    (10.00, '2021-06-30 23:47:02', 2, 2),
+    (10.99, '2021-07-30 08:34:01', 2, 1),
+    (11.50, '2022-07-30 08:44:22', 2, 2),
+    (11.60, '2022-08-27 18:44:37', 2, 1),
+    (300.00, '2022-11-10 10:07:40', 4, 2),
+    (600.00, '2022-11-10 10:08:01', 4, 1),
+    (900.00, '2022-11-11 10:09:41', 4, 2);";
 
 if (runQuery($seedBids)) {
     echo "Successfully seeded Bids. <br>";
@@ -49,6 +59,7 @@ if ($bidTable) {
     while ($row = $bidTable->fetch_assoc()) {
         echo "-----------------------<br>";
         echo "Bid ID: " . $row['bidId'] . "<br>";
+        echo "Product ID: " . $row['productId'] . "<br>";
         echo "Amount: " . $row['amount'] . "<br>";
         echo "Bid Time: " . $row['bidTime'] . "<br>";
         echo "User ID: " . $row['userId'] . "<br>";

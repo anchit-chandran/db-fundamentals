@@ -6,6 +6,7 @@ include_once 'database.php';
 echo "<h1>Feedback Table</h1> <br>";
 
 // Drop table if exists
+runQuery("SET GLOBAL FOREIGN_KEY_CHECKS = 0;");
 $dropSql = "DROP TABLE IF EXISTS Feedback";
 $tableExists = runQuery($dropSql);
 
@@ -14,6 +15,7 @@ if ($tableExists) {
 } else {
     echo "Error dropping table. <br>";
 }
+runQuery("SET GLOBAL FOREIGN_KEY_CHECKS = 1;");
 
 // create Feedback table
 $createFeedbackTable = "CREATE TABLE Feedback (
@@ -21,8 +23,10 @@ $createFeedbackTable = "CREATE TABLE Feedback (
     comment VARCHAR(100) NOT NULL,
     rating INT,
     productId INT NOT NULL,
-    userId INT NOT NULL
-);
+    userId INT NOT NULL,
+    FOREIGN KEY (productId) REFERENCES Product(productId) ON DELETE CASCADE,
+    FOREIGN KEY (userId) REFERENCES User(userId) ON DELETE CASCADE
+) ENGINE=INNODB;
 
   ";
 if (runQuery($createFeedbackTable)) {
@@ -33,9 +37,8 @@ if (runQuery($createFeedbackTable)) {
 
 $seedFeedbacks = "INSERT INTO Feedback (comment, rating, productId, userId)
     VALUES 
-    ('Nice product. Highly Recommended', 5, 1, 1),
-    ('Order did not arrive', 1, 2, 1),
-    ('Ok but could be better', 3, 1, 2);";
+    ('Nice product. Highly Recommended.', 5, 4, 2),
+    ('Order did not arrive.', 1, 1, 1);";
 
 if (runQuery($seedFeedbacks)) {
     echo "Successfully seeded Feedbacks. <br>";

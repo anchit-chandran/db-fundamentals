@@ -6,6 +6,7 @@ include_once 'database.php';
 echo "<h1>User Table</h1> <br>";
 
 // Drop table if exists
+runQuery("SET GLOBAL FOREIGN_KEY_CHECKS = 0;");
 $dropSql = "DROP TABLE IF EXISTS User";
 $tableExists = runQuery($dropSql);
 
@@ -14,6 +15,7 @@ if ($tableExists) {
 } else {
     echo "Error dropping table.  <br>";
 }
+runQuery("SET GLOBAL FOREIGN_KEY_CHECKS = 1;");
 
 // create User table
 $createUserTable = "CREATE TABLE User (
@@ -23,11 +25,9 @@ $createUserTable = "CREATE TABLE User (
       firstName VARCHAR(100) NOT NULL,
       lastName VARCHAR(100) NOT NULL,
       isActive BOOL DEFAULT FALSE,
-      isSuperuser BOOL DEFAULT FALSE,
-      paymentId INT NOT NULL,
-      addressId INT NOT NULL
-  );
-  ";
+      isSuperuser BOOL DEFAULT FALSE
+  ) ENGINE=INNODB;";
+  
 if (runQuery($createUserTable)) {
     echo "Successfully created User Table <br>";
 } else {
@@ -37,11 +37,11 @@ if (runQuery($createUserTable)) {
 // HASHED PW
 $hashedPass = password_hash("pw", PASSWORD_DEFAULT);
 
-$seedUsers = "INSERT INTO User (email, password, firstName, lastName, isActive, isSuperuser, paymentId, addressId) 
+$seedUsers = "INSERT INTO User (email, password, firstName, lastName, isActive, isSuperuser) 
     VALUES 
-    ('user1@example.com', '{$hashedPass}', 'John', 'Doe', TRUE, FALSE, 1, 1),
-    ('user2@example.com', '{$hashedPass}', 'Jane', 'Smith', TRUE, FALSE, 3, 2),
-    ('superuser@example.com', '{$hashedPass}', 'Alice', 'Johnson', FALSE, TRUE, 2, 3);";
+    ('user1@example.com', '{$hashedPass}', 'John', 'Doe', TRUE, FALSE),
+    ('user2@example.com', '{$hashedPass}', 'Jane', 'Smith', TRUE, FALSE),
+    ('superuser@example.com', '{$hashedPass}', 'Alice', 'Johnson', FALSE, TRUE);";
 
 if (runQuery($seedUsers)) {
     echo "Successfully seeded Users. <br>";
@@ -63,8 +63,6 @@ if ($userTable) {
         echo "Last Name: " . $row['lastName'] . "<br>";
         echo "Is Active: " . ($row['isActive'] ? 'Yes' : 'No') . "<br>";
         echo "Is Superuser: " . ($row['isSuperuser'] ? 'Yes' : 'No') . "<br>";
-        echo "Payment ID: " . $row['paymentId'] . "<br>";
-        echo "Address ID: " . $row['addressId'] . "<br>";
     }
     echo "-----------------------<br>";
 } else {

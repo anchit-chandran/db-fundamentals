@@ -6,6 +6,7 @@ include_once 'database.php';
 echo "<h1>Orders Table</h1> <br>";
 
 // Drop table if exists
+runQuery("SET GLOBAL FOREIGN_KEY_CHECKS = 0;");
 $dropSql = "DROP TABLE IF EXISTS Orders";
 $tableExists = runQuery($dropSql);
 
@@ -14,14 +15,17 @@ if ($tableExists) {
 } else {
     echo "Error dropping table. <br>";
 }
+runQuery("SET GLOBAL FOREIGN_KEY_CHECKS = 1;");
 
 // create Orders table
 $createOrdersTable = "CREATE TABLE Orders (
     orderId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     userId INT NOT NULL, 
     state ENUM('Processing', 'Shipped', 'Delivered'),    
-    productId INT NOT NULL
-);
+    productId INT NOT NULL,
+    FOREIGN KEY (userId) REFERENCES User(userId) ON DELETE CASCADE,
+    FOREIGN KEY (productId) REFERENCES Product(productId) ON DELETE CASCADE
+) ENGINE=INNODB;
 
   ";
 
@@ -34,7 +38,7 @@ if (runQuery($createOrdersTable)) {
 $seedOrders = "INSERT INTO Orders (state, productId, userId)
     VALUES 
     ('Processing', 1, 1),
-    ('Shipped', 2, 2)
+    ('Shipped', 4, 2)
     ;";
 
 if (runQuery($seedOrders)) {
