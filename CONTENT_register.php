@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $to = $email;
             $subject = "Confirm registration";
             $message = "Hi, there... Please click here to activate your account.";
-            $header = "From: DB-FUNDAMENTALS GROUP";
+            $header = "From: anchit97123@gmail.com";
             if(mail($to, $subject, $message, $header)){
                 header("Location:successful_registration.php");
             }else{
