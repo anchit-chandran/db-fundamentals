@@ -14,11 +14,12 @@ include_once("utilities.php");
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $to = $email;
             $subject = "Reset Password";
-            $confirmation_link = "";
-            $message = "Hi {$firstName},\n\nPlease click here to reset your password:\n\n{$confirmation_link}\n\nThanks,\nThe Db-Friends Team";
+            $token = password_hash($email, PASSWORD_DEFAULT);
+            $confirmation_link = "https://localhost/db-fundamentals/reset_password.php?token={$token}&email={$email}";
+            $message = "Hi,\n\nPlease click here to reset your password:\n\n{$confirmation_link}\n\nThanks,\nThe Db-Friends Team";
             $header = "From: anchit97123@gmail.com";
             if (mail($to, $subject, $message, $header)) {
-                header("Location:successful_registration.php");
+                header("Location:index.php");
             } else {
                 echo "Sorry, failed while sending mail!";
             }
