@@ -89,7 +89,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $message = "Hi {$firstName},\n\nPlease click here to activate your account:\n\n{$confirmation_link}\n\nThanks,\nThe Db-Friends Team";
             $header = "From: anchit97123@gmail.com";
             if (mail($to, $subject, $message, $header)) {
-                runQuery($queryInsertNewUser);
                 header("Location:successful_registration.php");
             } else {
                 echo "Sorry, failed while sending mail!";
