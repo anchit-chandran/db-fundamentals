@@ -70,10 +70,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($form_is_valid) {
 
-        $queryInsertNewUser = "INSERT INTO User 
-        (email, password, firstName, lastName, isActive, isSuperuser)
-        VALUES 
-        ('{$email}', '{$hashedPass}', '{$firstName}', '{$lastName}', FALSE, FALSE);";
+        // $queryInsertNewUser = "INSERT INTO User 
+        // (email, password, firstName, lastName, isActive, isSuperuser)
+        // VALUES 
+        // ('{$email}', '{$hashedPass}', '{$firstName}', '{$lastName}', FALSE, FALSE);";
 
         if (runQuery($queryInsertNewUser)) {
 
@@ -114,8 +114,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <?php renderFormErrors($formErrors["email"]); ?>
 
                 <input name='email' type="email" class="form-control" id="email" aria-describedby="emailHelp" hx-post="partials/check_email.php" hx-trigger="keyup" hx-target="#email_error" hx-swap="innerHTML">
+                <div id='email_error' class='py-2'></div>
                 <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-                <div id='email_error'></div>
             </div>
             <div class="mb-3">
                 <label for="inputPassword1" class="form-label">Password</label>

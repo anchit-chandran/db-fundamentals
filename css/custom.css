@@ -2,6 +2,7 @@
 
 :root {
     --danger: red;
+    --valid: green;
   }
 
 body {
@@ -24,4 +25,7 @@ main.container {
 /* FORM STYLINGS */
 .form_error {
     color: var(--danger);
+}
+.form_valid {
+    color: var(--valid);
 }
