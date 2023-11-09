@@ -2,6 +2,7 @@
 include_once("CONTENT_header.php");
 include_once("database.php");
 include_once("utilities.php");
+include_once("config.php");
 ?>
 
 
@@ -70,23 +71,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($form_is_valid) {
 
-        // $queryInsertNewUser = "INSERT INTO User 
-        // (email, password, firstName, lastName, isActive, isSuperuser)
-        // VALUES 
-        // ('{$email}', '{$hashedPass}', '{$firstName}', '{$lastName}', FALSE, FALSE);";
+        $queryInsertNewUser = "INSERT INTO User 
+        (email, password, firstName, lastName, isActive, isSuperuser)
+        VALUES 
+        ('{$email}', '{$hashedPass}', '{$firstName}', '{$lastName}', FALSE, FALSE);";
 
-        if (runQuery($queryInsertNewUser)) {
+        runQuery($queryInsertNewUser);
+
+        // SEND EMAIL IF CONFIG.EMAIL_SENDING == True
+        if ($EMAIL_SENDING) {
+
+            $token = password_hash($email, PASSWORD_DEFAULT);
 
             $to = $email;
             $subject = "Confirm registration";
-            $message = "Hi, there... Please click here to activate your account.";
+            $confirmation_link = "https://localhost/db-fundamentals/confirm_email.php?token={$token}&email={$email}";
+            $message = "Hi {$firstName},\n\nPlease click here to activate your account:\n\n{$confirmation_link}\n\nThanks,\nThe Db-Friends Team";
             $header = "From: anchit97123@gmail.com";
-            if(mail($to, $subject, $message, $header)){
+            if (mail($to, $subject, $message, $header)) {
+                runQuery($queryInsertNewUser);
                 header("Location:successful_registration.php");
-            }else{
+            } else {
                 echo "Sorry, failed while sending mail!";
             }
-
         }
     }
 }

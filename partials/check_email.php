@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' and isset($_POST["email"])) {
         if ($email_exists->num_rows > 0) {
             echo "<p class='form_error'>{$email} is already taken!";
         } else {
-            echo "<p class='form_valid'>{$email} is available";
+            echo "<p class='form_valid'><span class='fw-bold'>{$email}</span> is available";
         }
     }
 }
