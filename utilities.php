@@ -1,5 +1,7 @@
 <?php
 
+include_once 'database.php';
+
 function logged_in()
 {
     if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
@@ -68,6 +70,17 @@ function print_listing_li($item_id, $title, $desc, $price, $num_bids, $end_time)
     <div class="text-center text-nowrap"><span style="font-size: 1.5em">£' . number_format($price, 2) . '</span><br/>' . $num_bids . $bid . '<br/>' . $time_remaining . '</div>
   </li>'
   );
+}
+
+// QUERIES DB TO CHECK IS A GIVEN USER IS ACTIVE
+function check_user_active($userId) {
+  $query_check_active = "SELECT isActive FROM User WHERE userId='{$userId}'";
+  $is_active = runQuery($query_check_active)->fetch_assoc()["isActive"];
+  if ($is_active == 1) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 ?>

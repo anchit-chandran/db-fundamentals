@@ -52,3 +52,9 @@ $_SESSION['userId'] = $row['userId'];
 $_SESSION['isSuperuser'] = $row['isSuperuser'];
 $_SESSION['logged_in'] = True;
 ```
+
+# Setting up email
+
+1. Follow [this](https://www.youtube.com/watch?v=4TmD4ly7V_E) video.
+2. Using XAMP, make sure to run Mercury.
+3. Adjust these [Mercury Settings](https://stackoverflow.com/questions/6809369/warning-mail-function-mail-smtp-server-response-553-we-do-not-relay-non-l).

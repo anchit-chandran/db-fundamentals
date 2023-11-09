@@ -9,7 +9,8 @@
             <li class='nav-item'>
                 <?php
                 if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
-                    echo '<a class="nav-link" href="profile.php">Hey, ANCHIT 👋</a>';
+                    $name = runQuery("SELECT firstName FROM User WHERE userId={$_SESSION['userId']}")->fetch_assoc()['firstName'];
+                    echo "<a class='nav-link' href='profile.php'>Hey, {$name} 👋</a>";
                 }
                 ?>
             </li>
