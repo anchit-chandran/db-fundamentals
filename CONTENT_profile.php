@@ -1,6 +1,8 @@
-<?php include_once("CONTENT_header.php") ?>
-<?php include_once("database.php") ?>
-<?php include_once("utilities.php") ?>
+<?php
+include_once("CONTENT_header.php");
+include_once("database.php");
+include_once("utilities.php");
+?>
 
 <div class="row">
     <div class="col">

@@ -1,6 +1,8 @@
-<?php include_once("CONTENT_header.php") ?>
-<?php include_once("database.php") ?>
-<?php include_once("utilities.php") ?>
+<?php
+include_once("CONTENT_header.php");
+include_once("database.php");
+include_once("utilities.php");
+?>
 
 <?php
 
@@ -54,6 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
             <button type="submit" class="btn btn-primary">Login</button>
             <a class="btn btn-secondary" href='register.php'>Create account</a>
+            <a href="forgot_password.php" class="btn btn-secondary">Reset password</a>
         </form>
     </div>
 </div>
