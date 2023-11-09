@@ -1,6 +1,6 @@
 <?php
-session_start();
-$base_url = 'https://localhost/db-fundamentals';
+include_once('setup.php');
+include_once("utilities.php");
 ?>
 
 
@@ -17,7 +17,7 @@ $base_url = 'https://localhost/db-fundamentals';
             echo '⏰NO TITLE';
         }
         ?>
-        </title>
+    </title>
 </head>
 
 <body>
@@ -28,6 +28,10 @@ $base_url = 'https://localhost/db-fundamentals';
     <main class='container h-100'>
         <?php
         if (isset($content)) {
+            if ((isset($_SESSION['userId'])) && (!check_user_active($_SESSION['userId']))) {
+                $content = 'CONTENT_account_not_active.php';
+            };
+
             include($content);
         }
         ?>
