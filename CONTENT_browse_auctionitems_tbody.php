@@ -5,12 +5,14 @@ $finalResult = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $subcategoryId = $_GET["subcategory"];
-
     
-    $productQuery = runQuery("SELECT * 
-    FROM Product  
-    WHERE subcategoryId = {$subcategoryId};
-    ");
+    $productQueryStr = "SELECT * FROM Product ";
+
+    if ($subcategoryId != -1) {
+        $productQueryStr .= "WHERE subcategoryId = {$subcategoryId}";
+    }
+
+    $productQuery = runQuery($productQueryStr);
 
 
 // TODO: Fill in remaining time

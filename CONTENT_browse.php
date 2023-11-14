@@ -32,7 +32,7 @@ $subCategoriesIsDisabled = true;
           <div id="cat-container">
             <div>
               <select name="category-option" class="form-control" id="cat" hx-get="CONTENT_browse_subcategories.php" hx-target="#subcat-container" hx-swap="innerHTML">
-                <option selected value="all">All categories</option>
+                <option selected value="all">All</option>
                 <?php
                 $getCategories = "SELECT * FROM Category";
                 $categories = runQuery($getCategories);
