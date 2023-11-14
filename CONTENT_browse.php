@@ -12,17 +12,23 @@
      (GET method of passing data to a page). -->
 <form method="get" action="browse.php">
   <div class="row">
-    <div class="col-md-5 pr-0">
+    <div class="col-md-4 pr-0">
       <div class="form-group">
-        <label for="keyword" class="cat">Search keyword:</label>
+        <label for="keyword" class="cat">Search categories:</label>
 	    <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text bg-transparent pr-0 text-muted">
-              <i class="fa fa-search"></i>
-            </span>
-          </div>
           <input type="text" class="form-control border-left-0" id="keyword" placeholder="Search for anything">
         </div>
+      </div>
+    </div>
+    <div class="col-md-3 pr-0">
+      <div class="form-group">
+        <label for="cat" class="mx-2">Search subcategories:</label>
+        <select class="form-control" id="cat">
+          <option selected value="all">All subcategories</option>
+          <option value="fill">Fill me in</option>
+          <option value="with">with options</option>
+          <option value="populated">populated from a database?</option>
+        </select>
       </div>
     </div>
     <div class="col-md-3 pr-0">
@@ -36,21 +42,22 @@
         </select>
       </div>
     </div>
-    <div class="col-md-3 pr-0">
+    <div class="col-md-2 pr-0">
       <div class="form-inline">
         <label class="mx-2" for="order_by">Sort by:</label>
         <select class="form-control" id="order_by">
-          <option value="pricehigh">Price (high to low)</option>
-          <option selected value="pricelow">Price (low to high)</option>
-          <option value="bidhigh">Number of bids (high to low)</option>
-          <option value="bidlow">Number of bids (low to high)</option>
-          <option value="date">Soonest expiry</option>
+          <option value="pricehigh">Price (highest)</option>
+          <option selected value="pricelow">Price (lowest)</option>
+          <option value="bidhigh">Bids (highest)</option>
+          <option value="bidlow">Bids (lowest)</option>
+          <option value="date">Expiry (soonest)</option>
+          <option value="date">Expiry (latest)</option>
         </select>
       </div>
     </div>
-    <div class="col-md-1 p-0 d-flex flex-column justify-content-end">
+    <!-- <div class="col-md-1 p-0 d-flex flex-column justify-content-end">
       <button type="submit" class="btn btn-primary btn-block">Search</button>
-    </div>
+    </div> -->
   </div>
 </form>
 </div> <!-- end search specs bar -->
