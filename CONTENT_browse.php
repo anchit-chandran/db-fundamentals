@@ -40,29 +40,42 @@
                 ?>
               </select>
             </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3 pr-0">
-          <div class="form-group">
-            <label for="subcat" class="mx-2">Search subcategories:</label>
-            <div id="subcat-container"></div>
-          </div>
-        </div>
-        <div class="col-md-2 pr-0">
-          <div class="form-inline">
-            <label class="mx-2" for="order_by">Sort by:</label>
-            <select class="form-control" id="order_by">
-              <option value="pricehigh">Price (highest)</option>
-              <option selected value="pricelow">Price (lowest)</option>
-              <option value="bidhigh">Bids (highest)</option>
-              <option value="bidlow">Bids (lowest)</option>
-              <option value="date">Expiry (soonest)</option>
-              <option value="date">Expiry (latest)</option>
-            </select>
           </div>
         </div>
       </div>
+      <div class="col-md-3 pr-0">
+        <div class="form-group">
+          <label for="subcat" class="mx-2">Search subcategories:</label>
+          <div id="subcat-container">
+            <?php
+            $getSubCategories = 'SELECT * FROM SubCategory';
+            $subCategories = runQuery($getSubCategories);
+            if ($subCategories) {
+              echo '<select class="form-control" id="subcat">';
+              while ($row = $subCategories->fetch_assoc()) {
+                echo "<option value =" . $row['subCategoryId'] . ">" . $row['subCategoryName'] . "</option>";
+              }
+              echo '</select>';
+            }
+            ?>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2 pr-0">
+        <div class="form-inline">
+          <label class="mx-2" for="order_by">Sort by:</label>
+          <select class="form-control" id="order_by">
+            <option value="pricehigh">Price (highest)</option>
+            <option selected value="pricelow">Price (lowest)</option>
+            <option value="bidhigh">Bids (highest)</option>
+            <option value="bidlow">Bids (lowest)</option>
+            <option value="date">Expiry (soonest)</option>
+            <option value="date">Expiry (latest)</option>
+          </select>
+        </div>
+      </div>
+    </div>
   </form>
 </div> <!-- end search specs bar -->
 
