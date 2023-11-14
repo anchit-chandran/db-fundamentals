@@ -14,6 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
 
 // TODO: Fill in remaining time
+    
+
 while ($row = $productQuery->fetch_assoc()) {
         
         $product_id = $row['productId'];
@@ -21,12 +23,23 @@ while ($row = $productQuery->fetch_assoc()) {
         $num_bids = (array_values(runQuery("SELECT COUNT(*) FROM Bid WHERE productId = " . $product_id)->fetch_assoc())[0]);  // Fetch from Bids
         $end_date_str = $row['auctionEndDatetime'];
 
+        $now = new DateTime();
+        $end_date = datetime::createFromFormat('Y-m-d H:m:s', $end_date_str);
+        if ($now > $end_date) {
+            $time_remaining = 'This auction has ended';
+        }
+        else {
+            // Get interval:
+            $time_to_end = date_diff($now, $end_date);
+            $time_remaining = display_time_remaining($time_to_end);
+        }
+
         $finalResult .= "<tr>
         <th scope='row'>{$row['name']}</th>
         <td>{$row['subcategoryId']}</td>
         <td>{$current_price}</td>
         <td>{$num_bids}</td>
-        <td>{$end_date_str}</td>
+        <td>{$time_remaining}</td>
       </tr>";
     }
 }
