@@ -22,9 +22,9 @@
     </div>
     <div class="col-md-3 pr-0">
       <div class="form-group">
-        <label for="cat" class="mx-2">Search subcategories:</label>
+        <label for="cat" class="mx-2">Search categories:</label>
         <select class="form-control" id="cat">
-          <option selected value="all">All subcategories</option>
+          <option selected value="all">All categories</option>
           <option value="fill">Fill me in</option>
           <option value="with">with options</option>
           <option value="populated">populated from a database?</option>
@@ -33,9 +33,9 @@
     </div>
     <div class="col-md-3 pr-0">
       <div class="form-group">
-        <label for="cat" class="mx-2">Search within:</label>
+        <label for="cat" class="mx-2">Search subcategories:</label>
         <select class="form-control" id="cat">
-          <option selected value="all">All categories</option>
+          <option selected value="all">All subcategories</option>
           <option value="fill">Fill me in</option>
           <option value="with">with options</option>
           <option value="populated">populated from a database?</option>
