@@ -1,9 +1,10 @@
 <?php
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    echo '<pre>';
     print_r( $_GET["category-option"] );
-    echo '</pre>';
+    // echo '<select class="form-control" id="subcat">';
+    // echo '<option value="fill">' . '</option>';
+    // echo '</select>';
 }
 
 ?>
