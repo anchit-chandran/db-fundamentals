@@ -111,6 +111,8 @@
   // Fetch products from Product table
   $getAllProductTable = "SELECT * FROM Product";
   $productTable = runQuery($getAllProductTable);
+
+  
   
   if ($productTable) {
     // Loop through each row in the result set
@@ -118,11 +120,10 @@
         $product_id = $row['productId'];
         $title = $row['name'];
         $description = $row['description'];
-        $current_price = 30;  // TODO: Fetch from Bids
-        $num_bids = 1;  // TODO: Fetch from Bids
+        $current_price = (array_values(runQuery("SELECT MAX(amount) FROM Bid WHERE productId = " . $product_id)->fetch_assoc())[0]);  // Fetch from Bids
+        $num_bids = (array_values(runQuery("SELECT COUNT(*) FROM Bid WHERE productId = " . $product_id)->fetch_assoc())[0]);  // Fetch from Bids
         $end_date_str = $row['auctionEndDatetime'];
         // Excluded fields: $row['auctionStartDatetime'], $row['state'], $row['sellerId'], $row['subcategoryId']
-        
         // This uses a function defined in utilities.php
         print_listing_li($product_id, $title, $description, $current_price, $num_bids, $end_date_str);
     }
