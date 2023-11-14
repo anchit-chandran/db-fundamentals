@@ -1,14 +1,13 @@
 <?php include_once("utilities.php")?>
 
 
-
 <nav class="navbar navbar-expand-lg navbar-light bg-light mx-2 justify-content-between">
     <div class="container">
         <a class="navbar-brand" href="index.php">Db-friends</a>
         <ul class="navbar-nav ml-auto">
             <li class='nav-item'>
                 <?php
-                if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
+                if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) { //$_SESSION is premade in PHP
                     $name = runQuery("SELECT firstName FROM User WHERE userId={$_SESSION['userId']}")->fetch_assoc()['firstName'];
                     echo "<a class='nav-link' href='profile.php'>Hey, {$name} 👋</a>";
                 }
@@ -20,6 +19,7 @@
                 // current status (session).
                 if (logged_in()) {
                     echo '<a class="nav-link" href="logout.php">Logout</a>';
+
                 } else {
                     echo "
         
@@ -37,10 +37,22 @@
     </div>
 </nav>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
+    <div class="container"> <!-- divs and ul are containers, which is a rectangular box -->
         <ul class="navbar-nav align-middle">
-            <li class="nav-item mx-1">
+            <li class="nav-item mx-1"> 
                 <a class="nav-link" href="index.php">Browse</a>
+            </li>
+            <li class="nav-item mx-1">
+                <a class="nav-link" href="profile.php">Watchlist</a>
+            </li>
+            <li class="nav-item mx-1">
+                <a class="nav-link" href="profile.php">Profile</a>
+            </li>
+            <li class="nav-item mx-1">
+                <a class="nav-link" href="mybids.php">My Bids</a>
+            </li>
+            <li class="nav-item mx-1">
+                <a class="nav-link" href="mylistings.php">My Listings</a>
             </li>
             <?php
             if (logged_in()) {
