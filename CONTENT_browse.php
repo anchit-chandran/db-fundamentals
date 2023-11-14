@@ -120,11 +120,11 @@
         $description = $row['description'];
         $current_price = 30;  // TODO: Fetch from Bids
         $num_bids = 1;  // TODO: Fetch from Bids
-        $end_date = $row['auctionEndDatetime'];
+        $end_date_str = $row['auctionEndDatetime'];
         // Excluded fields: $row['auctionStartDatetime'], $row['state'], $row['sellerId'], $row['subcategoryId']
         
         // This uses a function defined in utilities.php
-        print_listing_li($product_id, $title, $description, $current_price, $num_bids, $end_date);
+        print_listing_li($product_id, $title, $description, $current_price, $num_bids, $end_date_str);
     }
 } else {
     echo "Error executing query.";
@@ -137,9 +137,9 @@
   $description = "Very short description.";
   $current_price = 13.50;
   $num_bids = 3;
-  $end_date = new DateTime('2020-11-02T00:00:00');
+  $end_date_str = new DateTime('2020-11-02T00:00:00');
   
-  // print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date);
+  // print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date_str);
 ?>
 
 </ul>

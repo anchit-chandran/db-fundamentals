@@ -32,7 +32,7 @@ function display_time_remaining($interval) {
 
 // print_listing_li:
 // This function prints an HTML <li> element containing an auction listing
-function print_listing_li($item_id, $title, $desc, $price, $num_bids, $end_time)
+function print_listing_li($item_id, $title, $desc, $price, $num_bids, $end_date_str)
 {
   // Truncate long descriptions
   if (strlen($desc) > 250) {
@@ -52,12 +52,13 @@ function print_listing_li($item_id, $title, $desc, $price, $num_bids, $end_time)
   
   // Calculate time to auction end
   $now = new DateTime();
-  if ($now > $end_time) {
+  $end_date = datetime::createFromFormat('Y-m-d H:m:s', $end_date_str);
+  if ($now > $end_date) {
     $time_remaining = 'This auction has ended';
   }
   else {
     // Get interval:
-    $time_to_end = date_diff($now, $end_time);
+    $time_to_end = date_diff($now, $end_date);
     $time_remaining = display_time_remaining($time_to_end) . ' remaining';
   }
   
