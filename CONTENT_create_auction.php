@@ -137,14 +137,12 @@ if ($result) {
         <div class="form-group row">
           <label for="auctionImage" class="col-sm-2 col-form-label text-right">Item Image</label>
           <div class="col-sm-10">
-            <select class="form-control" id="auctionImage">
-              <option selected>Choose...</option>
-              <option value="fill">Fill me in</option>
-              <option value="with">with options</option>
-              <option value="populated">populated from a database?</option>
-            </select>
-            <small id="imageHelp" class="form-text text-muted"><span class="text-danger">* Required.</span> Upload image for this listing</small>
+          <input type="file" id="auctionImage" name="auctionImage" accept=".jpg, .jpeg, .png,">
+          <button type="button" id="removeImage" class="d-none" onclick="clearImage()">Remove</button>
+            <small id="imageHelp" class="form-text text-muted">Upload image for this listing (.jpg, .jpeg, .png) max: 5 MB</small>
+            
           </div>
+          
         </div>
         <div class="form-group row">
           <label for="auctionStartPrice" class="col-sm-2 col-form-label text-right">Starting price</label>
@@ -171,10 +169,26 @@ if ($result) {
           </div>
         </div>
         <div class="form-group row">
+          <label for="auctionEndDate" class="col-sm-2 col-form-label text-right">Start date</label>
+          <div class="col-sm-10">
+            <div class="input-group"> 
+            <div class="input-group-prepend">
+            <button type="button" id="startNow" class="" onclick="currDate()">Start Now</button>
+              </div>
+            <input type="datetime-local" class="form-control" id="auctionStartDate">
+            </div>
+            <small id="startDateHelp" class="form-text text-muted"><span class="text-danger">* Required.</span> Day for the auction to end. Day must be in the future or now</small>
+            
+            
+          </div>
+          
+
+        </div>
+        <div class="form-group row">
           <label for="auctionEndDate" class="col-sm-2 col-form-label text-right">End date</label>
           <div class="col-sm-10">
             <input type="datetime-local" class="form-control" id="auctionEndDate">
-            <small id="endDateHelp" class="form-text text-muted"><span class="text-danger">* Required.</span> Day for the auction to end. Day must be in the future.</small>
+            <small id="endDateHelp" class="form-text text-muted"><span class="text-danger">* Required.</span> Day for the auction to end. Date must be after start date</small>
           </div>
         </div>
         <button type="submit" class="btn btn-primary form-control">Create Auction</button>
@@ -187,12 +201,48 @@ if ($result) {
         const categoryHelp = document.getElementById("categoryHelp");
         const conditionInput = document.getElementById("auctionCondition");
         const conditionHelp = document.getElementById("conditionHelp");
+        const imageInput = document.getElementById("auctionImage");  
+        const removeButton = document.getElementById("removeImage");
+        const imageHelp = document.getElementById("imageHelp")
         const startPriceInput = document.getElementById("auctionStartPrice");
         const startPriceHelp = document.getElementById("startBidHelp");
+        const startDateInput = document.getElementById("auctionStartDate")
+        const startDateHelp = document.getElementById("startDateHelp");
         const endDateInput = document.getElementById("auctionEndDate");
         const endDateHelp = document.getElementById("endDateHelp");
+        function clearImage() {
+          
+          removeButton.classList.add("d-none");
+          imageInput.value = "";
+          imageHelp.innerHTML = "Upload image for this listing (.jpg, .jpeg, .png) max: 5 MB";
+
+        }
+        imageInput.addEventListener("change", function () {
+          validateImage();
+          if (this.value!="") {
+            removeButton.classList.remove("d-none")
+          } else {
+            
+            removeButton.classList.add("d-none")
+          } 
+
+        })
+        function currDate() {
+          var currDate = new Date();
+          currDate.setMinutes(currDate.getMinutes()+1);
+          startDateInput.value =currDate.toISOString().slice(0,16);
+          startDateHelp.classList.add("d-none");
+          validateEndDate()
+        }
+        startDateInput.addEventListener("input", function() {
+          validateStartDate()
+          validateEndDate()
+        })
+
         form.addEventListener("submit", function (event) {
-          if (!validateForm()) {
+          const valid = validateForm();
+          console.log(valid);
+          if (!valid) {
             event.preventDefault();
           }
         })
@@ -218,7 +268,18 @@ if ($result) {
             isValid = false;
           } if (!validateCategory()) {
             isValid = false
-          }
+          }  if (!validateCondition()) {
+            isValid = false
+          }  if (!validateImage()){
+            isValid = false;
+          } if (!validateStartPrice()) {
+            isValid = false
+          } if (!validateStartDate()) {
+            isValid = false
+          }  if (!validateEndDate()) {
+            isValid = false
+          } 
+          return isValid;
         }
         function validateTitle() {
           const titleValue = titleInput.value.trim()
@@ -248,6 +309,24 @@ if ($result) {
             return true
           }
         }
+        function validateImage() {
+          const maxSize = 5242880;
+          if (imageInput.files.length === 0) {
+            imageHelp.innerHTML = "Upload image for this listing (.jpg, .jpeg, .png) max: 5 MB"
+            return true
+          }
+          const image = imageInput.files[0]
+          const imageSize = image.size;
+          if (imageSize > maxSize) {
+                imageInput.value = "";
+                imageHelp.innerHTML = "File is too large. Maximum size is 5 MB.";
+                return false;
+          }
+          imageHelp.innerHTML = "";
+          return true
+
+        }
+
         function validateStartPrice() {
 
           if (isNaN(startPriceInput.value) || parseFloat(startPriceInput.value) < 0 || startPriceInput.value === "") {
@@ -259,10 +338,25 @@ if ($result) {
             return true
           }
         }
+        function validateStartDate() {
+          const selectedDate = new Date(startDateInput.value)
+          const currDate = new Date()
+          
+          if (selectedDate < currDate) {
+            startDateHelp.classList.remove("d-none")
+            return false
+          } else {
+            startDateHelp.classList.add("d-none")
+            return true
+          }
+        }
+        
+
         function validateEndDate() {
           const selectedDate = new Date(endDateInput.value)
+          const startDate = new Date(startDateInput.value)
           const currDate = new Date()
-          if (selectedDate <= currDate) {
+          if (selectedDate <= currDate || selectedDate <= startDate || endDateInput.value === "") {
             endDateHelp.classList.remove("d-none")
             return false
           } else {
@@ -279,4 +373,3 @@ if ($result) {
 </div>
 
 
-<?php include_once("footer.php")?>
