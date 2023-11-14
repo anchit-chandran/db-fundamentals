@@ -14,7 +14,7 @@
   <div class="row">
     <div class="col-md-5 pr-0">
       <div class="form-group">
-        <label for="keyword" class="sr-only">Search keyword:</label>
+        <label for="keyword" class="cat">Search keyword:</label>
 	    <div class="input-group">
           <div class="input-group-prepend">
             <span class="input-group-text bg-transparent pr-0 text-muted">
@@ -27,7 +27,7 @@
     </div>
     <div class="col-md-3 pr-0">
       <div class="form-group">
-        <label for="cat" class="sr-only">Search within:</label>
+        <label for="cat" class="mx-2">Search within:</label>
         <select class="form-control" id="cat">
           <option selected value="all">All categories</option>
           <option value="fill">Fill me in</option>
@@ -40,14 +40,16 @@
       <div class="form-inline">
         <label class="mx-2" for="order_by">Sort by:</label>
         <select class="form-control" id="order_by">
-          <option selected value="pricelow">Price (low to high)</option>
           <option value="pricehigh">Price (high to low)</option>
+          <option selected value="pricelow">Price (low to high)</option>
+          <option value="bidhigh">Number of bids (high to low)</option>
+          <option value="bidlow">Number of bids (low to high)</option>
           <option value="date">Soonest expiry</option>
         </select>
       </div>
     </div>
-    <div class="col-md-1 px-0">
-      <button type="submit" class="btn btn-primary">Search</button>
+    <div class="col-md-1 p-0 d-flex flex-column justify-content-end">
+      <button type="submit" class="btn btn-primary btn-block">Search</button>
     </div>
   </div>
 </form>
@@ -118,13 +120,12 @@
         $product_id = $row['productId'];
         $title = $row['name'];
         $description = $row['description'];
-        $current_price = 30;  // TODO: Fetch from Bids
-        $num_bids = 1;  // TODO: Fetch from Bids
-        $end_date = $row['auctionEndDatetime'];
+        $current_price = (array_values(runQuery("SELECT MAX(amount) FROM Bid WHERE productId = " . $product_id)->fetch_assoc())[0]);  // Fetch from Bids
+        $num_bids = (array_values(runQuery("SELECT COUNT(*) FROM Bid WHERE productId = " . $product_id)->fetch_assoc())[0]);  // Fetch from Bids
+        $end_date_str = $row['auctionEndDatetime'];
         // Excluded fields: $row['auctionStartDatetime'], $row['state'], $row['sellerId'], $row['subcategoryId']
-        
         // This uses a function defined in utilities.php
-        print_listing_li($product_id, $title, $description, $current_price, $num_bids, $end_date);
+        print_listing_li($product_id, $title, $description, $current_price, $num_bids, $end_date_str);
     }
 } else {
     echo "Error executing query.";
@@ -137,9 +138,9 @@
   $description = "Very short description.";
   $current_price = 13.50;
   $num_bids = 3;
-  $end_date = new DateTime('2020-11-02T00:00:00');
+  $end_date_str = new DateTime('2020-11-02T00:00:00');
   
-  // print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date);
+  // print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date_str);
 ?>
 
 </ul>
