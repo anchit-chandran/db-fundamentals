@@ -6,32 +6,41 @@
 
   <h2 class="my-3">Browse listings</h2>
 
-  <div id="searchSpecs">
-    <!-- When this form is submitted, this PHP page is what processes it.
+</div>
+
+<div id="searchSpecs">
+  <!-- When this form is submitted, this PHP page is what processes it.
      Search/sort specs are passed to this page through parameters in the URL
      (GET method of passing data to a page). -->
-    <form method="get" action="browse.php">
-      <div class="row">
-        <div class="col-md-4 pr-0">
-          <div class="form-group">
-            <label for="keyword" class="cat">Search keyword:</label>
-            <div class="input-group">
-              <input name='search_term' type="text" class="form-control border-left-0" id="keyword" placeholder="Search for anything">
-            </div>
+  <form method="get" action="browse.php">
+    <div class="row">
+      <div class="col-md-4 pr-0">
+        <div class="form-group">
+          <label for="keyword" class="cat">Search keyword:</label>
+          <div class="input-group">
+            <input name='search_term' type="text" class="form-control border-left-0" id="keyword" placeholder="Search for anything">
           </div>
         </div>
-        <div class="col-md-3 pr-0">
-          <div class="form-group">
-            <label for="cat" class="mx-2">Search categories:</label>
-            <div id="cat-container">
-              <!-- name="make" hx-get="/models" hx-target="#models" -->
-              <div id='debug'></div>  
+      </div>
+      <div class="col-md-3 pr-0">
+        <div class="form-group">
+          <label for="cat" class="mx-2">Search categories:</label>
+          <div id="cat-container">
+            <div id='debug'></div>
+            <div>
               <select name="category-option" class="form-control" id="cat" hx-get="CONTENT_browse_subcategories.php" hx-target="#debug" hx-swap="innerHTML">
-              <option selected value="all">All categories</option>
-                <option value="fill">Fill me in</option>
-                <option value="with">with options</option>
-                <option value="populated">populated from a database?</option>
+                <option selected value="all">All categories</option>
+                <?php
+                $getCategories = "SELECT categoryName FROM Category";
+                $categories = runQuery($getCategories);
+                if ($categories) {
+                  while ($row = $categories->fetch_assoc()) {
+                    echo "<option>" . $row['categoryName'] . "</option>";
+                  }
+                }
+                ?>
               </select>
+            </div>
             </div>
           </div>
         </div>
@@ -54,12 +63,9 @@
             </select>
           </div>
         </div>
-        <!-- <div class="col-md-1 p-0 d-flex flex-column justify-content-end">
-      <button type="submit" class="btn btn-primary btn-block">Search</button>
-    </div> -->
       </div>
-    </form>
-  </div> <!-- end search specs bar -->
+  </form>
+</div> <!-- end search specs bar -->
 
 
 </div>
