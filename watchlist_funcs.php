@@ -24,4 +24,5 @@ else if ($_POST['functionname'] == "remove_from_watchlist") {
 // echo json_encode($res).
 echo $res;
 
+
 ?>
