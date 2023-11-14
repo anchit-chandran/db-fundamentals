@@ -3,12 +3,19 @@
 <div class="container my-5">
 
 <?php
+include_once("database.php");
+session_start();
+$userId = $_SESSION["userId"];
+$name = $_POST["auctionTitle"];
+$desc = $_POST["auctionDetails"];
+$auctionStart = $_POST["auctionStartDate"];
+
+
 
 // This function takes the form data and adds the new auction to the database.
 
 /* TODO #1: Connect to MySQL database (perhaps by requiring a file that
             already does this). */
-
 
 /* TODO #2: Extract form data into variables. Because the form was a 'post'
             form, its data can be accessed via $POST['auctionTitle'], 
@@ -22,6 +29,7 @@
             
 
 // If all is successful, let user know.
+
 echo('<div class="text-center">Auction successfully created! <a href="FIXME">View your new listing.</a></div>');
 
 
