@@ -2,6 +2,10 @@
 <?php include_once 'database.php' ?>
 <?php include_once("utilities.php") ?>
 
+<?php
+$subCategoriesIsDisabled = true;
+?>
+
 <div class="container">
 
   <h2 class="my-3">Browse listings</h2>
@@ -47,19 +51,9 @@
         <div class="form-group">
           <label for="subcat" class="mx-2">Search subcategories:</label>
           <div id="subcat-container">
-            <?php
-            $getSubCategories = 'SELECT * FROM SubCategory';
-            $subCategories = runQuery($getSubCategories);
-            if ($subCategories) {
-              echo '<select class="form-control" id="subcat">';
-              echo '<option selected value="all">All Subcategories</option>';
-              while ($row = $subCategories->fetch_assoc()) {
-                echo "<option value =" . $row['subCategoryId'] . ">" . $row['subCategoryName'] . "</option>";
-              }
-              echo '</select>';
-            }
-            ?>
-
+            <select class="form-control" id="subcat" disabled>
+              <option selected value="all">-</option>
+            </select>
           </div>
         </div>
       </div>
