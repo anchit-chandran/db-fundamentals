@@ -5,14 +5,14 @@
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
     if ($_GET["category-option"] == "all") {
-        echo '<select class="form-control" id="subcat" disabled>
+        echo '<select class="form-control" id="subcat" disabled">
         <option selected value="all">-</option>
       </select>';
     } else {
         $getSubCategories = 'SELECT * FROM SubCategory WHERE categoryId =' . $_GET["category-option"];
         $subCategories = runQuery($getSubCategories);
         if ($subCategories) {
-            echo '<select class="form-control" id="subcat">';
+            echo '<select name="subcategory" class="form-control" id="subcat" hx-get="CONTENT_browse_auctionitems_tbody.php" hx-swap="innerHTML" hx-target="#auction_items_tbody"';
             echo '<option selected value="all">All Subcategories</option>';
             while ($row = $subCategories->fetch_assoc()) {
                 echo "<option value =" . $row['subCategoryId'] . ">" . $row['subCategoryName'] . "</option>";
