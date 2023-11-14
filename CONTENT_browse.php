@@ -131,6 +131,8 @@ $max_page = ceil($num_results / $results_per_page);
 
     <?php
 
+
+    echo "<div id=listing-table>";
     // Fetch products from Product table
     $getAllProductTable = "SELECT * FROM Product";
     $productTable = runQuery($getAllProductTable);
@@ -151,17 +153,8 @@ $max_page = ceil($num_results / $results_per_page);
     } else {
       echo "Error executing query.";
     }
+    echo "</div>";
 
-
-
-    $item_id = "516";
-    $title = "Different title";
-    $description = "Very short description.";
-    $current_price = 13.50;
-    $num_bids = 3;
-    $end_date_str = new DateTime('2020-11-02T00:00:00');
-
-    // print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date_str);
     ?>
 
   </ul>

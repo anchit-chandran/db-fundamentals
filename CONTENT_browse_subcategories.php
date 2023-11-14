@@ -18,6 +18,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         }
         echo '</select>';
     }
-}
 
+    echo (
+        '<div id="listing-table" hx-swap-oob="true">
+            Update!
+        </div>'
+    );
+}
 ?>
