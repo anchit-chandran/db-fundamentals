@@ -26,16 +26,15 @@
         <div class="form-group">
           <label for="cat" class="mx-2">Search categories:</label>
           <div id="cat-container">
-            <div id='debug'></div>
             <div>
-              <select name="category-option" class="form-control" id="cat" hx-get="CONTENT_browse_subcategories.php" hx-target="#debug" hx-swap="innerHTML">
+              <select name="category-option" class="form-control" id="cat" hx-get="CONTENT_browse_subcategories.php" hx-target="#subcat-container" hx-swap="innerHTML">
                 <option selected value="all">All categories</option>
                 <?php
-                $getCategories = "SELECT categoryName FROM Category";
+                $getCategories = "SELECT * FROM Category";
                 $categories = runQuery($getCategories);
                 if ($categories) {
                   while ($row = $categories->fetch_assoc()) {
-                    echo "<option>" . $row['categoryName'] . "</option>";
+                    echo "<option value =" . $row['categoryId'] . ">" . $row['categoryName'] . "</option>";
                   }
                 }
                 ?>
