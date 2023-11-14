@@ -16,6 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $subCategories = runQuery($getSubCategories);
     if ($subCategories) {
         echo '<select class="form-control" id="subcat">';
+        echo '<option selected value="all">All Subcategories</option>';
         while ($row = $subCategories->fetch_assoc()) {
             echo "<option value =" . $row['subCategoryId'] . ">" . $row['subCategoryName'] . "</option>";
         }
