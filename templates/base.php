@@ -27,6 +27,10 @@ include_once("utilities.php");
 
     <main class='container h-100'>
         <?php
+        if (isset($_SESSION['flash'])) {
+            include('CONTENT_flash.php');
+        };
+
         if (isset($content)) {
             if ((isset($_SESSION['userId'])) && (!check_user_active($_SESSION['userId']))) {
                 $content = 'CONTENT_account_not_active.php';

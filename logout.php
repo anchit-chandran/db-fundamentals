@@ -1,6 +1,8 @@
 <?php
 
-session_start();
+if(session_id() == '' || !isset($_SESSION) || session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // Unset all session avariables
 $_SESSION = array();

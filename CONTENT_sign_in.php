@@ -20,7 +20,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // LOG IN USER
             if (password_verify($password_raw, $row['password'])) {
 
-                session_start();
+                if(session_id() == '' || !isset($_SESSION) || session_status() === PHP_SESSION_NONE) {
+                    session_start();
+                }
 
                 $_SESSION['userId'] = $row['userId'];
                 $_SESSION['isSuperuser'] = $row['isSuperuser'];
