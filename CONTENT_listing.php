@@ -77,8 +77,30 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
       </div>
       <div class="col">
         <button class="btn btn-secondary">+ Add to watchlist</button>
-        <p>This auction ends at <?php echo $productDetails["auctionEndDatetime"] ?>.</p>
+        <?php
+          $end_date_str = $productDetails["auctionEndDatetime"];
+          $now = new DateTime();
+          $end_date = datetime::createFromFormat('Y-m-d H:m:s', $end_date_str);
+          if ($now > $end_date) {
+              echo "<p>Auction ended at {$productDetails['auctionEndDatetime']}</p>";
+          }
+          else {
+              $time_to_end = date_diff($now, $end_date);
+              $time_remaining = display_time_remaining($time_to_end);
+              echo "<p>Auction ends at {$productDetails['auctionEndDatetime']} ({$time_remaining} from now)</p>";
+          } 
+        
+        ?>
         <p>Starting price: £<?php echo $productDetails["startPrice"] ?></p>
+        <p>Highest bid: <?php 
+          $highest_bid = (array_values(runQuery("SELECT MAX(amount) FROM Bid WHERE productId = " . $productId)->fetch_assoc())[0]);
+          if ($highest_bid == NULL) {
+            echo "No bids yet";
+          } else {
+            echo "£" . $highest_bid;
+          }
+          
+          ?></p>
         <form action="#" method="post">
           <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">£</span>
