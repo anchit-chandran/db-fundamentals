@@ -9,12 +9,45 @@
         <?php
         // This page is for showing a user the auctions they've bid on.
         // It will be pretty similar to browse.php, except there is no search bar.
-        // This can be started after browse.php is working with a database.
-        // Feel free to extract out useful functions from browse.php and put them in
-        // the shared "utilities.php" where they can be shared by multiple files.
-        // TODO: Check user's credentials (cookie/session).
-        // TODO: Perform a query to pull up the auctions they've bidded on.
-        // TODO: Loop through results and print them out as list items.
+        // Check user's credentials (cookie/session).
+        // Perform a query to pull up the auctions they've bidded on.
+        // Loop through results and print them out as list items.
+        if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
+            $bids = runQuery("SELECT * FROM Bid WHERE userId = {$_SESSION['userId']} ORDER BY bidTime DESC");
+            if (mysqli_num_rows($bids) == 0) {
+                echo "<p>You have not made any bids yet.</p>";
+            } else {
+                echo ("<table class='table table-hover'>
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Amount</th>
+                    <th>Date & Time</th>
+                </tr>
+            </thead>
+            <tbody>");
+
+                if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
+
+                    if (empty($bids)) {
+                        echo "bruh";
+                    } else {
+                        while ($row = $bids->fetch_assoc()) {
+                            $productName = (array_values(runQuery("SELECT name FROM Product WHERE productId = " . $row['productId'])->fetch_assoc())[0]);
+                            echo "<tr>
+                            <td>{$productName}</td>
+                            <td>{$row['amount']}</td>
+                            <td scope='row'>{$row['bidTime']}</td>
+                        </tr>";
+                        }
+                    }
+                }
+                echo ('
+            </tbody>
+        </table>');
+            }
+        }
+
         ?>
     </div>
 
