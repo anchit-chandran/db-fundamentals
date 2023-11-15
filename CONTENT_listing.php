@@ -22,8 +22,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
   $n_bids = $bids->num_rows;
 }
 
-
-
 ?>
 
 <div class="row">
@@ -105,10 +103,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
           
           ?></p>
         <?php $user_logged_in = (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true)?>
-        <form action="#" method="post">
+        <form action="place_bid.php" method="post">
           <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">£</span>
-            <input type="text" class="form-control" placeholder="Bid amount" aria-label="bid-amount" aria-describedby="bid-amount"
+            <input name="product_id" type="hidden" value= <?php echo $productId; ?>>
+            <input name="user_id" type="hidden" value= <?php echo $_SESSION['userId']; ?>>
+            <input name="bid_amount" type="number" step="0.01" class="form-control" placeholder="Bid amount" aria-label="bid-amount" aria-describedby="bid-amount"
               <?php if (!$user_logged_in){echo "disabled";}?>
             >
           </div>
