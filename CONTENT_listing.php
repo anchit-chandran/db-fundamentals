@@ -62,13 +62,16 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
             if ($bids) {
               while ($row = $bids->fetch_assoc()) {
+                $userFirstName = (array_values(runQuery("SELECT firstName FROM User WHERE userId = " . $row['userId'])->fetch_assoc())[0]);
+                $userLastName = (array_values(runQuery("SELECT lastName FROM User WHERE userId = " . $row['userId'])->fetch_assoc())[0]);
                 echo "<tr>
                   <th scope='row'>{$row['bidTime']}</th>
                   <td>{$row['amount']}</td>
-                  <td>{$row['userId']}</td>
+                  <td>{$userFirstName} {$userLastName}</td>
                 </tr>";
               }
             }
+            
 
 
             ?>
