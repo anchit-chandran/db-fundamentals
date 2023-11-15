@@ -3,7 +3,7 @@
 <?php include_once("utilities.php") ?>
 
 <?php
-$subCategoriesIsDisabled = true;
+$categories = runQuery("SELECT * FROM Category");
 ?>
 
 <div class="container">
@@ -16,13 +16,13 @@ $subCategoriesIsDisabled = true;
   <!-- When this form is submitted, this PHP page is what processes it.
      Search/sort specs are passed to this page through parameters in the URL
      (GET method of passing data to a page). -->
-  <form method="get" action="browse.php">
+  <form id="filter-form" hx-get='partials/filter_product_table.php' hx-target='#auction_items_tbody'>
     <div class="row">
       <div class="col-md-4 pr-0">
         <div class="form-group">
           <label for="keyword" class="cat">Search keyword:</label>
           <div class="input-group">
-            <input name='search_term' type="text" class="form-control border-left-0" id="keyword" placeholder="Search for anything">
+            <input name='search_term' type="text" class="form-control border-left-0" id="keyword" placeholder="Search for anything" hx-trigger="keyup delay:50ms" hx-target="#auction_items_tbody">
           </div>
         </div>
       </div>
@@ -30,37 +30,27 @@ $subCategoriesIsDisabled = true;
         <div class="form-group">
           <label for="cat" class="mx-2">Search categories:</label>
           <div id="cat-container">
-            <div>
-              <select name="category-option" class="form-control" id="cat" hx-get="CONTENT_browse_subcategories.php" hx-target="#subcat-container" hx-swap="innerHTML">
-                <option selected value="all">All</option>
-                <?php
-                $getCategories = "SELECT * FROM Category";
-                $categories = runQuery($getCategories);
-                if ($categories) {
-                  while ($row = $categories->fetch_assoc()) {
-                    echo "<option value =" . $row['categoryId'] . ">" . $row['categoryName'] . "</option>";
-                  }
-                }
-                ?>
-              </select>
-            </div>
+            <select name="category-option" class="form-control" id="cat" hx-get="partials/get_subcategories.php" hx-trigger="change" hx-target="#subcat" hx-swap='outerHTML'>
+              <option selected value="all">All</option>
+              <?php while ($row = $categories->fetch_assoc()) {
+                echo "<option value=" . "{$row['categoryId']}" . ">{$row['categoryName']}</option>";
+              } ?>
+            </select>
           </div>
         </div>
       </div>
       <div class="col-md-3 pr-0">
         <div class="form-group">
           <label for="subcat" class="mx-2">Search subcategories:</label>
-          <div id="subcat-container">
-            <select class="form-control" id="subcat" disabled>
+            <select name="subcat-option" class="form-control" id='subcat' disabled>
               <option selected value="all">-</option>
             </select>
-          </div>
         </div>
       </div>
       <div class="col-md-2 pr-0">
         <div class="form-inline">
           <label class="mx-2" for="order_by">Sort by:</label>
-          <select class="form-control" id="order_by">
+          <select name="sort-option" class="form-control" id="order_by">
             <option value="pricehigh">Price (highest)</option>
             <option selected value="pricelow">Price (lowest)</option>
             <option value="bidhigh">Bids (highest)</option>
@@ -69,6 +59,11 @@ $subCategoriesIsDisabled = true;
             <option value="date">Expiry (latest)</option>
           </select>
         </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col pt-3">
+        <button class="btn btn-primary" type='submit'>Search</button>
       </div>
     </div>
   </form>
@@ -115,26 +110,26 @@ $max_page = ceil($num_results / $results_per_page);
 ?>
 
 <div class="container mt-5">
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Name</th>
-          <th scope="col">Description</th>
-          <th scope="col">Price</th>
-          <th scope="col">Number of bids</th>
-          <th scope="col">Remaining time</th>
-        </tr>
-      </thead>
-      <tbody id='auction_items_tbody'>
-        <tr>
-          <th scope="row">name</th>
-          <td>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque reiciendis quisquam cupiditate quos neque modi, beatae dolor nobis! Dolor, rerum dicta soluta iure officia nulla perspiciatis alias quasi? Quas, alias?</td>
-          <td>£100</td>
-          <td>33</td>
-          <td>24hrs</td>
-        </tr>
-      </tbody>
-    </table>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Description</th>
+        <th scope="col">Price</th>
+        <th scope="col">Number of bids</th>
+        <th scope="col">Remaining time</th>
+      </tr>
+    </thead>
+    <tbody id='auction_items_tbody'>
+      <tr>
+        <th scope="row">name</th>
+        <td>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque reiciendis quisquam cupiditate quos neque modi, beatae dolor nobis! Dolor, rerum dicta soluta iure officia nulla perspiciatis alias quasi? Quas, alias?</td>
+        <td>£100</td>
+        <td>33</td>
+        <td>24hrs</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 <!-- TODO: If result set is empty, print an informative message. Otherwise... -->
