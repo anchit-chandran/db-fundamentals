@@ -22,8 +22,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
   $n_bids = $bids->num_rows;
 }
 
-
-
 ?>
 
 <div class="row">
@@ -62,13 +60,16 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
             if ($bids) {
               while ($row = $bids->fetch_assoc()) {
+                $userFirstName = (array_values(runQuery("SELECT firstName FROM User WHERE userId = " . $row['userId'])->fetch_assoc())[0]);
+                $userLastName = (array_values(runQuery("SELECT lastName FROM User WHERE userId = " . $row['userId'])->fetch_assoc())[0]);
                 echo "<tr>
                   <th scope='row'>{$row['bidTime']}</th>
                   <td>{$row['amount']}</td>
-                  <td>{$row['userId']}</td>
+                  <td>{$userFirstName} {$userLastName}</td>
                 </tr>";
               }
             }
+            
 
 
             ?>
@@ -81,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
           $end_date_str = $productDetails["auctionEndDatetime"];
           $now = new DateTime();
           $end_date = datetime::createFromFormat('Y-m-d H:i:s', $end_date_str);
-          if ($now->format('Y-m-d H:i:s') > $end_date->format('Y-m-d H:i:s')) {
+          if ($now > $end_date) {
               echo "<p>Auction ended at {$productDetails['auctionEndDatetime']}</p>";
           }
           else {
@@ -102,10 +103,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
           
           ?></p>
         <?php $user_logged_in = (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true)?>
-        <form action="#" method="post">
+        <form action="place_bid.php" method="post">
           <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">£</span>
-            <input type="text" class="form-control" placeholder="Bid amount" aria-label="bid-amount" aria-describedby="bid-amount"
+            <input name="product_id" type="hidden" value= <?php echo $productId; ?>>
+            <input name="user_id" type="hidden" value= <?php if (isset($_SESSION['logged_in'])) {echo $_SESSION['userId'];}?>>
+            <input name="bid_amount" type="number" step="0.01" min="0" class="form-control" placeholder="Bid amount" aria-label="bid-amount" aria-describedby="bid-amount"
               <?php if (!$user_logged_in){echo "disabled";}?>
             >
           </div>
