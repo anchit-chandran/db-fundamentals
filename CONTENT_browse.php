@@ -4,6 +4,42 @@
 
 <?php
 $categories = runQuery("SELECT * FROM Category");
+
+// GET INITIAL PRODUCTS
+$product_table_query = "SELECT
+    P.productId,
+    P.name,
+    P.description,
+    P.auctionStartDatetime,
+    P.auctionEndDatetime,
+    P.reservePrice,
+    P.startPrice,
+    P.createdAt,
+    P.updatedAt,
+    P.image,
+    P.state,
+    P.userId,
+    P.subcategoryId, 
+    MAX(B.amount) AS highestBidAmount
+    FROM Product as P
+    LEFT JOIN 
+        bid AS B ON P.productId = B.productId
+    GROUP BY
+        P.productId,
+        P.name,
+        P.description,
+        P.auctionStartDatetime,
+        P.auctionEndDatetime,
+        P.reservePrice,
+        P.startPrice,
+        P.createdAt,
+        P.updatedAt,
+        P.image,
+        P.state,
+        P.userId,
+        P.subcategoryId";
+
+$all_products = runQuery($product_table_query);
 ?>
 
 <div class="container">
@@ -16,7 +52,7 @@ $categories = runQuery("SELECT * FROM Category");
   <!-- When this form is submitted, this PHP page is what processes it.
      Search/sort specs are passed to this page through parameters in the URL
      (GET method of passing data to a page). -->
-  <form id="filter-form" hx-get='partials/filter_product_table.php' hx-target='#auction_items_tbody'>
+  <form id="filter-form" hx-get='partials/filter_product_table.php' hx-target='#auction_items_table' hx-swap='innerHTML'>
     <div class="row">
       <div class="col-md-4 pr-0">
         <div class="form-group">
@@ -42,17 +78,17 @@ $categories = runQuery("SELECT * FROM Category");
       <div class="col-md-3 pr-0">
         <div class="form-group">
           <label for="subcat" class="mx-2">Search subcategories:</label>
-            <select name="subcat-option" class="form-control" id='subcat' disabled>
-              <option selected value="all">-</option>
-            </select>
+          <select name="subcat-option" class="form-control" id='subcat' disabled>
+            <option selected value="all">-</option>
+          </select>
         </div>
       </div>
       <div class="col-md-2 pr-0">
         <div class="form-inline">
           <label class="mx-2" for="order_by">Sort by:</label>
           <select name="sort-option" class="form-control" id="order_by">
-            <option value="amount-DESC">Bids (highest)</option>
-            <option value="amount-ASC">Bids (lowest)</option>
+            <option value="amount-DESC">Price (highest)</option>
+            <option value="amount-ASC">Price (lowest)</option>
             <option value="date-ASC">Expiry (soonest)</option>
             <option value="date-DESC">Expiry (latest)</option>
           </select>
@@ -70,104 +106,95 @@ $categories = runQuery("SELECT * FROM Category");
 
 </div>
 
-<?php
-// Retrieve these from the URL
-if (!isset($_GET['keyword'])) {
-  // TODO: Define behavior if a keyword has not been specified.
-} else {
-  $keyword = $_GET['keyword'];
-}
+<!-- <?php
+      // Retrieve these from the URL
+      if (!isset($_GET['keyword'])) {
+        // TODO: Define behavior if a keyword has not been specified.
+      } else {
+        $keyword = $_GET['keyword'];
+      }
 
-if (!isset($_GET['cat'])) {
-  // TODO: Define behavior if a category has not been specified.
-} else {
-  $category = $_GET['cat'];
-}
+      if (!isset($_GET['cat'])) {
+        // TODO: Define behavior if a category has not been specified.
+      } else {
+        $category = $_GET['cat'];
+      }
 
-if (!isset($_GET['order_by'])) {
-  // TODO: Define behavior if an order_by value has not been specified.
-} else {
-  $ordering = $_GET['order_by'];
-}
+      if (!isset($_GET['order_by'])) {
+        // TODO: Define behavior if an order_by value has not been specified.
+      } else {
+        $ordering = $_GET['order_by'];
+      }
 
-if (!isset($_GET['page'])) {
-  $curr_page = 1;
-} else {
-  $curr_page = $_GET['page'];
-}
+      if (!isset($_GET['page'])) {
+        $curr_page = 1;
+      } else {
+        $curr_page = $_GET['page'];
+      }
 
-/* TODO: Use above values to construct a query. Use this query to 
+      /* TODO: Use above values to construct a query. Use this query to 
      retrieve data from the database. (If there is no form data entered,
      decide on appropriate default value/default query to make. */
 
-/* For the purposes of pagination, it would also be helpful to know the
+      /* For the purposes of pagination, it would also be helpful to know the
      total number of results that satisfy the above query */
-$num_results = 96; // TODO: Calculate me for real
-$results_per_page = 10;
-$max_page = ceil($num_results / $results_per_page);
-?>
+      $num_results = 96; // TODO: Calculate me for real
+      $results_per_page = 10;
+      $max_page = ceil($num_results / $results_per_page);
+      ?> -->
 
 <div class="container mt-5">
-  <table class="table">
+  <table class="table" id='auction_items_table'>
     <thead>
       <tr>
         <th scope="col">Name</th>
         <th scope="col">Description</th>
-        <th scope="col">Price</th>
+        <th scope="col">Highest bid <?php echo '⬇️' ?></th>
         <th scope="col">Number of bids</th>
         <th scope="col">Remaining time</th>
       </tr>
     </thead>
-    <tbody id='auction_items_tbody'>
-      <tr>
-        <th scope="row">name</th>
-        <td>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque reiciendis quisquam cupiditate quos neque modi, beatae dolor nobis! Dolor, rerum dicta soluta iure officia nulla perspiciatis alias quasi? Quas, alias?</td>
-        <td>£100</td>
-        <td>33</td>
-        <td>24hrs</td>
-      </tr>
+    <tbody>
+      <?php
+      while ($row = $all_products->fetch_assoc()) {
+
+        // GET N BIDS
+        $num_bids = (array_values(runQuery("SELECT COUNT(*) FROM Bid WHERE productId = " . $row['productId'])->fetch_assoc())[0]);
+
+        // GET TIME REMAINING
+        $end_date_str = $row['auctionEndDatetime'];
+        $now = new DateTime();
+        $end_date = datetime::createFromFormat('Y-m-d H:m:s', $end_date_str);
+        if ($now > $end_date) {
+          $time_remaining = 'This auction has ended';
+        } else {
+          // Get interval:
+          $time_to_end = date_diff($now, $end_date);
+          $time_remaining = display_time_remaining($time_to_end);
+        }
+
+        //  RENDER HIGHEST BID AMOUNT
+        if ($row['highestBidAmount'] > 0) {
+          $highestBidAmount = "£{$row['highestBidAmount']}";
+        } else {
+          $highestBidAmount = "No bids!";
+        }
+
+        echo "<tr>
+          <th scope='row'><a href='#'>{$row['name']}</a></th>
+          <td>{$row['description']}</td>
+          <td>{$highestBidAmount}</td>
+          <td>{$num_bids}</td>
+          <td>{$time_remaining}</td>
+          </tr>";
+      }
+      ?>
     </tbody>
   </table>
 </div>
 
-<!-- TODO: If result set is empty, print an informative message. Otherwise... -->
 
-<ul class="list-group">
-
-  <!-- TODO: Use a while loop to print a list item for each auction listing
-     retrieved from the query -->
-
-  <?php
-
-
-  echo "<div id=listing-table>";
-  // Fetch products from Product table
-  $getAllProductTable = "SELECT * FROM Product";
-  $productTable = runQuery($getAllProductTable);
-
-  if ($productTable) {
-    // Loop through each row in the result set
-    while ($row = $productTable->fetch_assoc()) {
-      $product_id = $row['productId'];
-      $title = $row['name'];
-      $description = $row['description'];
-      $current_price = (array_values(runQuery("SELECT MAX(amount) FROM Bid WHERE productId = " . $product_id)->fetch_assoc())[0]);  // Fetch from Bids
-      $num_bids = (array_values(runQuery("SELECT COUNT(*) FROM Bid WHERE productId = " . $product_id)->fetch_assoc())[0]);  // Fetch from Bids
-      $end_date_str = $row['auctionEndDatetime'];
-      // Excluded fields: $row['auctionStartDatetime'], $row['state'], $row['sellerId'], $row['subcategoryId']
-      // This uses a function defined in utilities.php
-      print_listing_li($product_id, $title, $description, $current_price, $num_bids, $end_date_str);
-    }
-  } else {
-    echo "Error executing query.";
-  }
-  echo "</div>";
-
-  ?>
-
-</ul>
-
-<!-- Pagination for results listings -->
+<!-- Pagination for results listings
 <nav aria-label="Search results pages" class="mt-5">
   <ul class="pagination justify-content-center">
 
@@ -225,7 +252,7 @@ $max_page = ceil($num_results / $results_per_page);
     ?>
 
   </ul>
-</nav>
+</nav> -->
 
 
 </div>

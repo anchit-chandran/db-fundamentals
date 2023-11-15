@@ -5,20 +5,34 @@ include_once("../utilities.php");
 // GET PARAMETERS: [search_term] => [category-option] => 1 [subcategory] => 1 [sort-option] => bidlow
 if ($_SERVER['REQUEST_METHOD'] == "GET") {
 
+    
+
     // SORT ON BIDS
     if ($_GET["sort-option"]) {
         $sort_options = explode('-', $_GET["sort-option"]);
 
         if ($sort_options[1] == "ASC") {
-            $max_or_min = "MAX";
+            $sort_up = True;
         } else {
-            $max_or_min = "MIN";
+            $sort_up = False;
         }
 
         if ($sort_options[0] == "amount") {
-            $order_by = "bidAmount {$sort_options[1]}";
+            $order_by = "highestBidAmount {$sort_options[1]}";
+            $time_sort_icon = "";
+            if ($sort_up) {
+                $amount_sort_icon = "⬆️";
+            } else {
+                $amount_sort_icon = "⬇️";
+            }
         } else {
             $order_by = "P.auctionEndDatetime {$sort_options[1]}";
+            $amount_sort_icon = "";
+            if ($sort_up) {
+                $time_sort_icon = "⬇️";
+            } else {
+                $time_sort_icon = "⬆️";
+            }
         }
     }
 
@@ -27,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
 
     if ($_GET["search_term"]) {
         $search_term = $_GET["search_term"];
-        $where_conditions[] = "name like' %{$search_term}%'";
+        $where_conditions[] = "name like '%{$search_term}%'";
     }
 
     if (isset($_GET["subcategory"])) {
@@ -55,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
     P.state,
     P.userId,
     P.subcategoryId, 
-    {$max_or_min}(B.amount) AS bidAmount
+    MAX(B.amount) AS highestBidAmount
     FROM Product as P
     LEFT JOIN 
         bid AS B ON P.productId = B.productId
@@ -77,8 +91,24 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
     ORDER BY
         {$order_by};";
 
+    // echo '<pre>';
+    // echo $product_table_query;
+    // echo '</pre>';
 
     $filtered_products = runQuery($product_table_query);
+
+    // RENDER HEAD OF TABLE
+    echo "<thead>
+    <tr>
+      <th scope='col'>Name</th>
+      <th scope='col'>Description</th>
+      <th scope='col'>Highest Bid {$amount_sort_icon}</th>
+      <th scope='col'>Number of bids</th>
+      <th scope='col'>Remaining time {$time_sort_icon}</th>
+    </tr>
+  </thead>";
+
+    echo "<tbody>";
 
     while ($row = $filtered_products->fetch_assoc()) {
 
@@ -97,17 +127,27 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
             $time_remaining = display_time_remaining($time_to_end);
         }
 
+        //  RENDER HIGHEST BID AMOUNT
+        if ($row['highestBidAmount'] > 0) {
+            $highestBidAmount = "£{$row['highestBidAmount']}";
+        } else {
+            $highestBidAmount = "No bids!";
+        }
+
         echo "<tr>
         <th scope='row'><a href='#'>{$row['name']}</a></th>
         <td>{$row['description']}</td>
-        <td>£{$row['bidAmount']}</td>
+        <td>{$highestBidAmount}</td>
         <td>{$num_bids}</td>
         <td>{$time_remaining}</td>
         </tr>";
     }
 
-    // echo '<br>';
-    // echo '<pre>';
-    // echo $product_table_query;
-    // echo '</pre>';
+
+    
+
+    echo "</tbody>";
+
+
+    
 }
