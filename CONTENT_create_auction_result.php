@@ -126,11 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($validForm) {
         $currentDateTime = date("Y-m-d H:i:s");
-        // $conn = connectToDatabase();
         
-        // $stmt = $conn->prepare("INSERT INTO Product (name, description, auctionStartDatetime, auctionEndDatetime, reservePrice, startPrice, createdAt, image, state, userId, subcategoryId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)") ;
-        // $stmt->bind_param("ssssddsbsii", $title, $details, $auctionStart, $auctionEnd, $reservePrice, $startPrice, $currentDateTime, $auctionImage, $condition, $userId, $subcategory);
-        // $result = $conn->query($stmt);
         $query = "INSERT INTO Product (name, description, auctionStartDatetime, auctionEndDatetime, reservePrice, startPrice, createdAt, image, state, userId, subcategoryId) VALUES ('{$title}', '{$details}', '{$auctionStart}', '{$auctionEnd}', '{$reservePrice}', '{$startPrice}', '{$currentDateTime}', '{$auctionImage}', '{$condition}', '{$userId}', '{$subcategory}')";
         $result = runQuery($query);
         if ($result) {

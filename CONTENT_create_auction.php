@@ -286,11 +286,9 @@ if ($result) {
           const titleValue = titleInput.value.trim()
           if (titleValue === ""){
             titleHelp.classList.remove("d-none")
-            // titleHelp.outerHTML = "<small id='titleHelp' class='form-text text-muted'><span class='text-danger'>* Required.</span> Title of the item you're selling, which will display in listings. Max: 500 characters</small>"
             return false
           } else if (titleValue.length > 500){
             titleHelp.classList.remove("d-none")
-            // titleHelp.innerText = "Title can't be longer than 500 characters"
             return false
           }
           else {
@@ -302,11 +300,9 @@ if ($result) {
           const detailsValue = detailsInput.value.trim()
           if (detailsValue === ""){
             detailsHelp.classList.remove("d-none")
-            // detailsHelp.outerHTML = "<small id='titleHelp' class='form-text text-muted'><span class='text-danger'>* Required.</span> Details of the item you're selling, which will display in listings. Max: 500 characters</small>"
             return false
           } else if (detailsValue.length > 1000){
             detailsHelp.classList.remove("d-none")
-            // detailsHelp.innerText = "Details can't be longer than 500 characters"
             return false
           }
           else {
@@ -353,7 +349,6 @@ if ($result) {
         function validateStartPrice() {
 
           if (isNaN(startPriceInput.value) || parseFloat(startPriceInput.value) < 0 || startPriceInput.value === "") {
-            // startPriceHelp.textContent = "Starting Price must be a valid number and greater than or equal to 0.";
             startPriceHelp.classList.remove("d-none")
             return false
           } else {
