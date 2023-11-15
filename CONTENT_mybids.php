@@ -28,18 +28,13 @@
             <tbody>");
 
                 if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
-
-                    if (empty($bids)) {
-                        echo "bruh";
-                    } else {
-                        while ($row = $bids->fetch_assoc()) {
-                            $productName = (array_values(runQuery("SELECT name FROM Product WHERE productId = " . $row['productId'])->fetch_assoc())[0]);
-                            echo "<tr>
+                    while ($row = $bids->fetch_assoc()) {
+                        $productName = (array_values(runQuery("SELECT name FROM Product WHERE productId = " . $row['productId'])->fetch_assoc())[0]);
+                        echo "<tr>
                             <td>{$productName}</td>
                             <td>{$row['amount']}</td>
-                            <td scope='row'>{$row['bidTime']}</td>
+                            <td>{$row['bidTime']}</td>
                         </tr>";
-                        }
                     }
                 }
                 echo ('
