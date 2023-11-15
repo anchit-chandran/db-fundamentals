@@ -142,9 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 }
 }
-
-// UserID not there
-// need to add validation to length of inputs?
+ 
 
 // This function takes the form data and adds the new auction to the database.
 
