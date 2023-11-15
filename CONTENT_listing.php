@@ -16,7 +16,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
   $bids = runQuery("
     SELECT * 
     FROM Bid
-    WHERE productId='{$productId}';
+    WHERE productId='{$productId}'
+    ORDER BY amount DESC;
   ");
   $n_bids = $bids->num_rows;
 }
@@ -35,13 +36,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     <div class="row">
       <div class="col-8">
         <h2 class="fw-lighter"><?php echo $productDetails["name"] ?></h2>
-        <p class="text-muted">Auction started at <?php echo $productDetails["auctionStartDatetime"]?>.</p>
+        <p class="text-muted">Auction started at <?php echo $productDetails["auctionStartDatetime"] ?>.</p>
         <img src=<?php echo "{$productDetails['image']}" ?> alt="">
         <p><span class="fw-bold">Description:</span> <?php echo $productDetails["description"] ?></p>
         <p><span class="fw-bold">Condition:</span> <?php echo $productDetails["state"] ?></p>
-        <h3>Bid History -
+        <h3>Most Recent Bids -
           <?php
-
           if ($n_bids == 1) {
             echo "1 Bid";
           } else {
@@ -58,17 +58,26 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">18 Oct 1997 10:45</th>
-              <td>£2180</td>
-              <td>3</td>
-            </tr>
+            <?php
+
+            if ($bids) {
+              while ($row = $bids->fetch_assoc()) {
+                echo "<tr>
+                  <th scope='row'>{$row['bidTime']}</th>
+                  <td>{$row['amount']}</td>
+                  <td>{$row['userId']}</td>
+                </tr>";
+              }
+            }
+
+
+            ?>
           </tbody>
         </table>
       </div>
       <div class="col">
         <button class="btn btn-secondary">+ Add to watchlist</button>
-        <p>This auction ends at <?php echo $productDetails["auctionEndDatetime"]?>.</p>
+        <p>This auction ends at <?php echo $productDetails["auctionEndDatetime"] ?>.</p>
         <p>Starting price: £<?php echo $productDetails["startPrice"] ?></p>
         <form action="#" method="post">
           <div class="input-group mb-3">
