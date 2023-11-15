@@ -18,12 +18,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $bid_amount = floatval($_POST["bid_amount"]);
     $user_id = $_POST["user_id"];
 
-    // FETCH MAX BID FOR PRODUCT
+    // Fetch max bid of product to compare against current bid
     $highest_bid = floatval(array_values(runQuery("SELECT MAX(amount) FROM Bid WHERE productId = " . $product_id)->fetch_assoc())[0]);
     
     session_start();
     if ($bid_amount > $highest_bid) {
-        // TODO: add to db
+        $add_bid = "INSERT INTO Bid (amount, productId, userId)
+            VALUES ({strval($bid_amount)}, {$product_id}, {$user_id});";
+        runQuery($add_bid);
         $_SESSION["flash"] = ["type" => "success", "message" => "Bid added successfully"];
         header("Location: listing.php?item_id={$product_id}");
     } else {
