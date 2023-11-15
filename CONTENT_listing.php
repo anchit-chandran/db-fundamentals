@@ -80,8 +80,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         <?php
           $end_date_str = $productDetails["auctionEndDatetime"];
           $now = new DateTime();
-          $end_date = datetime::createFromFormat('Y-m-d H:m:s', $end_date_str);
-          if ($now > $end_date) {
+          $end_date = datetime::createFromFormat('Y-m-d H:i:s', $end_date_str);
+          if ($now->format('Y-m-d H:i:s') > $end_date->format('Y-m-d H:i:s')) {
               echo "<p>Auction ended at {$productDetails['auctionEndDatetime']}</p>";
           }
           else {
@@ -109,7 +109,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
               <?php if (!$user_logged_in){echo "disabled";}?>
             >
           </div>
-          <button type="submit" class="btn btn-primary" 
+          <button type="submit" class="btn <?php if ($user_logged_in){echo "btn-primary";} else {echo "btn-secondary";}?>" 
             <?php if (!$user_logged_in){echo "disabled";}?>
           >
               Place Bid
