@@ -1,8 +1,4 @@
 <?php
-  // $content='CONTENT_create_auction.php';
-  // $title='Create Auction';
-  // include('templates/base.php');
-
 
 /* (Uncomment this block to redirect people without selling privileges away from this page)
   // If user is not logged in or not a seller, they should not be able to
