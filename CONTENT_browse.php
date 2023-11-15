@@ -51,12 +51,12 @@ $categories = runQuery("SELECT * FROM Category");
         <div class="form-inline">
           <label class="mx-2" for="order_by">Sort by:</label>
           <select name="sort-option" class="form-control" id="order_by">
-            <option value="pricehigh">Price (highest)</option>
-            <option selected value="pricelow">Price (lowest)</option>
-            <option value="bidhigh">Bids (highest)</option>
-            <option value="bidlow">Bids (lowest)</option>
-            <option value="date">Expiry (soonest)</option>
-            <option value="date">Expiry (latest)</option>
+            <option value="price-ASC">Price (highest)</option>
+            <option selected value="price-DESC">Price (lowest)</option>
+            <option value="bid-ASC">Bids (highest)</option>
+            <option value="bid-DESC">Bids (lowest)</option>
+            <option value="date-DESC">Expiry (soonest)</option>
+            <option value="date-ASC">Expiry (latest)</option>
           </select>
         </div>
       </div>
