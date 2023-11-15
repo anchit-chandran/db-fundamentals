@@ -131,7 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
         // GET TIME REMAINING
         $end_date_str = $row['auctionEndDatetime'];
         $now = new DateTime();
-        $end_date = datetime::createFromFormat('Y-m-d H:m:s', $end_date_str);
+        $end_date = datetime::createFromFormat('Y-m-d H:i:s', $end_date_str);
         if ($now > $end_date) {
             $time_remaining = 'This auction has ended';
         } else {
