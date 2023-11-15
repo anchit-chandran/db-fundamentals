@@ -1,7 +1,7 @@
 <?php
-  $content='CONTENT_create_auction.php';
-  $title='Create Auction';
-  include('templates/base.php');
+  // $content='CONTENT_create_auction.php';
+  // $title='Create Auction';
+  // include('templates/base.php');
 
 
 /* (Uncomment this block to redirect people without selling privileges away from this page)
@@ -51,25 +51,25 @@ if ($result) {
       before they try to send it, but that kind of functionality should be
       extremely low-priority / only done after all database functions are
       complete. -->
-      <form method="post" action="create_auction_result.php" id="createAuctionForm">
+      <form method="post" action="create_auction_result.php" id="createAuctionForm" enctype="multipart/form-data">
         <div class="form-group row">
           <label for="auctionTitle" class="col-sm-2 col-form-label text-right">Title of auction</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" id="auctionTitle" placeholder="e.g. Black mountain bike">
-            <small id="titleHelp" class="form-text text-muted"><span class="text-danger">* Required.</span> A short description of the item you're selling, which will display in listings.</small>
+            <input type="text" class="form-control" id="auctionTitle" name="auctionTitle" placeholder="e.g. Black mountain bike">
+            <small id="titleHelp" class="form-text text-muted"><span class="text-danger" id="titleDanger">* Required.</span> Title of the item you're selling, which will display in listings. Max: 500 characters</small>
           </div>
         </div>
         <div class="form-group row">
           <label for="auctionDetails" class="col-sm-2 col-form-label text-right">Details</label>
           <div class="col-sm-10">
-            <textarea class="form-control" id="auctionDetails" rows="4"></textarea>
-            <small id="detailsHelp" class="form-text text-muted">Full details of the listing to help bidders decide if it's what they're looking for.</small>
+            <textarea class="form-control" id="auctionDetails" name="auctionDetails" rows="4"></textarea>
+            <small id="detailsHelp" class="form-text text-muted"><span class="text-danger" id="detailsDanger">* Required.</span> A short description of the item you're selling, which will display in listings. Max: 1000 characters</small>
           </div>
         </div>
         <div class="form-group row">
           <label for="auctionCategory" class="col-sm-2 col-form-label text-right">Category</label>
           <div class="col-sm-10">
-            <select class="form-control" id="auctionCategory">
+            <select class="form-control" id="auctionCategory" name="auctionCategory">
             <option value="">Choose...</option>
             <?php
             foreach ($categories as $category) {
@@ -77,13 +77,13 @@ if ($result) {
             }
             ?>
             </select>
-            <small id="categoryHelp" class="form-text text-muted"><span class="text-danger">* Required.</span> Select a category for this item.</small>
+            <small id="categoryHelp" class="form-text text-muted"><span class="text-danger" id="categoryDanger">* Required.</span> Select a category for this item.</small>
           </div>
         </div>
         <div class="form-group row">
           <label for="auctionSubCategory" class="col-sm-2 col-form-label text-right">Subcategory</label>
           <div class="col-sm-10">
-            <select class="form-control" id="auctionSubCategory">
+            <select class="form-control" id="auctionSubCategory" name="auctionSubCategory">
               
               <script>
                 const categoryChoice = document.getElementById("auctionCategory");
@@ -118,20 +118,20 @@ if ($result) {
                 fetchSubcategory("")
               </script>
             </select>
-
-            <small id="subcategoryHelp" class="form-text text-muted"><span class="text-danger">* Required.</span> Select a subcategory for this item.</small>
+            <small class="form-text text-muted"></small>
+            <small id="subcategoryHelp" class="form-text text-muted">Select a subcategory for this item.</small>
           </div>
         </div>
         <div class="form-group row">
           <label for="auctionCondition" class="col-sm-2 col-form-label text-right">Item Condition</label>
           <div class="col-sm-10">
-            <select class="form-control" id="auctionCondition">
+            <select class="form-control" id="auctionCondition" name="auctionCondition">
               <option value="">Choose...</option>
-              <option value="brandNew">Brand New</option>
-              <option value="slightlyUsed">Slightly Used</option>
-              <option value="used">Used</option>
+              <option value="Brand New">Brand New</option>
+              <option value="Slightly Used">Slightly Used</option>
+              <option value="Used">Used</option>
             </select>
-            <small id="conditionHelp" class="form-text text-muted"><span class="text-danger">* Required.</span> Select a condition for this item.</small>
+            <small id="conditionHelp" class="form-text text-muted"><span class="text-danger" id="conditionDanger">* Required.</span> Select a condition for this item.</small>
           </div>
         </div>
         <div class="form-group row">
@@ -139,9 +139,9 @@ if ($result) {
           <div class="col-sm-10">
           <input type="file" id="auctionImage" name="auctionImage" accept=".jpg, .jpeg, .png,">
           <button type="button" id="removeImage" class="d-none" onclick="clearImage()">Remove</button>
-            <small id="imageHelp" class="form-text text-muted">Upload image for this listing (.jpg, .jpeg, .png) max: 5 MB</small>
-            
+          <small id="imageHelp" class="form-text text-muted">Upload image for this listing (.jpg, .jpeg, .png) max: 5 MB</small>
           </div>
+          
           
         </div>
         <div class="form-group row">
@@ -151,19 +151,19 @@ if ($result) {
               <div class="input-group-prepend">
                 <span class="input-group-text">£</span>
               </div>
-              <input type="number" class="form-control" id="auctionStartPrice">
+              <input type="number" class="form-control" id="auctionStartPrice" name="auctionStartPrice" step="any">
             </div>
-            <small id="startBidHelp" class="form-text text-muted"><span class="text-danger">* Required.</span> Initial bid amount. Amount must be a valid number and greater than or equal to 0</small>
+            <small id="startBidHelp" class="form-text text-muted"><span class="text-danger" id="startPriceDanger">* Required.</span> Initial bid amount. Amount must be a valid number and greater than or equal to 0</small>
           </div>
         </div>
         <div class="form-group row">
-          <label for="auctionReservePrice" class="col-sm-2 col-form-label text-right">Reserve price</label>
+          <label for="auctionReservePrice" class="col-sm-2 col-form-label text-right" >Reserve price</label>
           <div class="col-sm-10">
             <div class="input-group">
               <div class="input-group-prepend">
                 <span class="input-group-text">£</span>
               </div>
-              <input type="number" class="form-control" id="auctionReservePrice">
+              <input type="number" class="form-control" id="auctionReservePrice" name="auctionReservePrice" step="any">
             </div>
             <small id="reservePriceHelp" class="form-text text-muted">Optional. Auctions that end below this price will not go through. This value is not displayed in the auction listing.</small>
           </div>
@@ -175,9 +175,9 @@ if ($result) {
             <div class="input-group-prepend">
             <button type="button" id="startNow" class="" onclick="currDate()">Start Now</button>
               </div>
-            <input type="datetime-local" class="form-control" id="auctionStartDate">
+            <input type="datetime-local" class="form-control" id="auctionStartDate" name="auctionStartDate">
             </div>
-            <small id="startDateHelp" class="form-text text-muted"><span class="text-danger">* Required.</span> Day for the auction to end. Day must be in the future or now</small>
+            <small id="startDateHelp" class="form-text text-muted"><span class="text-danger" id="startDateDanger">* Required.</span> Day for the auction to end. Day must be in the future or now</small>
             
             
           </div>
@@ -187,8 +187,8 @@ if ($result) {
         <div class="form-group row">
           <label for="auctionEndDate" class="col-sm-2 col-form-label text-right">End date</label>
           <div class="col-sm-10">
-            <input type="datetime-local" class="form-control" id="auctionEndDate">
-            <small id="endDateHelp" class="form-text text-muted"><span class="text-danger">* Required.</span> Day for the auction to end. Date must be after start date</small>
+            <input type="datetime-local" class="form-control" id="auctionEndDate" name="auctionEndDate">
+            <small id="endDateHelp" class="form-text text-muted"><span class="text-danger" id="endDateDanger">* Required.</span> Day for the auction to end. Date must be after start date</small>
           </div>
         </div>
         <button type="submit" class="btn btn-primary form-control">Create Auction</button>
@@ -196,20 +196,23 @@ if ($result) {
       <script>
         const form = document.getElementById("createAuctionForm");
         const titleInput = document.getElementById("auctionTitle");
-        const titleHelp = document.getElementById("titleHelp");
+        const titleHelp = document.getElementById("titleDanger");
+        const detailsInput = document.getElementById("auctionDetails");
+        const detailsHelp = document.getElementById("detailsDanger");
         const categoryInput = document.getElementById("auctionCategory");
-        const categoryHelp = document.getElementById("categoryHelp");
+        const categoryHelp = document.getElementById("categoryDanger");
         const conditionInput = document.getElementById("auctionCondition");
-        const conditionHelp = document.getElementById("conditionHelp");
+        const conditionHelp = document.getElementById("conditionDanger");
         const imageInput = document.getElementById("auctionImage");  
         const removeButton = document.getElementById("removeImage");
         const imageHelp = document.getElementById("imageHelp")
         const startPriceInput = document.getElementById("auctionStartPrice");
-        const startPriceHelp = document.getElementById("startBidHelp");
+        const startPriceHelp = document.getElementById("startPriceDanger");
+        const reservePriceInput = document.getElementById("auctionReservePrice");
         const startDateInput = document.getElementById("auctionStartDate")
-        const startDateHelp = document.getElementById("startDateHelp");
+        const startDateHelp = document.getElementById("startDateDanger");
         const endDateInput = document.getElementById("auctionEndDate");
-        const endDateHelp = document.getElementById("endDateHelp");
+        const endDateHelp = document.getElementById("endDateDanger");
         function clearImage() {
           
           removeButton.classList.add("d-none");
@@ -227,18 +230,6 @@ if ($result) {
           } 
 
         })
-        function currDate() {
-          var currDate = new Date();
-          currDate.setMinutes(currDate.getMinutes()+1);
-          startDateInput.value =currDate.toISOString().slice(0,16);
-          startDateHelp.classList.add("d-none");
-          validateEndDate()
-        }
-        startDateInput.addEventListener("input", function() {
-          validateStartDate()
-          validateEndDate()
-        })
-
         form.addEventListener("submit", function (event) {
           const valid = validateForm();
           console.log(valid);
@@ -248,6 +239,9 @@ if ($result) {
         })
         titleInput.addEventListener("input", function () {
           validateTitle();
+        })
+        detailsInput.addEventListener("input", function () {
+          validateDetails();
         })
         categoryInput.addEventListener("change", function () {
           
@@ -259,20 +253,31 @@ if ($result) {
         startPriceInput.addEventListener("input", function () {
           validateStartPrice();
         })
+        reservePriceInput.addEventListener("input", function () {
+          validateReservePrice();
+        })
+        startDateInput.addEventListener("input", function() {
+          validateStartDate()
+          validateEndDate()
+        })
         endDateInput.addEventListener("input", function () {
           validateEndDate();
         })
+        
         function validateForm() {
           let isValid = true;
           if (!validateTitle()) {
             isValid = false;
-          } if (!validateCategory()) {
+          } 
+          if (!validateCategory()) {
             isValid = false
           }  if (!validateCondition()) {
             isValid = false
           }  if (!validateImage()){
             isValid = false;
           } if (!validateStartPrice()) {
+            isValid = false
+          } if (!validateReservePrice()){
             isValid = false
           } if (!validateStartDate()) {
             isValid = false
@@ -285,9 +290,31 @@ if ($result) {
           const titleValue = titleInput.value.trim()
           if (titleValue === ""){
             titleHelp.classList.remove("d-none")
+            // titleHelp.outerHTML = "<small id='titleHelp' class='form-text text-muted'><span class='text-danger'>* Required.</span> Title of the item you're selling, which will display in listings. Max: 500 characters</small>"
             return false
-          } else {
+          } else if (titleValue.length > 500){
+            titleHelp.classList.remove("d-none")
+            // titleHelp.innerText = "Title can't be longer than 500 characters"
+            return false
+          }
+          else {
             titleHelp.classList.add("d-none")
+            return true
+          }
+        }
+        function validateDetails() {
+          const detailsValue = detailsInput.value.trim()
+          if (detailsValue === ""){
+            detailsHelp.classList.remove("d-none")
+            // detailsHelp.outerHTML = "<small id='titleHelp' class='form-text text-muted'><span class='text-danger'>* Required.</span> Details of the item you're selling, which will display in listings. Max: 500 characters</small>"
+            return false
+          } else if (detailsValue.length > 1000){
+            detailsHelp.classList.remove("d-none")
+            // detailsHelp.innerText = "Details can't be longer than 500 characters"
+            return false
+          }
+          else {
+            detailsHelp.classList.add("d-none")
             return true
           }
         }
@@ -338,6 +365,15 @@ if ($result) {
             return true
           }
         }
+
+        function validateReservePrice() {
+          if (parseFloat(reservePriceInput.value) < 0 || isNaN(reservePriceInput.value)) {
+            return false
+          } else {
+            return true
+          }
+        }
+
         function validateStartDate() {
           const selectedDate = new Date(startDateInput.value)
           const currDate = new Date()
@@ -350,7 +386,13 @@ if ($result) {
             return true
           }
         }
-        
+        function currDate() {
+          var currDate = new Date();
+          currDate.setMinutes(currDate.getMinutes()+1);
+          startDateInput.value =currDate.toISOString().slice(0,16);
+          startDateHelp.classList.add("d-none");
+          validateEndDate()
+        }
 
         function validateEndDate() {
           const selectedDate = new Date(endDateInput.value)
