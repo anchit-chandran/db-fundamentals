@@ -5,7 +5,6 @@ include_once("../utilities.php");
 // GET PARAMETERS: [search_term] => [category-option] => 1 [subcategory] => 1 [sort-option] => bidlow
 if ($_SERVER['REQUEST_METHOD'] == "GET") {
 
-    
 
     // SORT ON BIDS
     if ($_GET["sort-option"]) {
@@ -89,12 +88,26 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
         P.userId,
         P.subcategoryId
     ORDER BY
-        {$order_by};";
+        {$order_by}";
 
-    // echo '<pre>';
-    // echo $product_table_query;
-    // echo '</pre>';
 
+    // ADD PAGINATION
+    if (isset($_GET['page']) and $_GET['page'] != 1) {
+        $requested_page = $_GET['page'];
+        $offset = $requested_page + 1;
+    } else {
+        $requested_page = 1;
+        $offset = 1;
+    }
+
+    $products_per_page = 2;
+
+    $product_table_query .= " LIMIT {$products_per_page} ";
+    $product_table_query .= " OFFSET {$offset} ";
+
+    echo $product_table_query;
+
+    // FINALLY RUN QUERY
     $filtered_products = runQuery($product_table_query);
 
     // RENDER HEAD OF TABLE
@@ -144,10 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
     }
 
 
-    
+
 
     echo "</tbody>";
-
-
-    
 }

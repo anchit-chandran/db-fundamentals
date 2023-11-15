@@ -40,6 +40,12 @@ $product_table_query = "SELECT
         P.subcategoryId";
 
 $all_products = runQuery($product_table_query);
+
+// SET INITIAL PAGINATION
+$products_per_page = 2;
+$n_products = $all_products->num_rows;
+$n_pages = ceil($n_products / $products_per_page);
+
 ?>
 
 <div class="container">
@@ -191,7 +197,23 @@ $all_products = runQuery($product_table_query);
       ?>
     </tbody>
   </table>
+  <nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+      <?php
+      for ($i = 1; $i <= $n_pages; $i++) {
+        echo "<li class='page-item' 
+        hx-get='partials/filter_product_table.php?page={$i}'
+        hx-target='#auction_items_table'
+        hx-include='#filter-form' 
+        hx-trigger='click'
+        ><a class='page-link' href='#'>{$i}</a></li>";
+      }
+      ?>
+    </ul>
+  </nav>
 </div>
+
+
 
 
 <!-- Pagination for results listings
@@ -253,6 +275,7 @@ $all_products = runQuery($product_table_query);
 
   </ul>
 </nav> -->
+
 
 
 </div>
