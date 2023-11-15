@@ -121,8 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         array_push($formErrors, "Error with auction start and end dates");
     };
 
-    // echo "User ID: " . $userId, "image:" . $image, "date:" . $auctionStart, "sub" . $subcategory, "res" . $reservePrice;
-    // echo "check:" .$check, "cat" . $catcheck, "image" . $auctionImage;
+    
 
     if ($validForm) {
         $currentDateTime = date("Y-m-d H:i:s");
