@@ -82,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
           $end_date_str = $productDetails["auctionEndDatetime"];
           $now = new DateTime();
           $end_date = datetime::createFromFormat('Y-m-d H:i:s', $end_date_str);
-          if ($now->format('Y-m-d H:i:s') > $end_date->format('Y-m-d H:i:s')) {
+          if ($now > $end_date) {
               echo "<p>Auction ended at {$productDetails['auctionEndDatetime']}</p>";
           }
           else {
@@ -108,8 +108,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             <span class="input-group-text" id="basic-addon1">£</span>
             <input name="product_id" type="hidden" value= <?php echo $productId; ?>>
             <input name="user_id" type="hidden" value= <?php if (isset($_SESSION['logged_in'])) {echo $_SESSION['userId'];}?>>
-            <!-- TODO: Hide button + Show warning when bid is too low (using HTMX) -->
-            <input name="bid_amount" type="number" step="0.01" class="form-control" placeholder="Bid amount" aria-label="bid-amount" aria-describedby="bid-amount"
+            <input name="bid_amount" type="number" step="0.01" min="0" class="form-control" placeholder="Bid amount" aria-label="bid-amount" aria-describedby="bid-amount"
               <?php if (!$user_logged_in){echo "disabled";}?>
             >
           </div>
