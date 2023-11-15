@@ -107,8 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
           <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">£</span>
             <input name="product_id" type="hidden" value= <?php echo $productId; ?>>
-            <input name="user_id" type="hidden" value= <?php echo $_SESSION['userId']; ?>>
-
+            <input name="user_id" type="hidden" value= <?php if (isset($_SESSION['logged_in'])) {echo $_SESSION['userId'];}?>>
             <!-- TODO: Hide button + Show warning when bid is too low (using HTMX) -->
             <input name="bid_amount" type="number" step="0.01" class="form-control" placeholder="Bid amount" aria-label="bid-amount" aria-describedby="bid-amount"
               <?php if (!$user_logged_in){echo "disabled";}?>

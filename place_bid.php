@@ -21,7 +21,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Fetch max bid of product to compare against current bid
     $highest_bid = floatval(array_values(runQuery("SELECT MAX(amount) FROM Bid WHERE productId = " . $product_id)->fetch_assoc())[0]);
     
-    session_start();
+    if(session_id() == '' || !isset($_SESSION) || session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
     if ($bid_amount > $highest_bid) {
         $add_bid = "INSERT INTO Bid (amount, productId, userId)
             VALUES ({strval($bid_amount)}, {$product_id}, {$user_id});";
