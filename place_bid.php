@@ -21,12 +21,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // FETCH MAX BID FOR PRODUCT
     $highest_bid = floatval(array_values(runQuery("SELECT MAX(amount) FROM Bid WHERE productId = " . $product_id)->fetch_assoc())[0]);
     
+    session_start();
     if ($bid_amount > $highest_bid) {
-        // add to db
-        $_SESSION["alert"] = ["type" => "success", "message" => "Bid added successfully"];
+        // TODO: add to db
+        $_SESSION["flash"] = ["type" => "success", "message" => "Bid added successfully"];
         header("Location: listing.php?item_id={$product_id}");
     } else {
-        $_SESSION["alert"] = ["type" => "failure", "message" => "Failed to add bid"];
+        $_SESSION["flash"] = ["type" => "warning", "message" => "Failed to add bid"];
         header("Location: listing.php?item_id={$product_id}");
     }  
 
