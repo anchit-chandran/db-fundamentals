@@ -378,7 +378,7 @@ if ($result) {
           const selectedDate = new Date(startDateInput.value)
           const currDate = new Date()
           
-          if (selectedDate < currDate) {
+          if (selectedDate < currDate || startDateInput.value === "") {
             startDateHelp.classList.remove("d-none")
             return false
           } else {
