@@ -70,7 +70,9 @@ function checkSubCategory($subcategory , $category) {
 
 include_once("database.php");
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    session_start();
+    if(session_id() == '' || !isset($_SESSION) || session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
     $formErrors = array();
     $validForm = true;
     $userId = $_SESSION["userId"];
