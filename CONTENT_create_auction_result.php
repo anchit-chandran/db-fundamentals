@@ -123,16 +123,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         array_push($formErrors, "Error with auction start and end dates");
     };
 
-    // echo "User ID: " . $userId, "image:" . $image, "date:" . $auctionStart, "sub" . $subcategory, "res" . $reservePrice;
-    // echo "check:" .$check, "cat" . $catcheck, "image" . $auctionImage;
+    
 
     if ($validForm) {
         $currentDateTime = date("Y-m-d H:i:s");
-        // $conn = connectToDatabase();
         
-        // $stmt = $conn->prepare("INSERT INTO Product (name, description, auctionStartDatetime, auctionEndDatetime, reservePrice, startPrice, createdAt, image, state, userId, subcategoryId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)") ;
-        // $stmt->bind_param("ssssddsbsii", $title, $details, $auctionStart, $auctionEnd, $reservePrice, $startPrice, $currentDateTime, $auctionImage, $condition, $userId, $subcategory);
-        // $result = $conn->query($stmt);
         $query = "INSERT INTO Product (name, description, auctionStartDatetime, auctionEndDatetime, reservePrice, startPrice, createdAt, image, state, userId, subcategoryId) VALUES ('{$title}', '{$details}', '{$auctionStart}', '{$auctionEnd}', '{$reservePrice}', '{$startPrice}', '{$currentDateTime}', '{$auctionImage}', '{$condition}', '{$userId}', '{$subcategory}')";
         $result = runQuery($query);
         if ($result) {
@@ -140,8 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
             echo "Error inserting data";
         }
-        $stmt->close();
-        $conn->close();
+        
     } else {
         foreach ($formErrors as $error) {
             echo $error . "<br>";
@@ -149,9 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 }
 }
-
-// UserID not there
-// need to add validation to length of inputs?
+ 
 
 // This function takes the form data and adds the new auction to the database.
 
