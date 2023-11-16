@@ -135,8 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
             echo "Error inserting data";
         }
-        $stmt->close();
-        $conn->close();
+        
     } else {
         foreach ($formErrors as $error) {
             echo $error . "<br>";
