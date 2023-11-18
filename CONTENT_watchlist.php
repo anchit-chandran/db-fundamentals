@@ -1,7 +1,8 @@
-<?php ?>
-<head>
-<script src="https://unpkg.com/htmx.org@1.7.1/dist/htmx.min.js"></script>
-</head>
+<?php
+include_once("CONTENT_header.php");
+include_once("database.php");
+include_once("utilities.php");
+?>
 
 <div class="row">
 
