@@ -5,7 +5,7 @@ include_once("utilities.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
   // FETCH PRODUCT DETAILS
-  $productId = $_GET["item_id"];
+  $productId = $_GET["productId"];
   $productDetails = runQuery("
     SELECT * 
     FROM Product
@@ -77,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         </table>
       </div>
       <div class="col">
-        <button class="btn btn-secondary">+ Add to watchlist</button>
+        <button hx-get="watchitem_button.php" hx-swap='outerHTML' hx-vals=<?php echo json_encode(array("productId" => $productId)) ?>></button>
         <?php
           $end_date_str = $productDetails["auctionEndDatetime"];
           $now = new DateTime();
