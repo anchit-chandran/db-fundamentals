@@ -49,9 +49,9 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
     }
 
     if ($where_conditions) {
-        $where_clause = "WHERE " . implode(' AND ', $where_conditions) . " ";
+        $where_clause = "WHERE P.auctionEndDatetime > NOW()" . implode(' AND ', $where_conditions) . " ";
     } else {
-        $where_clause = '';
+        $where_clause = 'WHERE P.auctionEndDatetime > NOW() ';
     }
 
     $product_table_query = "SELECT
@@ -73,6 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
     LEFT JOIN 
         bid AS B ON P.productId = B.productId
     {$where_clause}
+
     GROUP BY
         P.productId,
         P.name,

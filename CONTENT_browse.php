@@ -25,6 +25,8 @@ $product_table_query = "SELECT
     FROM Product as P
     LEFT JOIN 
         bid AS B ON P.productId = B.productId
+    WHERE 
+      P.auctionEndDatetime > NOW()
     GROUP BY
         P.productId,
         P.name,
@@ -39,6 +41,7 @@ $product_table_query = "SELECT
         P.state,
         P.userId,
         P.subcategoryId
+    
       ORDER BY
         highestBidAmount DESC
         ";
