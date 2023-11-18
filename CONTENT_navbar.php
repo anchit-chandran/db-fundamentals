@@ -50,6 +50,12 @@
             <li class="nav-item mx-1">
                 <a class="nav-link" href="index.php">Browse</a>
             </li>
+            <?php
+            if (logged_in()) {
+                include_once('./CONTENT_navbar_logged_in.php');
+                
+            }
+            ?>
         </ul>
     </div>
 </nav>
