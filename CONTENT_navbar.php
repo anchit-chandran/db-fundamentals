@@ -1,4 +1,4 @@
-<?php include_once("utilities.php")?>
+<?php include_once("utilities.php") ?>
 
 
 
@@ -6,11 +6,19 @@
     <div class="container">
         <a class="navbar-brand" href="index.php">Db-friends</a>
         <ul class="navbar-nav ml-auto">
+
             <li class='nav-item'>
                 <?php
                 if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
                     $name = runQuery("SELECT firstName FROM User WHERE userId={$_SESSION['userId']}")->fetch_assoc()['firstName'];
                     echo "<a class='nav-link' href='profile.php'>Hey, {$name} 👋</a>";
+                    $is_superuser = runQuery("SELECT isSuperuser FROM User WHERE userId={$_SESSION['userId']}")->fetch_assoc()['isSuperuser'];
+
+                    if ($is_superuser) {
+                        echo "<li class='nav-item'>
+                                <a class='nav-link' href='admin.php'>Admin</a>
+                            </li>";
+                    }
                 }
                 ?>
             </li>
@@ -42,17 +50,6 @@
             <li class="nav-item mx-1">
                 <a class="nav-link" href="index.php">Browse</a>
             </li>
-            <?php
-            if (logged_in()) {
-                include_once('./CONTENT_navbar_logged_in.php');
-                // SUPERUSER
-                if ($_SESSION['isSuperuser'] == True) {
-                    echo '<li class="nav-item ml-3">
-                        <a class="nav-link btn border-light" href="#">Admin</a>
-                    </li>';
-                }
-            }
-            ?>
         </ul>
     </div>
 </nav>
