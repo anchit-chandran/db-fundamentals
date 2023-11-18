@@ -11,10 +11,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $watchItemId = (array_values(runQuery("SELECT watchItemId FROM WatchItem WHERE userId = {$userId} AND productId = {$productId}")->fetch_assoc())[0]);
     if ($watchItemId !== null) {
         $watchItemIdObj = json_encode(array("operation"=> "delete", "watchItemId" => $watchItemId));
-        echo "<button class='btn btn-danger' hx-confirm='Are you sure you want to remove from watchlist?' hx-post='watchitem_button.php' hx-swap='outerHTML' hx-trigger='click' name='remove-watchitem' hx-vals=$watchItemIdObj id='remove-watchitem' hx-target='#remove-watchitem'>- Remove from watchlist</button>";
+        echo "<button class='btn btn-danger text-nowrap' hx-confirm='Are you sure you want to remove from watchlist?' hx-post='watchitem_button.php' hx-swap='outerHTML' hx-trigger='click' name='remove-watchitem' hx-vals=$watchItemIdObj id='remove-watchitem'>- Remove from watchlist</button>";
     } else {
         $watchItemObj = json_encode(array("operation" => "insert", "productId" => $productId));
-        echo "<button class='btn btn-success' hx-post='watchitem_button.php' hx-swap='outerHTML' hx-trigger='click' name='add_watchitem' hx-vals=$watchItemObj>+ Add to watchlist</button>";
+        echo "<button class='btn btn-success text-nowrap' hx-post='watchitem_button.php' hx-swap='outerHTML' hx-trigger='click' name='add_watchitem' hx-vals=$watchItemObj>+ Add to watchlist</button>";
     }
 }
 
@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $result = runQuery("DELETE FROM WatchItem WHERE watchItemId = {$watchItemId}");
         if ($result) {
             $watchItemObj = json_encode(array("operation" => "insert", "productId" => $productId));
-            echo "<button class='btn btn-success' hx-post='watchitem_button.php' hx-swap='outerHTML' hx-trigger='click' name='add_watchitem' hx-vals=$watchItemObj>+ Add to watchlist</button>";
+            echo "<button class='btn btn-success text-nowrap' hx-post='watchitem_button.php' hx-swap='outerHTML' hx-trigger='click' name='add_watchitem' hx-vals=$watchItemObj>+ Add to watchlist</button>";
         }
     } else if ($operation == "insert") {
         $productId = $_POST["productId"];
@@ -40,10 +40,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($result) {
             $watchItemId = (array_values(runQuery("SELECT watchItemId FROM WatchItem WHERE userId = {$userId} AND productId = {$productId}")->fetch_assoc())[0]);
             $watchItemIdObj = json_encode(array("operation"=> "delete", "watchItemId" => $watchItemId));
-            echo "<button class='btn btn-danger' hx-confirm='Are you sure you want to remove from watchlist?' hx-post='watchitem_button.php' hx-swap='outerHTML' hx-trigger='click' name='remove-watchitem' hx-vals=$watchItemIdObj id='remove-watchitem' hx-target='#remove-watchitem'>- Remove from watchlist</button>";
-            
+            echo "<button class='btn btn-danger text-nowrap' hx-confirm='Are you sure you want to remove from watchlist?' hx-post='watchitem_button.php' hx-swap='outerHTML' hx-trigger='click' name='remove-watchitem' hx-vals=$watchItemIdObj id='remove-watchitem'>- Remove from watchlist</button>";        
         }
-
 }
 }
 ?>

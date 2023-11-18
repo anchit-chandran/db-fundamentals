@@ -82,7 +82,7 @@
                         <td>{$row[6]}</td>
                         <td>{$row[7]}</td>
                         <td>{$row[8]}</td>
-                        <td><button class='btn btn-danger' hx-confirm='Are you sure you want to remove from watchlist?' hx-post='watchitem_button.php' hx-swap='outerHTML' hx-trigger='click' name='remove-watchitem' hx-vals=$watchItemIdObj id='remove-watchitem' hx-target='#remove-watchitem'>- Remove from watchlist</button></td>
+                        <td><button class='btn btn-danger text-nowrap' hx-confirm='Are you sure you want to remove from watchlist?' hx-post='watchitem_button.php' hx-swap='outerHTML' hx-trigger='click' name='remove-watchitem' hx-vals=$watchItemIdObj id='remove-watchitem'>- Remove from watchlist</button></td>
                     </tr>";
                 }
                 ?>
