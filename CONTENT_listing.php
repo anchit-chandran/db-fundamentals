@@ -77,7 +77,19 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         </table>
       </div>
       <div class="col">
-        <button class="btn btn-secondary">+ Add to watchlist</button>
+      <?php $user_logged_in = (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true)?>
+      <?php if(!$user_logged_in){echo "<button class='btn btn-info text-nowrap'>Log in to add items to watch list</button>";} 
+      else {$userId = $_SESSION["userId"];
+        $watchItemId = (array_values(runQuery("SELECT watchItemId FROM WatchItem WHERE userId = {$userId} AND productId = {$productId}")->fetch_assoc())[0]);
+        if ($watchItemId !== null) {
+            $watchItemIdObj = json_encode(array("operation"=> "delete", "watchItemId" => $watchItemId));
+            echo "<button class='btn btn-danger text-nowrap' hx-confirm='Are you sure you want to remove from watchlist?' hx-post='watchitem_button.php' hx-swap='outerHTML' hx-trigger='click' name='remove-watchitem' hx-vals=$watchItemIdObj id='remove-watchitem'>- Remove from watchlist</button> <br>";
+        } else {
+            $watchItemObj = json_encode(array("operation" => "insert", "productId" => $productId));
+            echo "<button class='btn btn-success text-nowrap' hx-post='watchitem_button.php' hx-swap='outerHTML' hx-trigger='click' name='add_watchitem' hx-vals=$watchItemObj>+ Add to watchlist</button>
+            <br>";
+
+        }} ?>
         <?php
           $end_date_str = $productDetails["auctionEndDatetime"];
           $now = new DateTime();
