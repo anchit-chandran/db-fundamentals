@@ -5,7 +5,7 @@ include_once("utilities.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
   // FETCH PRODUCT DETAILS
-  $productId = $_GET["item_id"];
+  $productId = $_GET["productId"];
   $productDetails = runQuery("
     SELECT * 
     FROM Product

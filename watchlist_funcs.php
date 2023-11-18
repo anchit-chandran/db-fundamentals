@@ -5,7 +5,7 @@ if (!isset($_POST['functionname']) || !isset($_POST['arguments'])) {
 }
 
 // Extract arguments from the POST variables:
-$item_id = $_POST['arguments'];
+$productId = $_POST['arguments'];
 
 if ($_POST['functionname'] == "add_to_watchlist") {
   // TODO: Update database and return success/failure.
