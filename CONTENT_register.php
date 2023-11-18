@@ -63,9 +63,42 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // VALIDATE PASSWORD
+
+    // Minimum length of 8 characters
+    if (strlen($password1) < 8) {
+        array_push($formErrors["password1"], "Must be at least 8 characters long.");
+        $form_is_valid = false;
+    }
+
+    // Check for at least one number
+    if (!preg_match('/\d/', $password1)) {
+        array_push($formErrors["password1"], "Needs at least 1 number.");
+        $form_is_valid = false;
+    }
+
+    // Check for at least one uppercase letter
+    if (!preg_match('/[A-Z]/', $password1)) {
+        array_push($formErrors["password1"], "Needs at least 1 uppercase letter.");
+        $form_is_valid = false;
+    }
+
+    // Check for at least one lowercase letter
+    if (!preg_match('/[a-z]/', $password1)) {
+        array_push($formErrors["password1"], "Needs at least 1 lowercase letter.");
+        $form_is_valid = false;
+    }
+
+    // Check for at least one special character
+    if (!preg_match('/[\W]/', $password1)) {
+        array_push($formErrors["password1"], "Needs at least 1 special character like <em>!@#$%^&*()_+{}[]|?/<>.,</em>");
+        $form_is_valid = false;
+    }
+
+    //  NOT MATCHING
     if ($password1 == $password2) {
         $hashedPass = password_hash($password1, PASSWORD_DEFAULT);
     } else {
+        array_push($formErrors["password1"], "Passwords don't match.");
         $form_is_valid = false;
     }
 
@@ -98,7 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 ?>
 
-<div class="row justify-content-center signin_row">
+<div class="row justify-content-center signin_row py-5">
     <div class="signin_form_col col-6">
         <h2 class='pb-2 border-bottom'>Register</h2>
         <form method="POST" action='#'>

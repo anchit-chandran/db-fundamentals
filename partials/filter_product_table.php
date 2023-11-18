@@ -28,9 +28,9 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
             $order_by = "P.auctionEndDatetime {$sort_options[1]}";
             $amount_sort_icon = "";
             if ($sort_up) {
-                $time_sort_icon = "⬇️";
-            } else {
                 $time_sort_icon = "⬆️";
+            } else {
+                $time_sort_icon = "⬇️";
             }
         }
     }
@@ -49,9 +49,9 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
     }
 
     if ($where_conditions) {
-        $where_clause = "WHERE " . implode(' AND ', $where_conditions) . " ";
+        $where_clause = "WHERE P.auctionEndDatetime > NOW()" . implode(' AND ', $where_conditions) . " ";
     } else {
-        $where_clause = '';
+        $where_clause = 'WHERE P.auctionEndDatetime > NOW() ';
     }
 
     $product_table_query = "SELECT
@@ -73,6 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
     LEFT JOIN 
         bid AS B ON P.productId = B.productId
     {$where_clause}
+
     GROUP BY
         P.productId,
         P.name,
@@ -92,20 +93,21 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
 
 
     // ADD PAGINATION
-    if (isset($_GET['page']) and $_GET['page'] != 1) {
-        $requested_page = $_GET['page'];
-        $offset = $requested_page + 1;
-    } else {
-        $requested_page = 1;
-        $offset = 1;
+    $requested_page = 1;
+    $offset = 0;
+    if (isset($_GET['page'])) {
+
+        if ($_GET['page'] != 1) {
+            $requested_page = $_GET['page'];
+            $offset = $requested_page;
+        }
     }
 
-    $products_per_page = 2;
+    $products_per_page = 5;
 
     $product_table_query .= " LIMIT {$products_per_page} ";
     $product_table_query .= " OFFSET {$offset} ";
 
-    echo $product_table_query;
 
     // FINALLY RUN QUERY
     $filtered_products = runQuery($product_table_query);

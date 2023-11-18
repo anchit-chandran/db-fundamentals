@@ -30,8 +30,9 @@
                 if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
                     while ($row = $bids->fetch_assoc()) {
                         $productName = (array_values(runQuery("SELECT name FROM Product WHERE productId = " . $row['productId'])->fetch_assoc())[0]);
+                        $productId = $row['productId'];
                         echo "<tr>
-                            <td>{$productName}</td>
+                            <td><a href='listing.php?productId={$productId}'>{$productName}</a></td>
                             <td>{$row['amount']}</td>
                             <td>{$row['bidTime']}</td>
                         </tr>";
