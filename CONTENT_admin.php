@@ -6,13 +6,17 @@
 // USERS
 $users = runQuery("SELECT * FROM User");
 
-// PRODUCTS
-$products = runQuery("SELECT O.orderId, O.userId, O.state, O.productId, P.name as 'productName', U.email
+// ORDERS
+$orders = runQuery("SELECT O.orderId, O.userId, O.state, O.productId, P.name as 'productName', U.email
 FROM Orders as O
 JOIN Product as P ON O.productId = P.productId
 JOIN User as U ON O.userId = U.userId");
 
-
+$status_options = array("Processing", "Shipped", "Delivered");
+$status_option_els = [];
+foreach ($status_options as $status_option) {
+    $status_option_els[] = "<option value='{$status_option}'>{$status_option}</option>";
+}
 ?>
 
 <div class="row">
@@ -65,27 +69,30 @@ JOIN User as U ON O.userId = U.userId");
             </thead>
             <tbody>
                 <?php
-                while ($row = $products->fetch_assoc()) {
-                    
+                while ($row = $orders->fetch_assoc()) {
+
                     $orderId = $row['orderId'];
                     $userId = $row['userId'];
                     $status = $row['state'];
+
                     $productId = $row['productId'];
                     $productName = $row['productName'];
-                    $email = $row['email'];
+                    $email = $row['email'];;
 
                     echo "<tr id='row-orderId-{$orderId}' class> ";
-                        echo "<td>" . $orderId . "</td>";
-                        echo "<td>" . $email . "</td>";
-                        echo "<td>" . $status . "</td>";
-                        echo "<td>" . "<a href='listings?productId={$productId}'>{$productName}</a>" . "</td>";
-                        echo "<td>" . "
-                        
-                        <select class='form-select'>
-                            <option selected>Open this select menu</option>
-                        </select>
-                        
-                        " . "</td>";
+                    echo "<td>" . $orderId . "</td>";
+                    echo "<td>" . $email . "</td>";
+                    echo "<td>" . $status . "</td>";
+                    echo "<td>" . "<a href='listings?productId={$productId}'>{$productName}</a>" . "</td>";
+                    echo "<td>";
+                    echo "<select name='status_select' class='form-select' hx-get='partials/update_order_status.php?orderId={$orderId}&status={$status}' hx-target='#row-orderId-{$orderId}'>";
+                    foreach ($status_option_els as $status_option_el) {
+                        if ($status_option_el == "<option value='{$status}'>{$status}</option>")
+                            echo "<option value='{$status}' selected>{$status}</option>";
+                        else
+                            echo $status_option_el;
+                    }
+                    echo "</select>";
                     echo "</tr>";
                 }
                 ?>

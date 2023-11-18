@@ -38,8 +38,10 @@ if (runQuery($createOrdersTable)) {
 $seedOrders = "INSERT INTO Orders (state, productId, userId)
     VALUES 
     ('Processing', 1, 1),
-    ('Shipped', 4, 2)
-    ;";
+    ('Shipped', 4, 2),
+    ('Delivered', 2, 3),
+    ('Processing', 3, 1)
+    ";
 
 if (runQuery($seedOrders)) {
     echo "Successfully seeded Orders. <br>";
@@ -63,5 +65,3 @@ if ($orderTable) {
 } else {
     echo "Error executing query.";
 }
-
-?>
