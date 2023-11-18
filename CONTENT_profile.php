@@ -40,6 +40,7 @@ include_once("utilities.php");
         </div>
         <div class="col-md-8">
             <?php
+                echo "hi"
                 $getAddressOne = runQuery("SELECT address_1 FROM Address WHERE userId={$_SESSION['userId']}");
                 echo $getAddressOne;
             ?>
