@@ -19,13 +19,14 @@
 
         if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
             $userId = $_SESSION['userId'];
-            $number_items = array_values(runQuery("SELECT COUNT(*) FROM WatchItem WHERE userId = {$userId}")->fetch_assoc())[0];
-            if (count($number_items) == 0) {
-                echo "<p>You have not watched any items yet</p>";
+            $number_items = array_values(runQuery("SELECT COUNT(*) FROM WatchItem WHERE userId = {$userId}")->fetch_assoc());
+            
+            if (($number_items == null || $number_items[0] == 0)) {
+                echo "<p>No items on the watchlist</p>";
             } else {
-                ?>
+                
 
-<?php
+
     $products = runQuery("SELECT p.*, w.watchItemId FROM WatchItem w JOIN Product p ON w.productId = p.productId WHERE w.userId = {$userId} ORDER BY w.watchItemId DESC");
     $watchlist = array();
     $now = new DateTime();
@@ -57,9 +58,9 @@
 
 
             
-<div class="table table-hover mt-5">
-    <table class="table" id="watchlist">
-<thead>
+            <div class="table table-hover mt-5">
+                <table class="table" id="watchlist">
+            <thead>
                 <tr>
                     <th>Name</th>
                     <th>Description</>
