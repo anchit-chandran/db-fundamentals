@@ -60,7 +60,7 @@ $n_pages = ceil($n_products / $products_per_page);
 
 </div>
 
-<div id="searchSpecs">
+<div id="searchSpecs" class='container'>
   <!-- When this form is submitted, this PHP page is what processes it.
      Search/sort specs are passed to this page through parameters in the URL
      (GET method of passing data to a page). -->
