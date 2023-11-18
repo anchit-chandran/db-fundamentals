@@ -119,7 +119,7 @@ $n_pages = ceil($n_products / $products_per_page);
 </div>
 
 <div class="container mt-5">
-  <table class="table" id='auction_items_table'>
+  <table class="table table-hover" id='auction_items_table'>
     <thead>
       <tr>
         <th scope="col">Name</th>
