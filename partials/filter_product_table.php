@@ -150,7 +150,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
         }
 
         echo "<tr>
-        <th scope='row'><a href='#'>{$row['name']}</a></th>
+        <th scope='row'><a href='listing.php?productId={$row['productId']}'>{$row['name']}</a></th>
         <td>{$row['description']}</td>
         <td>{$highestBidAmount}</td>
         <td>{$num_bids}</td>
