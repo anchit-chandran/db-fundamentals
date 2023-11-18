@@ -4,13 +4,6 @@ include_once("CONTENT_header.php");
 include_once("database.php");
 include_once("utilities.php");
 
-
-$getUserID = runQuery("SELECT firstName, lastName FROM User WHERE userId={$_SESSION['userId']}");
-echo $getUserID;
-  
-
-?>
-
 ?>
 <div class="container">
     <div class="col">
