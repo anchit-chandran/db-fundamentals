@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
     }
 
     if ($where_conditions) {
-        $where_clause = "WHERE P.auctionEndDatetime > NOW()" . implode(' AND ', $where_conditions) . " ";
+        $where_clause = "WHERE P.auctionEndDatetime > NOW() AND " . implode(' AND ', $where_conditions) . " ";
     } else {
         $where_clause = 'WHERE P.auctionEndDatetime > NOW() ';
     }
