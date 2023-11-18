@@ -10,7 +10,7 @@ $user_bid_subcategories_result = runQuery("WITH bid_cat AS (
     FROM bid
     JOIN product 
         ON bid.productId = product.productId
-    WHERE bid.userId = 1
+    WHERE bid.userId = {$userId}
 )
 SELECT DISTINCT(subcategory.subCategoryId) AS 'bidItemSubCategoryId'
 FROM bid_cat
@@ -130,17 +130,25 @@ function renderProductTableForBidCategories($products)
         <h2 class="">Recommendations for you</h2>
 
 
-        <?php
-        foreach ($user_bid_subcategories as $subCategoryId) {
-            $products = getProductsForBidSubCategories($subCategoryId);
-            $subCategoryName = array_values(runQuery("SELECT subCategoryName FROM subcategory WHERE subCategoryId = {$subCategoryId}")->fetch_assoc())[0];
 
-            if ($products->num_rows > 0) {
-                echo "<div class='mt-5'>";
-                echo "<h4 class='text-muted'>Because you bid on products in the <b>{$subCategoryName}</b> category:</h4>";
-                renderProductTableForBidCategories($products);
-                echo "</div>";
+
+        <?php
+
+        if (count($user_bid_subcategories) > 0) {
+
+            foreach ($user_bid_subcategories as $subCategoryId) {
+                $products = getProductsForBidSubCategories($subCategoryId);
+                $subCategoryName = array_values(runQuery("SELECT subCategoryName FROM subcategory WHERE subCategoryId = {$subCategoryId}")->fetch_assoc())[0];
+
+                if ($products->num_rows > 0) {
+                    echo "<div class='mt-5'>";
+                    echo "<h4 class='text-muted'>Because you bid on products in the <b>{$subCategoryName}</b> category:</h4>";
+                    renderProductTableForBidCategories($products);
+                    echo "</div>";
+                }
             }
+        } else {
+            echo "<h4 class='text-muted mt-4'>You haven't bid on any products yet, so we can't recommend anything for you!</h4>";
         }
         ?>
 
