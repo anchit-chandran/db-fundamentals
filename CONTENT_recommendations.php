@@ -5,26 +5,24 @@ include_once("utilities.php");
 
 $userId = $_SESSION['userId'];
 
-$user_bid_categories_result = runQuery("WITH bid_cat AS (
+$user_bid_subcategories_result = runQuery("WITH bid_cat AS (
     SELECT bid.userId, product.subcategoryId
     FROM bid
     JOIN product 
         ON bid.productId = product.productId
-    WHERE bid.userId = {$userId}
+    WHERE bid.userId = 1
 )
-SELECT DISTINCT(category.categoryId) AS 'bidItemCategoryId'
+SELECT DISTINCT(subcategory.subCategoryId) AS 'bidItemSubCategoryId'
 FROM bid_cat
 JOIN subcategory
-	ON bid_cat.subcategoryId = subcategory.subCategoryId
-JOIN category
-	ON subcategory.categoryId=category.categoryId");
+	ON bid_cat.subcategoryId = subcategory.subCategoryId");
 
-$user_bid_categories = [];
-while ($row = mysqli_fetch_assoc($user_bid_categories_result)) {
-    $user_bid_categories[] = $row['bidItemCategoryId'];
+$user_bid_subcategories = [];
+while ($row = mysqli_fetch_assoc($user_bid_subcategories_result)) {
+    $user_bid_subcategories[] = $row['bidItemSubCategoryId'];
 }
 
-function getProductsForBidCategories($id)
+function getProductsForBidSubCategories($subCategoryid)
 {
     $products = runQuery("SELECT
     P.productId,
@@ -46,7 +44,7 @@ function getProductsForBidCategories($id)
         bid AS B ON P.productId = B.productId
     WHERE 
       P.auctionEndDatetime > NOW()
-      AND P.subcategoryId IN (SELECT subCategoryId FROM subcategory WHERE categoryId = {$id})
+      AND P.subcategoryId = {$subCategoryid}
       AND P.productId NOT IN (SELECT productId FROM bid WHERE userId = {$_SESSION['userId']})
     GROUP BY
         P.productId,
@@ -131,18 +129,19 @@ function renderProductTableForBidCategories($products)
     <div class="col">
         <h2 class="">Recommendations for you</h2>
 
+
         <?php
+        foreach ($user_bid_subcategories as $subCategoryId) {
+            $products = getProductsForBidSubCategories($subCategoryId);
+            $subCategoryName = array_values(runQuery("SELECT subCategoryName FROM subcategory WHERE subCategoryId = {$subCategoryId}")->fetch_assoc())[0];
 
-        foreach ($user_bid_categories as $categoryId) {
-            $products = getProductsForBidCategories($categoryId);
-
-            $categoryName = array_values(runQuery("SELECT categoryName FROM category WHERE categoryId = {$categoryId}")->fetch_assoc())[0];
-
-            echo "<h4 class='text-muted'>Because you bid on products in the <b>{$categoryName}</b> category:</h4>";
-
-            renderProductTableForBidCategories($products);
+            if ($products->num_rows > 0) {
+                echo "<div class='mt-5'>";
+                echo "<h4 class='text-muted'>Because you bid on products in the <b>{$subCategoryName}</b> category:</h4>";
+                renderProductTableForBidCategories($products);
+                echo "</div>";
+            }
         }
-
         ?>
 
     </div>
