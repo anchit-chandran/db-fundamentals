@@ -28,9 +28,9 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
             $order_by = "P.auctionEndDatetime {$sort_options[1]}";
             $amount_sort_icon = "";
             if ($sort_up) {
-                $time_sort_icon = "⬇️";
-            } else {
                 $time_sort_icon = "⬆️";
+            } else {
+                $time_sort_icon = "⬇️";
             }
         }
     }

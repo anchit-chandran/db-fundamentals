@@ -6,6 +6,7 @@
 $categories = runQuery("SELECT * FROM Category");
 
 // GET INITIAL PRODUCTS
+
 $product_table_query = "SELECT
     P.productId,
     P.name,
@@ -39,9 +40,12 @@ $product_table_query = "SELECT
         P.userId,
         P.subcategoryId
       ORDER BY
-        highestBidAmount DESC";
+        highestBidAmount DESC
+        ";
+$product_table_query_first_page = $product_table_query . "LIMIT 5";
 
 $all_products = runQuery($product_table_query);
+$products_first_page = runQuery($product_table_query_first_page);
 
 // SET INITIAL PAGINATION
 $products_per_page = 5;
@@ -164,7 +168,7 @@ $n_pages = ceil($n_products / $products_per_page);
     </thead>
     <tbody>
       <?php
-      while ($row = $all_products->fetch_assoc()) {
+      while ($row = $products_first_page->fetch_assoc()) {
 
         // GET N BIDS
         $num_bids = (array_values(runQuery("SELECT COUNT(*) FROM Bid WHERE productId = " . $row['productId'])->fetch_assoc())[0]);
