@@ -81,9 +81,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
       <?php if(!$user_logged_in){echo "<button class='btn btn-info text-nowrap'>Log in to add items to watch list</button>";} 
       else {
         $userId = $_SESSION["userId"];
-        $watchItemId = (array_values(runQuery("SELECT watchItemId FROM WatchItem WHERE userId = {$userId} AND productId = {$productId}")->fetch_assoc()));
+        $watchItemId = (runQuery("SELECT watchItemId FROM WatchItem WHERE userId = {$userId} AND productId = {$productId}")->fetch_assoc());
         if ($watchItemId !== null) {
-            $watchItemIdObj = json_encode(array("operation"=> "delete", "watchItemId" => $watchItemId[0]));
+            $watchItemIdObj = json_encode(array("operation"=> "delete", "watchItemId" => array_values($watchItemId[0])));
             echo "<button class='btn btn-danger text-nowrap' hx-confirm='Are you sure you want to remove from watchlist?' hx-post='watchitem_button.php' hx-swap='outerHTML' hx-trigger='click' name='remove-watchitem' hx-vals=$watchItemIdObj id='remove-watchitem'>- Remove from watchlist</button> <br>";
         } else {
             $watchItemObj = json_encode(array("operation" => "insert", "productId" => $productId));
