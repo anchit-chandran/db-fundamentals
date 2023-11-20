@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $product_id = $_POST["product_id"];
     $bid_amount = floatval($_POST["bid_amount"]);
-    $user_id = $_POST["user_id"];
+    $user_id = $_SESSION["userId"];
 
     // Fetch max bid of product to compare against current bid
     $highest_bid = floatval(runQuery("SELECT MAX(amount) FROM Bid WHERE productId = " . $product_id)->fetch_assoc()[0]);
