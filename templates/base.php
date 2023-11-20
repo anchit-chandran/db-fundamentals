@@ -33,7 +33,7 @@ date_default_timezone_set('Europe/London');
         };
 
         if (isset($content)) {
-            if ((isset($_SESSION['userId'])) && (!check_user_active($_SESSION['userId']))) {
+            if ((!isset($_SESSION['userId'])) && (!check_user_active($_SESSION['userId']))) {
                 $content = 'CONTENT_account_not_active.php';
             };
 
