@@ -1,11 +1,8 @@
 <?php
 // include_once("CONTENT_header.php");
 include_once("database.php");
+include_once("config.php");
 // include_once("utilities.php");
-
-// TODO: Extract $_POST variables, check they're OK, and attempt to make a bid.
-// Notify user of success/failure and redirect/give navigation options.
-
 ?>
 
 <?php
@@ -49,6 +46,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $add_bid = "INSERT INTO Bid (amount, productId, userId)
             VALUES ({strval($bid_amount)}, {$product_id}, {$user_id});";
+        
+        
         runQuery($add_bid);
         $_SESSION["flash"] = ["type" => "success", "message" => "Bid added successfully"];
 
@@ -61,20 +60,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             LIMIT 1
         ")->fetch_assoc();
 
+
         // ENSURE THERE IS A PREVIOUS USER
         if ($beatenUserId) {
             $beatenUserEmail = runQuery("SELECT email
             FROM user
-            WHERE userId = 1")->fetch_assoc()[0];
+            WHERE userId = {$beatenUserId['userId']}")->fetch_assoc()['email'];
 
             // SEND EMAIL TO USER
             // IF CONFIG.EMAIL_SENDING == True
             if ($EMAIL_SENDING) {
 
                 //  Product details
-                $productDetails = runQuery("SELECT * FROM Product WHERE productId = {$product_id}")->fetch_assoc()[0];
+                $productDetails = runQuery("SELECT * FROM Product WHERE productId = {$product_id}")->fetch_assoc();
 
-                $productLink = "http://localhost:8080/listing.php?productId={$product_id}";
+                $productLink = "https://localhost/db-fundamentals/listing.php?productId={$product_id}";
 
                 $to = $beatenUserEmail;
                 $subject = "You've been outbid!";
