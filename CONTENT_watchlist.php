@@ -9,58 +9,56 @@ include_once("utilities.php");
     <div class="col">
         <h2 class="my-3">Your Watchlist</h2>
         <?php
-        // This page is for showing a user the auction listings they've made.
-        // It will be pretty similar to browse.php, except there is no search bar.
-        // This can be started after browse.php is working with a database.
-        // Feel free to extract out useful functions from browse.php and put them in
-        // the shared "utilities.php" where they can be shared by multiple files.
-        // TODO: Check user's credentials (cookie/session).
-        // TODO: Perform a query to pull up their auctions.
-        // TODO: Loop through results and print them out as list items.
+
 
         if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
             $userId = $_SESSION['userId'];
             $number_items = array_values(runQuery("SELECT COUNT(*) FROM WatchItem WHERE userId = {$userId}")->fetch_assoc());
-            
+
             if (($number_items == null || $number_items[0] == 0)) {
                 echo "<p>No items on the watchlist</p>";
             } else {
-                
 
 
-    $products = runQuery("SELECT p.*, w.watchItemId FROM WatchItem w JOIN Product p ON w.productId = p.productId WHERE w.userId = {$userId} ORDER BY w.watchItemId DESC");
-    $watchlist = array();
-    $now = new DateTime();
-    while ($row = $products->fetch_assoc()) {
-        $highest_bid_or_NULL = (array_values(runQuery("SELECT MAX(amount) FROM Bid WHERE productId = " . $row['productId'])->fetch_assoc())[0]);
-        $highest_bid = ($highest_bid_or_NULL != NULL) ? $highest_bid_or_NULL : "No Bids!";
-        $number_of_bids_or_NULL = (array_values(runQuery("SELECT COUNT(*) FROM Bid WHERE productId = " . $row['productId'])->fetch_assoc())[0]);
-        $number_of_bids = ($number_of_bids_or_NULL != NULL) ? $number_of_bids_or_NULL : "No Bids!";
-        $subCategory_name = (array_values(runQuery("SELECT subCategoryName FROM SubCategory WHERE subCategoryId = " . $row['subcategoryId'])->fetch_assoc())[0]);
-        $category_id = (array_values(runQuery("SELECT categoryId FROM SubCategory WHERE subCategoryId = " . $row['subcategoryId'])->fetch_assoc())[0]);
-        $category_name = (array_values(runQuery("SELECT categoryName FROM Category WHERE categoryId = " . $category_id)->fetch_assoc())[0]);
-        $end_date_str = $row['auctionEndDatetime'];
-        $end_date = datetime::createFromFormat('Y-m-d H:i:s', $end_date_str);
-        if ($now > $end_date) {
-            $time_to_end = -1;
-        $time_remaining = 'This auction has ended';
-        } else {
-        // Get interval:
-        $time_to_end = date_diff($now, $end_date);
-        $time_remaining = display_time_remaining($time_to_end);
-        }
-        
-        $watchlist[] = array($row['watchItemId'], $row['productId'],$row['name'], $row['description'], $highest_bid, $number_of_bids, $category_name, $subCategory_name, $time_remaining);
-    
-        }
-    
-    ?>
+
+                $products = runQuery("SELECT p.*, w.watchItemId 
+                    FROM WatchItem w 
+                    JOIN Product p 
+                        ON w.productId = p.productId 
+                    WHERE w.userId = {$userId} AND p.auctionEndDatetime > NOW()
+                    ORDER BY w.watchItemId DESC"
+                );
+                $watchlist = array();
+                $now = new DateTime();
+                while ($row = $products->fetch_assoc()) {
+                    $highest_bid_or_NULL = (array_values(runQuery("SELECT MAX(amount) FROM Bid WHERE productId = " . $row['productId'])->fetch_assoc())[0]);
+                    $highest_bid = ($highest_bid_or_NULL != NULL) ? $highest_bid_or_NULL : "No Bids!";
+                    $number_of_bids_or_NULL = (array_values(runQuery("SELECT COUNT(*) FROM Bid WHERE productId = " . $row['productId'])->fetch_assoc())[0]);
+                    $number_of_bids = ($number_of_bids_or_NULL != NULL) ? $number_of_bids_or_NULL : "No Bids!";
+                    $subCategory_name = (array_values(runQuery("SELECT subCategoryName FROM SubCategory WHERE subCategoryId = " . $row['subcategoryId'])->fetch_assoc())[0]);
+                    $category_id = (array_values(runQuery("SELECT categoryId FROM SubCategory WHERE subCategoryId = " . $row['subcategoryId'])->fetch_assoc())[0]);
+                    $category_name = (array_values(runQuery("SELECT categoryName FROM Category WHERE categoryId = " . $category_id)->fetch_assoc())[0]);
+                    $end_date_str = $row['auctionEndDatetime'];
+                    $end_date = datetime::createFromFormat('Y-m-d H:i:s', $end_date_str);
+                    if ($now > $end_date) {
+                        $time_to_end = -1;
+                        $time_remaining = 'This auction has ended';
+                    } else {
+                        // Get interval:
+                        $time_to_end = date_diff($now, $end_date);
+                        $time_remaining = display_time_remaining($time_to_end);
+                    }
+
+                    $watchlist[] = array($row['watchItemId'], $row['productId'], $row['name'], $row['description'], $highest_bid, $number_of_bids, $category_name, $subCategory_name, $time_remaining);
+                }
+
+        ?>
     </div>
 
 
-            
-            <div class="table table-hover mt-5">
-                <table class="table" id="watchlist">
+
+    <div class="table table-hover mt-5">
+        <table class="table" id="watchlist">
             <thead>
                 <tr>
                     <th>Name</th>
@@ -73,8 +71,8 @@ include_once("utilities.php");
                 </tr>
             </thead>
             <tbody name="watchlist-content" id="watchlist-content">
-                <?php 
-                foreach( $watchlist as $row ) {
+                <?php
+                foreach ($watchlist as $row) {
                     $watchItemIdObj = json_encode(array("operation" => "delete", "watchItemId" => $row[0]));
                     echo "<tr>
                         <td><a href='listing.php?productId={$row[1]}'>{$row[2]}</a></td>
@@ -92,8 +90,9 @@ include_once("utilities.php");
                 <!-- REMOVE FROM WATCHLIST BUTTON -->
 
             </tbody>
-            
+
         </table>
-        </div>
-<?php }} ?>
+    </div>
+<?php }
+        } ?>
 </div>

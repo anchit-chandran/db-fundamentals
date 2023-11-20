@@ -64,12 +64,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 $userLastName = (array_values(runQuery("SELECT lastName FROM User WHERE userId = " . $row['userId'])->fetch_assoc())[0]);
                 echo "<tr>
                   <th scope='row'>{$row['bidTime']}</th>
-                  <td>{$row['amount']}</td>
+                  <td>£{$row['amount']}</td>
                   <td>{$userFirstName} {$userLastName}</td>
                 </tr>";
               }
             }
-            
+
 
 
             ?>
@@ -77,60 +77,70 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         </table>
       </div>
       <div class="col">
-      <?php $user_logged_in = (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true)?>
-      <?php if(!$user_logged_in){echo "<button class='btn btn-info text-nowrap'>Log in to add items to watch list</button>";} 
-      else {
-        $userId = $_SESSION["userId"];
-        $watchItemId = (runQuery("SELECT watchItemId FROM WatchItem WHERE userId = {$userId} AND productId = {$productId}")->fetch_assoc());
-        if ($watchItemId !== null) {
-            $watchItemIdObj = json_encode(array("operation"=> "delete", "watchItemId" => array_values($watchItemId[0])));
-            echo "<button class='btn btn-danger text-nowrap' hx-confirm='Are you sure you want to remove from watchlist?' hx-post='watchitem_button.php' hx-swap='outerHTML' hx-trigger='click' name='remove-watchitem' hx-vals=$watchItemIdObj id='remove-watchitem'>- Remove from watchlist</button> <br>";
+        <?php $user_logged_in = (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) ?>
+        <?php if (!$user_logged_in) {
+          echo "<button class='btn btn-info text-nowrap'>Log in to add items to watch list</button>";
         } else {
+          $userId = $_SESSION["userId"];
+          $watchItemId = (runQuery("SELECT watchItemId FROM WatchItem WHERE userId = {$userId} AND productId = {$productId}")->fetch_assoc());
+          if ($watchItemId !== null) {
+
+            $watchItemIdObj = json_encode(array("operation" => "delete", "watchItemId" => array_values($watchItemId)));
+
+            echo "<button class='btn btn-danger text-nowrap' hx-confirm='Are you sure you want to remove from watchlist?' hx-post='watchitem_button.php' hx-swap='outerHTML' hx-trigger='click' name='remove-watchitem' hx-vals=$watchItemIdObj id='remove-watchitem'>- Remove from watchlist</button> <br>";
+          } else {
             $watchItemObj = json_encode(array("operation" => "insert", "productId" => $productId));
             echo "<button class='btn btn-success text-nowrap' hx-post='watchitem_button.php' hx-swap='outerHTML' hx-trigger='click' name='add_watchitem' hx-vals=$watchItemObj>+ Add to watchlist</button>
             <br>";
-
-        }} ?>
-        <?php
-          $end_date_str = $productDetails["auctionEndDatetime"];
-          $now = new DateTime();
-          $end_date = datetime::createFromFormat('Y-m-d H:i:s', $end_date_str);
-          if ($now > $end_date) {
-              echo "<p>Auction ended at {$productDetails['auctionEndDatetime']}</p>";
           }
-          else {
-              $time_to_end = date_diff($now, $end_date);
-              $time_remaining = display_time_remaining($time_to_end);
-              echo "<p>Auction ends at {$productDetails['auctionEndDatetime']} ({$time_remaining} from now)</p>";
-          } 
-        
+        } ?>
+        <?php
+        $end_date_str = $productDetails["auctionEndDatetime"];
+        $now = new DateTime();
+        $end_date = datetime::createFromFormat('Y-m-d H:i:s', $end_date_str);
+        if ($now > $end_date) {
+          echo "<p>Auction ended at {$productDetails['auctionEndDatetime']}</p>";
+        } else {
+          $time_to_end = date_diff($now, $end_date);
+          $time_remaining = display_time_remaining($time_to_end);
+          echo "<p>Auction ends at {$productDetails['auctionEndDatetime']} ({$time_remaining} from now)</p>";
+        }
+
         ?>
         <p>Starting price: £<?php echo $productDetails["startPrice"] ?></p>
-        <p>Highest bid: <?php 
-          $highest_bid = (array_values(runQuery("SELECT MAX(amount) FROM Bid WHERE productId = " . $productId)->fetch_assoc())[0]);
-          if ($highest_bid == NULL) {
-            echo "No bids yet";
-          } else {
-            echo "£" . $highest_bid;
-          }
-          
-          ?></p>
-        <?php $user_logged_in = (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true)?>
+        <p>Highest bid: <?php
+                        $highest_bid = (array_values(runQuery("SELECT MAX(amount) FROM Bid WHERE productId = " . $productId)->fetch_assoc())[0]);
+                        if ($highest_bid == NULL) {
+                          echo "No bids yet";
+                        } else {
+                          echo "£" . $highest_bid;
+                        }
+
+                        ?></p>
+        <?php $user_logged_in = (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) ?>
         <form action="place_bid.php" method="post">
           <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">£</span>
-            <input name="product_id" type="hidden" value= <?php echo $productId; ?>>
-            <input name="user_id" type="hidden" value= <?php if (isset($_SESSION['logged_in'])) {echo $_SESSION['userId'];}?>>
-            <input name="bid_amount" type="number" step="0.01" min="0" class="form-control" placeholder="Bid amount" aria-label="bid-amount" aria-describedby="bid-amount"
-              <?php if (!$user_logged_in){echo "disabled";}?>
-            >
+            <input name="product_id" type="hidden" value=<?php echo $productId; ?>>
+            <input name="user_id" type="hidden" value=<?php if (isset($_SESSION['logged_in'])) {
+                                                        echo $_SESSION['userId'];
+                                                      } ?>>
+            <input name="bid_amount" type="number" step="0.01" min="0" class="form-control" placeholder="Bid amount" aria-label="bid-amount" aria-describedby="bid-amount" <?php if (!$user_logged_in) {
+                                                                                                                                                                              echo "disabled";
+                                                                                                                                                                            } ?>>
           </div>
-          <button type="submit" class="btn <?php if ($user_logged_in){echo "btn-primary";} else {echo "btn-secondary";}?>" 
-            <?php if (!$user_logged_in){echo "disabled";}?>
-          >
-              Place Bid
-            </button>
-          <?php if (!$user_logged_in){echo "<p class='text-danger small'>You must log in before placing a bid.</p>";}?>
+          <button type="submit" class="btn <?php if ($user_logged_in) {
+                                              echo "btn-primary";
+                                            } else {
+                                              echo "btn-secondary";
+                                            } ?>" <?php if (!$user_logged_in) {
+                                                                                                                              echo "disabled";
+                                                                                                                            } ?>>
+            Place Bid
+          </button>
+          <?php if (!$user_logged_in) {
+            echo "<p class='text-danger small'>You must log in before placing a bid.</p>";
+          } ?>
 
         </form>
       </div>
