@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 $userLastName = (array_values(runQuery("SELECT lastName FROM User WHERE userId = " . $row['userId'])->fetch_assoc())[0]);
                 echo "<tr>
                   <th scope='row'>{$row['bidTime']}</th>
-                  <td>{$row['amount']}</td>
+                  <td>£{$row['amount']}</td>
                   <td>{$userFirstName} {$userLastName}</td>
                 </tr>";
               }

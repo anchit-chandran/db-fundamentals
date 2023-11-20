@@ -19,11 +19,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user_id = $_POST["user_id"];
 
     // Fetch max bid of product to compare against current bid
-    $highest_bid = floatval(array_values(runQuery("SELECT MAX(amount) FROM Bid WHERE productId = " . $product_id)->fetch_assoc())[0]);
-    $highest_bid_user = array_values(runQuery("SELECT userId FROM Bid WHERE amount = " . $highest_bid)->fetch_assoc())[0];
+    $highest_bid = runQuery("SELECT MAX(amount) FROM Bid WHERE productId = " . $product_id)->fetch_assoc()[0];
+    $highest_bid_user = runQuery("SELECT userId FROM Bid WHERE amount = " . $highest_bid)->fetch_assoc()[0];
 
-    $starting_price = array_values(runQuery("SELECT startPrice FROM Product WHERE productId = " . $product_id)->fetch_assoc())[0];
-    $end_date_str = array_values(runQuery("SELECT auctionEndDatetime FROM Product WHERE productId = " . $product_id)->fetch_assoc())[0];
+    $starting_price = runQuery("SELECT startPrice FROM Product WHERE productId = " . $product_id)->fetch_assoc()[0];
+    $end_date_str = runQuery("SELECT auctionEndDatetime FROM Product WHERE productId = " . $product_id)->fetch_assoc()[0];
     $now = new DateTime();
     $end_date = datetime::createFromFormat('Y-m-d H:i:s', $end_date_str);
 
