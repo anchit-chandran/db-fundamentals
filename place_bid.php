@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user_id = $_POST["user_id"];
 
     // Fetch max bid of product to compare against current bid
-    $highest_bid = runQuery("SELECT MAX(amount) FROM Bid WHERE productId = " . $product_id)->fetch_assoc()[0];
+    $highest_bid = floatval(runQuery("SELECT MAX(amount) FROM Bid WHERE productId = " . $product_id)->fetch_assoc()[0]);
     $highest_bid_user = runQuery("SELECT userId FROM Bid WHERE amount = " . $highest_bid)->fetch_assoc()[0];
 
     $starting_price = runQuery("SELECT startPrice FROM Product WHERE productId = " . $product_id)->fetch_assoc()[0];
