@@ -59,7 +59,7 @@ $in_1_hr = $in_1_hr->format("Y-m-d H:i:s");
 
 $seedProducts = "INSERT INTO Product (name, description, auctionStartDatetime, auctionEndDatetime, state, userId, subcategoryId)
 VALUES 
-('Tesco Extra Mature Cheddar Cheese, 400g', 'Tasteless lump of rubber', '2016-06-18 10:34:09', '2023-02-23 21:14:54', 'Brand New', 1, 1),
+('Tesco Extra Mature Cheddar Cheese, 400g', 'Tasteless lump of rubber', '2016-06-18 10:34:09', '2022-02-23 21:14:54', 'Brand New', 1, 1),
 ('Sainsbury''s Gouda Cheese, 256g', 'Half eaten', '2021-06-18 10:34:09', '2025-09-24 01:03:55', 'Slightly Used', 2, 1),
 ('Death Lurk II Team Skateboard Deck - 8', 'The Lurk II deck from Death features a cyclops creature printed down the length of the board with a mushroom growing out of its tongue. Death branding is featured on the tail.', '2022-07-19 10:36:09', '2025-09-14 11:13:55', 'Brand New', 2, 3),
 ('Moldy Bread From The Sink', 'Try at your peril', '2022-10-03 21:54:13', '{$now}', 'Used', 2, 2),
