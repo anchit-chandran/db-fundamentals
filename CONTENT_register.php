@@ -167,6 +167,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <input type="password" class="form-control" name='password2' id="inputPassword2" aria-describedby="pw2Help">
                 <div id="pw2Help" class="form-text">Please type your password again.</div>
             </div>
+            <h2 class='pb-2 border-bottom'>Delivery Address</h2>
+            <div class="mb-3">
+                <label for="addressLine1" class="form-label">Address Line 1</label>
+                <?php renderFormErrors($formErrors["password2"]); ?>
+                <input id='addressLine1' name='addressLine1' type="text" class="form-control" aria-label="Address Line 1">
+            </div>
+            <div class="mb-3">
+                <label for="addressLine2" class="form-label">Address Line 2</label>
+                <?php renderFormErrors($formErrors["password2"]); ?>
+                <input id='addressLine2' name='addressLine2' type="text" class="form-control" aria-label="Address Line 2">
+            </div>
+            <div class="mb-3">
+                <label for="addressLine3" class="form-label">Address Line 3</label>
+                <?php renderFormErrors($formErrors["password2"]); ?>
+                <input id='addressLine3' name='addressLine3' type="text" class="form-control" aria-label="Address Line 3">
+            </div>
+            <div class="mb-3">
+                <label for="city-input" class="form-label">City</label>
+                <?php renderFormErrors($formErrors["password2"]); ?>
+                <input id='city-input' name='city-input' type="text" class="form-control" aria-label="City input">
+            </div>
             <button type="submit" class="btn btn-primary">Create account</button>
             <a class="btn btn-secondary" href='login.php'>Login</a>
         </form>
