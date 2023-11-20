@@ -14,6 +14,7 @@ include_once("database.php");
 include_once("utilities.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
     $product_id = $_POST["product_id"];
     $bid_amount = floatval($_POST["bid_amount"]);
     $user_id = $_POST["user_id"];
@@ -31,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         session_start();
     }
     
-    if ($now > $end_date) {
+    if ($end_date > $now) {
         $_SESSION["flash"] = ["type" => "warning", "message" => "Failed to add bid. The auction has ended."];
         header("Location: listing.php?productId={$product_id}");
     } else if ($bid_amount <= $starting_price) {
