@@ -1,15 +1,47 @@
+<?php
+$product_id = $_GET['product_id'];
+$product_name = runQuery("SELECT name FROM Product WHERE productId = {$product_id}")->fetch_assoc()['name'];
+?>
 
-<div style="max-width: 800px; margin: 10px auto">
-        <h2 class="my-3">Create Feedback</h2>
-        <div class="card">
-            <div class="card-body">
-                <form method="post" action="create_feedback.php" id="createFeedbackForm" enctype="multipart/form-data">
-                    <label for="feedback-message"" class=" col-sm col-form-label text-right">Feedback Message for <?php 1 ?></label>
-                    <textarea name="feedback-message" class="form-control" id="exampleFormControlTextarea1" rows="6"></textarea>
-                    <button type="submit" class="btn btn-primary form-control">Send Feedback</button>
-                </form>
+<div class="container">
+  <div style="max-width: 800px; margin: 10px auto">
+    <h2 class="my-3">Create Feedback</h2>
+    <p>Product: <?php echo $product_name; ?></p>
+    
+    <div class="card">
+      <div class="card-body">
+        <form method="post" action="create_feedback.php" id="createFeedbackForm" enctype="multipart/form-data">
 
-                <!-- <form method="post" action="create_auction_result.php" id="createAuctionForm" enctype="multipart/form-data">
+        <div>
+        <label for="feedback-rating"" class="col-sm col-form-label text-right">Rating (required)</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="feedback-rating" id="inlineRadio1" value="option1" required>
+          <label class="form-check-label" for="inlineRadio1">1</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="feedback-rating" id="inlineRadio2" value="option2">
+          <label class="form-check-label" for="inlineRadio2">2</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="feedback-rating" id="inlineRadio3" value="option3">
+          <label class="form-check-label" for="inlineRadio3">3</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="feedback-rating" id="inlineRadio4" value="option4">
+          <label class="form-check-label" for="inlineRadio4">4</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="feedback-rating" id="inlineRadio5" value="option5">
+          <label class="form-check-label" for="inlineRadio5">5</label>
+        </div>
+    
+          <div><label for="feedback-message"" class=" col-sm col-form-label text-right">Message</label></div>
+          <textarea name="feedback-message" class="form-control mb-2" rows="6"></textarea>
+          <button type="submit" class="btn btn-primary form-control">Send Feedback</button>
+        </form>
+
+        <!-- <form method="post" action="create_auction_result.php" id="createAuctionForm" enctype="multipart/form-data">
         <div class="form-group row">
           <label for="auctionTitle" class="col-sm-2 col-form-label text-right">Title of auction</label>
           <div class="col-sm-10">
@@ -31,7 +63,7 @@
             <option value="">Choose...</option>
             <?php
             foreach ($categories as $category) {
-                echo "<option value=\"{$category['categoryId']}\">{$category['categoryName']}</option>";
+              echo "<option value=\"{$category['categoryId']}\">{$category['categoryName']}</option>";
             }
             ?>
             </select>
@@ -151,6 +183,7 @@
         </div>
         <button type="submit" class="btn btn-primary form-control">Create Auction</button>
       </form> -->
-            </div>
-        </div>
+      </div>
     </div>
+  </div>
+</div>

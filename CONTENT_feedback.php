@@ -38,24 +38,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         $user_id = $_SESSION["userId"];
         $user_matches_highest_bidder = $user_id == $highest_bid_user_id;
     }
+
+    if (!$product_id_in_param) {
+        echo "<div class='alert alert-warning mt-4 mb-0' role='alert'>The product id parameter is missing from URL, so you cannot access the feedback page.</div>";
+    } else if (!$product_found) {
+        echo "<div class='alert alert-warning mt-4 mb-0' role='alert'>Product not found, so you cannot access the feedback page.</div>";
+    } else if (!$user_logged_in) {
+        echo "<div class='alert alert-warning mt-4 mb-0' role='alert'>You must log in to access the feedback page.</div>";
+    } else if (!$auction_ended) {
+        echo "<div class='alert alert-warning mt-4 mb-0' role='alert'>The auction for this product has not yet ended, so you cannot access the feedback page.</div>";
+    } else if (!$user_matches_highest_bidder) {
+        echo "<div class='alert alert-warning mt-4 mb-0' role='alert'>You are not the highest bidder for this product, so you cannot access the feedback page.</div>";
+    } else {
+        include 'CONTENT_feedback_form.php';
+    }
 }
 
 ?>
-
-<div class="container">
-    <?php
-        if (!$product_id_in_param) {
-            echo "<div class='alert alert-warning mt-4 mb-0' role='alert'>The product id parameter is missing from URL, so you cannot access the feedback page.</div>";
-        } else if (!$product_found) {
-            echo "<div class='alert alert-warning mt-4 mb-0' role='alert'>Product not found, so you cannot access the feedback page.</div>";
-        } else if (!$user_logged_in) {
-            echo "<div class='alert alert-warning mt-4 mb-0' role='alert'>You must log in to access the feedback page.</div>";
-        } else if (!$auction_ended) {
-            echo "<div class='alert alert-warning mt-4 mb-0' role='alert'>The auction for this product has not yet ended, so you cannot access the feedback page.</div>";
-        } else if (!$user_matches_highest_bidder) {
-            echo "<div class='alert alert-warning mt-4 mb-0' role='alert'>You are not the highest bidder for this product, so you cannot access the feedback page.</div>";
-        } else {
-            include 'CONTENT_feedback_form.php';
-        }
-    ?>
-</div>
