@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Fetch max bid of product to compare against current bid
     $highest_bid = runQuery("SELECT MAX(amount) FROM Bid WHERE productId = " . $product_id)->fetch_assoc()['MAX(amount)'];
     if ($highest_bid != null) {
-        $highest_bid = floatval($highest_bid[0]);
+        $highest_bid = floatval($highest_bid);
         $highest_bid_user = runQuery("SELECT userId FROM Bid WHERE productId = {$product_id} ORDER BY amount DESC LIMIT 1")->fetch_assoc()['userId'];
     }
     $seller_id = runQuery("SELECT userId FROM Product WHERE productId = {$product_id}")->fetch_assoc()['userId'];
@@ -41,8 +41,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: listing.php?productId={$product_id}");
     } else if ($end_date < $now) {
         $_SESSION["flash"] = ["type" => "warning", "message" => "Failed to add bid. The auction has ended."];
-        print_r($end_date);
-        print_r($now);
         header("Location: listing.php?productId={$product_id}");
     } else if ($bid_amount <= $starting_price) {
         $_SESSION["flash"] = ["type" => "warning", "message" => "Failed to add bid. Your bid needs to be greater than the starting price."];
