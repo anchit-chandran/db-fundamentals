@@ -75,7 +75,7 @@ include_once("utilities.php");
                 foreach ($watchlist as $row) {
                     $watchItemIdObj = json_encode(array("operation" => "delete", "watchItemId" => $row[0]));
                     echo "<tr>
-                        <td><a href='listing.php?productId={$row[1]}'>{$row[2]}</a></td>
+                        <th><a href='listing.php?productId={$row[1]}'>{$row[2]}</a></th>
                         <td>{$row[3]}</td>
                         <td>{$row[4]}</td>
                         <td>{$row[5]}</td>

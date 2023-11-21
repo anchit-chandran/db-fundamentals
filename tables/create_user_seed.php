@@ -41,6 +41,7 @@ $seedUsers = "INSERT INTO User (email, password, firstName, lastName, isActive, 
     VALUES 
     ('user1@example.com', '{$hashedPass}', 'John', 'Doe', TRUE, FALSE),
     ('user2@example.com', '{$hashedPass}', 'Jane', 'Smith', TRUE, FALSE),
+    ('user3@example.com', '{$hashedPass}', 'Saul', 'Goodman', TRUE, FALSE),
     ('superuser@example.com', '{$hashedPass}', 'Alice', 'Johnson', True, TRUE);";
 
 if (runQuery($seedUsers)) {
