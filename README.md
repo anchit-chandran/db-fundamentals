@@ -65,4 +65,4 @@ The feedback form can be accessed at:
 
 The URL is meant to be sent to the highest bidder via email once an auction ends, provided that the bid price >= reserve price. The form will only show up if this combination of conditions hold. Otherwise, the page will display an error message with explanation.
 
-You can access the feedback form for `product_id_=1` with `user1@example.com`, and `product_id_=4` with `user2@example.com`.
+You can access the feedback form for `product_id=1` with `user1@example.com`, and `product_id=4` with `user2@example.com`.
