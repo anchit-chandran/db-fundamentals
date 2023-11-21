@@ -39,7 +39,7 @@
                         $category_id = (array_values(runQuery("SELECT categoryId FROM SubCategory WHERE subCategoryId = " . $row['subcategoryId'])->fetch_assoc())[0]);
                         $category_name = (array_values(runQuery("SELECT categoryName FROM Category WHERE categoryId = " . $category_id)->fetch_assoc())[0]);
                         echo "<tr>
-                            <td>{$row['name']}</td>
+                            <th><a href='listing.php?productId={$row['productId']}'>{$row['name']}</a></th>
                             <td>{$row['startPrice']}</td>
                             <td>{$row['reservePrice']}</td>
                             <td>{$highest_bid}</td>
