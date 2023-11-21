@@ -58,3 +58,11 @@ $_SESSION['logged_in'] = True;
 1. Follow [this](https://www.youtube.com/watch?v=4TmD4ly7V_E) video.
 2. Using XAMP, make sure to run Mercury.
 3. Adjust these [Mercury Settings](https://stackoverflow.com/questions/6809369/warning-mail-function-mail-smtp-server-response-553-we-do-not-relay-non-l).
+
+# Testing/ integrating the feedback form:
+The feedback form can be accessed at:
+    `http://www.localhost/db-fundamentals/feedback?product_id=<PRODUCT_ID>`
+
+The URL is meant to be sent to the highest bidder via email once an auction ends, provided that the bid price >= reserve price. The form will only show up if this combination of conditions hold. Otherwise, the page will display an error message with explanation.
+
+You can access the feedback form for `product_id_=1` with `user1@example.com`, and `product_id_=4` with `user2@example.com`.
