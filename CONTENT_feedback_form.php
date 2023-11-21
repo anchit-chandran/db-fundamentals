@@ -36,9 +36,9 @@ $product_name = runQuery("SELECT name FROM Product WHERE productId = {$product_i
           <label class="form-check-label" for="inlineRadio5">5</label>
         </div>
     
-          <div><label for="feedback-message"" class=" col-sm col-form-label text-right">Message</label></div>
-          <textarea name="feedback-message" class="form-control mb-2" rows="6"></textarea>
-          <button type="submit" class="btn btn-primary form-control">Send Feedback</button>
+          <div><label for="feedback-message"" class=" col-sm col-form-label text-right">Message (max 2000 characters)</label></div>
+          <textarea name="feedback-message" class="form-control mb-2" rows="6" maxlength="2000"></textarea>
+          <button type="submit" class="btn btn-primary form-control">Send/Update Feedback</button>
         </form>
 
         <!-- <form method="post" action="create_auction_result.php" id="createAuctionForm" enctype="multipart/form-data">
