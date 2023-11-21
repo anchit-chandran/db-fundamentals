@@ -89,7 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $message = "Oh no, you've been outbid for {$productDetails['name']}!\n\nIf you'd like to place another bid on this product, please go to: {$productLink} \n\nThanks,\nThe Db-Friends Team";
                 $header = "From: anchit97123@gmail.com";
                 if (!mail($to, $subject, $message, $header)) {
-                    $_SESSION["flash"] = ["type" => "success", "message" => "Bid added successfully" . "Failed to send email to {$beatenUserEmail}"];
+                    $_SESSION["flash"] = ["type" => "success", "message" => "Bid added successfully. Failed to send email to {$beatenUserEmail}"];
                 }
             }
         }
