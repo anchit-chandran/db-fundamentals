@@ -34,13 +34,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         VALUES ({$comment}, {$rating}, {$product_id}, {$user_id})"
     );
 
-    $test_feedback = runQuery(
-        "SELECT *
-        FROM Feedback
-        WHERE productId = {$product_id} AND userId = {$user_id}"
-    )->fetch_assoc();
-
-    // TODO: remove print_r and redirect to product (but first display the feedback on the product page)
-    print_r($test_feedback);
-    // header("Location: listing.php?productId={$product_id}");
+    $_SESSION["flash"] = ["type" => "success", "message" => "Product feedback added/updated."];
+    header("Location: listing.php?productId={$product_id}");
 }
