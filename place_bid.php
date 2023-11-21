@@ -20,28 +20,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $bid_amount = floatval($_POST["bid_amount"]);
     $user_id = $_SESSION["userId"];
 
-    // Fetch max bid of product to compare against current bid
-    $highest_bid = floatval(runQuery("SELECT MAX(amount) FROM Bid WHERE productId = " . $product_id)->fetch_assoc()[0]);
-    $highest_bid_user = runQuery("SELECT userId FROM Bid WHERE productId = {$product_id} ORDER BY amount DESC LIMIT 1")->fetch_assoc()['userId'];
+    $highest_bid_user = null;
 
-    $starting_price = runQuery("SELECT startPrice FROM Product WHERE productId = " . $product_id)->fetch_assoc()[0];
-    $end_date_str = runQuery("SELECT auctionEndDatetime FROM Product WHERE productId = " . $product_id)->fetch_assoc()[0];
+    // Fetch max bid of product to compare against current bid
+    $highest_bid = runQuery("SELECT MAX(amount) FROM Bid WHERE productId = " . $product_id)->fetch_assoc()['MAX(amount)'];
+    if ($highest_bid != null) {
+        $highest_bid = floatval($highest_bid[0]);
+        $highest_bid_user = runQuery("SELECT userId FROM Bid WHERE productId = {$product_id} ORDER BY amount DESC LIMIT 1")->fetch_assoc()['userId'];
+    }
+    $seller_id = runQuery("SELECT userId FROM Product WHERE productId = {$product_id}")->fetch_assoc()['userId'];
+
+    $starting_price = runQuery("SELECT startPrice FROM Product WHERE productId = " . $product_id)->fetch_assoc()['startPrice'];
+    $end_date_str = runQuery("SELECT auctionEndDatetime FROM Product WHERE productId = " . $product_id)->fetch_assoc()['auctionEndDatetime'];
     $now = new DateTime();
     $end_date = datetime::createFromFormat('Y-m-d H:i:s', $end_date_str);
 
 
-    if ($end_date > $now) {
+    if ($user_id == $seller_id) {
+        $_SESSION["flash"] = ["type" => "warning", "message" => "Failed to add bid. You cannot bid against your own product."];
+        header("Location: listing.php?productId={$product_id}");
+    } else if ($end_date < $now) {
         $_SESSION["flash"] = ["type" => "warning", "message" => "Failed to add bid. The auction has ended."];
+        print_r($end_date);
+        print_r($now);
         header("Location: listing.php?productId={$product_id}");
     } else if ($bid_amount <= $starting_price) {
-
         $_SESSION["flash"] = ["type" => "warning", "message" => "Failed to add bid. Your bid needs to be greater than the starting price."];
         header("Location: listing.php?productId={$product_id}");
     } else if ($bid_amount <= $highest_bid) {
         $_SESSION["flash"] = ["type" => "warning", "message" => "Failed to add bid. Your bid needs to be greater than the highest bid."];
         header("Location: listing.php?productId={$product_id}");
     } else if ($highest_bid_user == $user_id) {
-        $_SESSION["flash"] = ["type" => "warning", "message" => "Failed to add bid. You cannot bid against yourself as the highest bidder. "];
+        $_SESSION["flash"] = ["type" => "warning", "message" => "Failed to add bid. You cannot bid against yourself as the highest bidder."];
         header("Location: listing.php?productId={$product_id}");
     } else {
         $add_bid = "INSERT INTO Bid (amount, productId, userId)
