@@ -46,7 +46,8 @@ foreach ($status_options as $status_option) {
                     echo "<td>" . $row['lastName'] . "</td>";
                     $active_text = $row['isActive'] ? "<p class='form_valid'>Active</p>" : "<p class='form_error'>Disabled</p>";
                     echo "<td>" . $active_text . "</td>";
-                    echo "<td>" . $row['isSuperuser'] . "</td>";
+                    $superuserText = $row['isSuperuser'] ? "✅" : "❌" ;
+                    echo "<td>" . $superuserText . "</td>";
                     $toggle_text = $row['isActive'] ? "Disable" : "Activate";
                     $toggle_colour = $row['isActive'] ? "btn-danger" : "btn-success";
                     echo "<td>" . "<button hx-get='partials/toggle_account_activation.php?userId={$userId}' hx-target='#row-userId-{$userId}' hx-swap='innerHTML' class='btn {$toggle_colour}'>{$toggle_text}</button>" . "</td>";
@@ -79,11 +80,12 @@ foreach ($status_options as $status_option) {
                     $productName = $row['productName'];
                     $email = $row['email'];;
 
-                    echo "<tr id='row-orderId-{$orderId}' class> ";
-                    echo "<td>" . $orderId . "</td>";
-                    echo "<td>" . $email . "</td>";
-                    echo "<td>" . $status . "</td>";
-                    echo "<td>" . "<a href='listings?productId={$productId}'>{$productName}</a>" . "</td>";
+                    $delivered = $status == "Delivered" ? "table_row_muted" : "";
+                    echo "<tr id='row-orderId-{$orderId}'> ";
+                    echo "<td class='{$delivered}'>" . $orderId . "</td>";
+                    echo "<td class='{$delivered}'>" . $email . "</td>";
+                    echo "<td class='{$delivered}'>" . $status . "</td>";
+                    echo "<td class='{$delivered}'>" . "<a href='listings?productId={$productId}'>{$productName}</a>" . "</td>";
                     echo "<td>";
                     echo "<select name='status_select' class='form-select' hx-get='partials/update_order_status.php?orderId={$orderId}&status={$status}' hx-target='#row-orderId-{$orderId}'>";
                     foreach ($status_option_els as $status_option_el) {
