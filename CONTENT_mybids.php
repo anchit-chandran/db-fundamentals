@@ -41,7 +41,7 @@
                         $auction_ended = $now > $end_date;
                         
                         // status is either: On-going, Closed (non-winning bid), Closed (winning bid)
-                        if ($auction_ended) {
+                        if (!$auction_ended) {
                             $status = "On-going";
                         } else {
                             $highest_bid = floatval(runQuery("SELECT MAX(amount) FROM Bid WHERE productId = " . $row['productId'])->fetch_assoc()["MAX(amount)"]);
