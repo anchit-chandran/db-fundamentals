@@ -61,7 +61,7 @@ $_SESSION['logged_in'] = True;
 
 # Testing/ integrating the feedback form:
 The feedback form can be accessed at:
-    `http://www.localhost/db-fundamentals/feedback?product_id=<PRODUCT_ID>`
+    `http://www.localhost/db-fundamentals/feedback.php?product_id=<PRODUCT_ID>`
 
 The URL is meant to be sent to the highest bidder via email once an auction ends, provided that the bid price >= reserve price. The form will only show up if this combination of conditions hold. Otherwise, the page will display an error message with explanation.
 
