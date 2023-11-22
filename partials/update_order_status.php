@@ -32,12 +32,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $productName = $row['productName'];
     $email = $row['email'];
 
-    echo "<td>" . $orderId . "</td>";
-    echo "<td>" . $email . "</td>";
-    echo "<td>" . $status . "</td>";
-    echo "<td>" . "<a href='listings?productId={$productId}'>{$productName}</a>" . "</td>";
-    echo "<td>";
-    echo "<select class='form-select' name='status_select' hx-get='partials/update_order_status.php?orderId={$orderId}&status={$status}' hx-target='#row-orderId-{$orderId}'>";
+    $delivered = $status == "Delivered" ? "table_row_muted" : "";
+
+    echo "<td class='{$delivered}'>" . $orderId . "</td>";
+    echo "<td class='{$delivered}'>" . $email . "</td>";
+    echo "<td class='{$delivered}'>" . $status . "</td>";
+    echo "<td class='{$delivered}'>" . "<a href='listings?productId={$productId}'>{$productName}</a>" . "</td>";
+    echo "<td class='{$delivered}'>";
+    echo "<select class='form-select {$delivered}' name='status_select' hx-get='partials/update_order_status.php?orderId={$orderId}&status={$status}' hx-target='#row-orderId-{$orderId}'>";
     foreach ($status_option_els as $status_option_el) {
         if ($status_option_el == "<option value='{$status}'>{$status}</option>")
             echo "<option value='{$status}' selected>{$status}</option>";

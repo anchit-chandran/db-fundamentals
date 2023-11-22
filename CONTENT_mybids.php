@@ -32,7 +32,7 @@
                         $productName = (array_values(runQuery("SELECT name FROM Product WHERE productId = " . $row['productId'])->fetch_assoc())[0]);
                         $productId = $row['productId'];
                         echo "<tr>
-                            <td><a href='listing.php?productId={$productId}'>{$productName}</a></td>
+                            <th><a href='listing.php?productId={$productId}'>{$productName}</a></th>
                             <td>{$row['amount']}</td>
                             <td>{$row['bidTime']}</td>
                         </tr>";

@@ -26,3 +26,6 @@ main.container {
 .form_valid {
     color: var(--valid);
 }
+.table_row_muted, .table_row_muted>* {
+    color: #212529bf !important;
+}

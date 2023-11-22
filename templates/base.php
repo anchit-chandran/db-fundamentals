@@ -1,7 +1,13 @@
 <?php
 include_once('setup.php');
 include_once("utilities.php");
+include_once("config.php");
+if ($EMAIL_SENDING) {
+    include('SCHEDULED_handle_auctions_ended.php');
+}
 date_default_timezone_set('Europe/London');
+
+
 ?>
 
 

@@ -48,6 +48,18 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         ?>
         <p><span class="fw-bold">Description:</span> <?php echo $productDetails["description"] ?></p>
         <p><span class="fw-bold">Condition:</span> <?php echo $productDetails["state"] ?></p>
+
+        <?php 
+          $feedback = runQuery(
+            "SELECT *
+            FROM Feedback
+            WHERE productId = {$productId}"
+          )->fetch_assoc();
+          if ($feedback != null) {
+            include("CONTENT_listing_feedback.php");
+          }
+        ?>
+
         <h3>Most Recent Bids -
           <?php
           if ($n_bids == 1) {

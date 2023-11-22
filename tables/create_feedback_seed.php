@@ -20,7 +20,7 @@ runQuery("SET GLOBAL FOREIGN_KEY_CHECKS = 1;");
 // create Feedback table
 $createFeedbackTable = "CREATE TABLE Feedback (
     feedbackId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    comment VARCHAR(100) NOT NULL,
+    comment VARCHAR(2000),
     rating INT,
     productId INT NOT NULL,
     userId INT NOT NULL,
