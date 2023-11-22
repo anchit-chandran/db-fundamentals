@@ -125,6 +125,7 @@ $n_pages = ceil($n_products / $products_per_page);
   <table class="table table-hover" id='auction_items_table'>
     <thead>
       <tr>
+      <th scope="col">Auction Image</th>
         <th scope="col">Name</th>
         <th scope="col">Description</th>
         <th scope="col">Highest bid <?php echo '⬇️' ?></th>
@@ -157,8 +158,16 @@ $n_pages = ceil($n_products / $products_per_page);
         } else {
           $highestBidAmount = "No bids!";
         }
-
-        echo "<tr> 
+        
+        if ($row["image"] != null) {
+          $image = $row["image"];
+          $base64image = base64_encode($image);
+          $imageField = "<div class='d-flex align-itemes-center justify-content-center' width='100' height='100'><img src='data:image/jpeg;base64," . $base64image . "' alt='Blob Image' style='object-fit:contain' width='100' height='100'></div>";
+        } else {
+          $imageField = "<p><span class='fw-bold'>No image uploaded with this listing</span></p>";
+        }
+      echo "<tr>
+      <td class='col-1'>$imageField</td>
           <th scope='row'><a href='listing.php?productId={$row['productId']}'>{$row['name']}</a></th>
           <td>{$row['description']}</td>
           <td>{$highestBidAmount}</td>
