@@ -8,7 +8,8 @@ include_once("utilities.php");
 <div class="row">
     <div class="col-md-3 border-right">
         <div class="d-flex flex-column align-items-center text-center"><img class="rounded-circle mt-5" width="150px" src="https://t3.ftcdn.net/jpg/05/71/08/24/360_F_571082432_Qq45LQGlZsuby0ZGbrd79aUTSQikgcgc.jpg"><span class="font-weight-bold">FIRSTNAME</span><span class="text-black-50">EMAIL@mail.com.my</span><span> </span></div>
-        <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Update Profile</button></div>
+        <div class="col mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Update Profile</button></div>
+        <div class="col mt-3 d-flex justify-content-center align-items-center"><a href="forgot_password.php" class="btn btn-secondary">Reset password</a></div>
     </div>
     <div class="col-md-5 border-right">
         <div class="p-3 py-5">
