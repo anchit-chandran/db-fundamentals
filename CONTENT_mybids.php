@@ -23,6 +23,7 @@
                     <th>Product Name</th>
                     <th>Amount</th>
                     <th>Date & Time</th>
+                    <th>Auction Status</th>
                 </tr>
             </thead>
             <tbody>");
@@ -31,11 +32,34 @@
                     while ($row = $bids->fetch_assoc()) {
                         $productName = (array_values(runQuery("SELECT name FROM Product WHERE productId = " . $row['productId'])->fetch_assoc())[0]);
                         $productId = $row['productId'];
+                        
+                        $product_query = "SELECT * FROM Product WHERE productId = {$row['productId']}";
+                        $product_result = runQuery($product_query)->fetch_assoc();
+                        $end_date_str = $product_result['auctionEndDatetime'];
+                        $now = new DateTime();
+                        $end_date = datetime::createFromFormat('Y-m-d H:i:s', $end_date_str);
+                        $auction_ended = $now > $end_date;
+                        
+                        // status is either: On-going, Closed (non-winning bid), Closed (winning bid)
+                        if ($auction_ended) {
+                            $status = "On-going";
+                        } else {
+                            $highest_bid = floatval(runQuery("SELECT MAX(amount) FROM Bid WHERE productId = " . $row['productId'])->fetch_assoc()["MAX(amount)"]);
+                            if (floatval($row['amount']) == $highest_bid && $highest_bid >= floatval($product_result['reservePrice'])) {
+                                $status = "Closed (winning bid)";
+                            } else {
+                                $status = "Closed (non-winning bid)";
+                            }
+                        }
+
                         echo "<tr>
                             <th><a href='listing.php?productId={$productId}'>{$productName}</a></th>
                             <td>{$row['amount']}</td>
                             <td>{$row['bidTime']}</td>
+                            <td>{$status}</td>
                         </tr>";
+
+                        
                     }
                 }
                 echo ('
