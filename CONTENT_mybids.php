@@ -39,12 +39,18 @@
                         $now = new DateTime();
                         $end_date = datetime::createFromFormat('Y-m-d H:i:s', $end_date_str);
                         $auction_ended = $now > $end_date;
+
+                        $highest_bid = floatval(runQuery("SELECT MAX(amount) FROM Bid WHERE productId = " . $row['productId'])->fetch_assoc()["MAX(amount)"]);
                         
-                        // status is either: On-going, Closed (non-winning bid), Closed (winning bid)
+                        // status is either: On-going (current highest bid), On-going (has been outbid), Closed (non-winning bid), Closed (winning bid)
                         if (!$auction_ended) {
-                            $status = "On-going";
+                            if (floatval($row['amount']) == $highest_bid) {
+                                $status = "On-going (current highest bid)";
+                            } else {
+                                $status = "On-going (has been outbid)";
+                            }
                         } else {
-                            $highest_bid = floatval(runQuery("SELECT MAX(amount) FROM Bid WHERE productId = " . $row['productId'])->fetch_assoc()["MAX(amount)"]);
+                            
                             if (floatval($row['amount']) == $highest_bid && $highest_bid >= floatval($product_result['reservePrice'])) {
                                 $status = "Closed (winning bid)";
                             } else {
