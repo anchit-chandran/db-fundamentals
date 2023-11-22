@@ -34,8 +34,18 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     <div class="row">
       <div class="col-8">
         <h2 class="fw-lighter"><?php echo $productDetails["name"] ?></h2>
+        
         <p class="text-muted">Auction started at <?php echo $productDetails["auctionStartDatetime"] ?>.</p>
-        <img src=<?php echo "{$productDetails['image']}" ?> alt="">
+        <?php
+        if ($productDetails["image"] != null) {
+          $image = $productDetails["image"];
+          $base64image = base64_encode($image);
+
+          echo "<div class='d-flex' width='400' height='400'><img src='data:image/jpeg;base64," . $base64image . "' alt='Blob Image' style='object-fit:contain' width='400' height='400'></div>";
+        } else {
+          echo "<p><span class='fw-bold'>No image uploaded with this listing</span></p>";
+        }
+        ?>
         <p><span class="fw-bold">Description:</span> <?php echo $productDetails["description"] ?></p>
         <p><span class="fw-bold">Condition:</span> <?php echo $productDetails["state"] ?></p>
         <h3>Most Recent Bids -
