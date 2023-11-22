@@ -131,7 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $query = "INSERT INTO Product (name, description, auctionStartDatetime, auctionEndDatetime, reservePrice, startPrice, createdAt, image, state, userId, subcategoryId) VALUES ('{$title}', '{$details}', '{$auctionStart}', '{$auctionEnd}', '{$reservePrice}', '{$startPrice}', '{$currentDateTime}', '{$auctionImage}', '{$condition}', '{$userId}', '{$subcategory}')";
         $result = runQuery($query);
         if ($result) {
-            echo('<div class="text-center">Auction successfully created! <a href="mylistings.php">View your new listing.</a></div>');
+            echo('<div class="text-center alert alert-success">Auction successfully created! <a href="mylistings.php">View your new listing.</a></div>');
         } else {
             echo "Error inserting data";
         }

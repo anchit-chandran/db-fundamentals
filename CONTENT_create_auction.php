@@ -169,7 +169,7 @@ if ($result) {
           <div class="col-sm-10">
             <div class="input-group"> 
             <div class="input-group-prepend">
-            <button type="button" id="startNow" class="" onclick="currDate()">Start Now</button>
+            <button type="button" id="startNow" class="btn btn-secondary" onclick="currDate()">Start Now</button>
               </div>
             <input type="datetime-local" class="form-control" id="auctionStartDate" name="auctionStartDate">
             </div>
