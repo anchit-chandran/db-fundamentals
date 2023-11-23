@@ -34,7 +34,7 @@ if (runQuery($createPaymentTable)) {
 
 $seedPayments = "INSERT INTO Payment (paymentMethod, paymentDetails, userId)
     VALUES 
-    ('Direct Debit', 'XXXX XXXX XXXX XXXX', 1),
+    ('Direct Debit', '1234 1234 1234 1234', 6),
     ('Direct Debit', 'ABCD BDCA CDAB DCBA', 3),
     ('Paypal', 'Account Number YYYY YYYY', 2);";
 

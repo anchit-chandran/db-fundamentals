@@ -39,7 +39,7 @@ if (runQuery($createAddressTable)) {
 
 $seedaddress = "INSERT INTO Address (phoneNumber, address_1, city, country, zipCode, userId)
     VALUES 
-    ('+44(0)2080590939', 'UCL', 'London', 'United Kingdom', 'WC1E 6BT', 1),
+    ('+44(0)2080590939', 'UCL', 'London', 'United Kingdom', 'WC1E 6BT', 6),
     ('+44(0)2070257184', 'M&M\'S London, 1 Swiss Ct', 'London', 'United Kingdom', 'W1D 6AP', 3),
     ('+44(0)1234567890', '124-125 Tottenham Ct Rd', 'London', 'United Kingdom', 'W1T 5AS', 2);";
 
