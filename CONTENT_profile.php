@@ -36,6 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
 }
 
 $userDetails = runQuery("SELECT * FROM User WHERE userId = {$userId}")->fetch_assoc();
+
 function renderValueDisabledAttributes($field, $table = null, $_isEdit = null)
 {
     global $userDetails, $is_edit; // Use the global keyword to access the variables outside the function.
@@ -54,6 +55,7 @@ function renderValueDisabledAttributes($field, $table = null, $_isEdit = null)
 
 $paymentDetails = runQuery("SELECT * FROM Payment WHERE userId = {$userId}")->fetch_assoc();
 $addressDetails = runQuery("SELECT * FROM Address WHERE userId = {$userId}")->fetch_assoc();
+
 ?>
 
 
