@@ -84,6 +84,11 @@ $addressDetails = runQuery("SELECT * FROM Address WHERE userId = {$userId}")->fe
 
         </div>
         <div class="col mt-3 d-flex justify-content-center align-items-center">
+            <?php
+            echo "<a href='profile.php?userId={$userId}' class='btn btn-success w-100'>Public Profile</a>"
+            ?>
+        </div>
+        <div class="col mt-3 d-flex justify-content-center align-items-center">
             <a href="forgot_password.php" class="btn btn-secondary w-100">Reset password</a>
         </div>
     </div>
