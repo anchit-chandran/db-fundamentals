@@ -92,16 +92,16 @@ $addressDetails = runQuery("SELECT * FROM Address WHERE userId = {$userId}")->fe
             </div>
             <div class="row mt-3">
                 <div class="col-md-6">
-                    <label class="labels">Name</label>
-                    <input  name='firstName' type="text" class="form-control" placeholder="first name" <?php renderValueDisabledAttributes($field = 'firstName') ?>>
+                    <label class="labels">First Name</label>
+                    <input  name='firstName' type="text" class="form-control" placeholder="First Name" <?php renderValueDisabledAttributes($field = 'firstName') ?>>
                 </div>
                 <div class="col-md-6">
-                    <label class="labels">Surname</label><input name='lastName' type="text" class="form-control" <?php renderValueDisabledAttributes($field = 'lastName') ?>>
+                    <label class="labels">Last Name</label><input placeholder='Last Name' name='lastName' type="text" class="form-control" <?php renderValueDisabledAttributes($field = 'lastName') ?>>
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col"><label class="labels">Email</label>
-                    <input name='email' type="text" class="form-control" placeholder="first name" <?php renderValueDisabledAttributes($field = 'email') ?>>
+                    <input name='email' type="text" class="form-control" placeholder="Email" <?php renderValueDisabledAttributes($field = 'email') ?>>
                 </div>
             </div>
             <div class="d-flex justify-content-between align-items-center mb-3 pt-4">
@@ -110,7 +110,7 @@ $addressDetails = runQuery("SELECT * FROM Address WHERE userId = {$userId}")->fe
             <div class="row mt-3">
                 <div class="col-12">
                     <label class="labels">Payment Method</label>
-                    <input name='paymentMethod' type="text" class="form-control" placeholder="first name" <?php
+                    <input name='paymentMethod' type="text" class="form-control" placeholder="Payment Method" <?php
                                                                                         renderValueDisabledAttributes($field = 'paymentMethod', $table = $paymentDetails);
 
                                                                                         ?>>
@@ -119,7 +119,7 @@ $addressDetails = runQuery("SELECT * FROM Address WHERE userId = {$userId}")->fe
             <div class="row mt-3">
                 <div class="col-12">
                     <label class="labels">Details</label>
-                    <input name='paymentDetails' type="text" class="form-control" placeholder="first name" <?php renderValueDisabledAttributes($field = 'paymentDetails', $table = $paymentDetails);  ?>>
+                    <input name='paymentDetails' type="text" class="form-control" placeholder="Payment Details" <?php renderValueDisabledAttributes($field = 'paymentDetails', $table = $paymentDetails);  ?>>
                 </div>
             </div>
 
@@ -137,7 +137,7 @@ $addressDetails = runQuery("SELECT * FROM Address WHERE userId = {$userId}")->fe
 
                 <div class="row mt-3">
                     <div class="col-md-12"><label class="labels">Mobile Number</label>
-                        <input name='phoneNumber' type="text" class="form-control" placeholder="enter phone number" <?php renderValueDisabledAttributes($field = 'phoneNumber', $table = $addressDetails);  ?>>
+                        <input name='phoneNumber' type="text" class="form-control" placeholder="Enter phone number" <?php renderValueDisabledAttributes($field = 'phoneNumber', $table = $addressDetails);  ?>>
                     </div>
                 </div>
                 <div class="row mt-3">
@@ -167,7 +167,7 @@ $addressDetails = runQuery("SELECT * FROM Address WHERE userId = {$userId}")->fe
                 </div>
                 <div class="row mt-3">
                     <div class="col-md-12"><label class="labels">Postcode</label>
-                        <input name='zipCode' type="text" class="form-control" placeholder="zip code" <?php renderValueDisabledAttributes($field = 'zipCode', $table = $addressDetails);  ?>>
+                        <input name='zipCode' type="text" class="form-control" placeholder="Postcode" <?php renderValueDisabledAttributes($field = 'zipCode', $table = $addressDetails);  ?>>
                     </div>
                 </div>
 
