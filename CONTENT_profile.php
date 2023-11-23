@@ -49,7 +49,7 @@ $addressDetails = runQuery("SELECT * FROM Address WHERE userId = {$userId}")->fe
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h4 class="text-right">Profile</h4>
             </div>
-            <div class="row mt-2">
+            <div class="row mt-3">
                 <div class="col-md-6">
                     <label class="labels">Name</label>
                     <input type="text" class="form-control" placeholder="first name" <?php renderValueDisabledAttributes($field = 'firstName') ?>>
@@ -58,31 +58,31 @@ $addressDetails = runQuery("SELECT * FROM Address WHERE userId = {$userId}")->fe
                     <label class="labels">Surname</label><input type="text" class="form-control" <?php renderValueDisabledAttributes($field = 'lastName') ?>>
                 </div>
             </div>
-            <div class="row mt-2">
+            <div class="row mt-3">
                 <div class="col"><label class="labels">Email</label>
                     <input type="text" class="form-control" placeholder="first name" <?php renderValueDisabledAttributes($field = 'email') ?>>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="p-3 py-5">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h4 class="text-right">Payment Details</h4>
-                </div>
-                <div class="row mt-2">
-                    <div class="col"><label class="labels">Payment Method</label>
-                        <input type="text" class="form-control" placeholder="first name" <?php
-                                                                                            renderValueDisabledAttributes($field = 'paymentMethod', $table = $paymentDetails);
+            <div class="d-flex justify-content-between align-items-center mb-3 pt-4">
+                <h4 class="text-right">Payment Details</h4>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12">
+                    <label class="labels">Payment Method</label>
+                    <input type="text" class="form-control" placeholder="first name" <?php
+                                                                                        renderValueDisabledAttributes($field = 'paymentMethod', $table = $paymentDetails);
 
-                                                                                            ?>>
-                    </div>
-                </div>
-                <div class="row mt-2">
-                    <div class="col"><label class="labels">Details</label>
-                        <input type="text" class="form-control" placeholder="first name" <?php renderValueDisabledAttributes($field = 'paymentDetails', $table = $paymentDetails);  ?>>
-                    </div>
+                                                                                        ?>>
                 </div>
             </div>
+            <div class="row mt-3">
+                <div class="col-12">
+                    <label class="labels">Details</label>
+                    <input type="text" class="form-control" placeholder="first name" <?php renderValueDisabledAttributes($field = 'paymentDetails', $table = $paymentDetails);  ?>>
+                </div>
+            </div>
+
+
         </div>
 
     </div>
@@ -92,45 +92,46 @@ $addressDetails = runQuery("SELECT * FROM Address WHERE userId = {$userId}")->fe
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4 class="text-right">Address</h4>
                 </div>
+
+
                 <div class="row mt-3">
-
                     <div class="col-md-12"><label class="labels">Mobile Number</label>
-
                         <input type="text" class="form-control" placeholder="enter phone number" <?php renderValueDisabledAttributes($field = 'phoneNumber', $table = $addressDetails);  ?>>
                     </div>
-                    <div class="col-md-12"><label class="labels">Address Line 1</label>
-
-                        <input type="text" class="form-control" placeholder="-" <?php renderValueDisabledAttributes($field = 'address_1', $table = $addressDetails);  ?>>
-
-                    </div>
-                    <div class="col-md-12"><label class="labels">Address Line 2</label>
-
-                        <input type="text" class="form-control" placeholder="-" <?php renderValueDisabledAttributes($field = 'address_2', $table = $addressDetails);  ?>>
-
-                    </div>
-                    <div class="col-md-12"><label class="labels">Address Line 3</label>
-
-                        <input type="text" class="form-control" placeholder="-" <?php renderValueDisabledAttributes($field = 'address_3', $table = $addressDetails);  ?>>
-
-                    </div>
-                    <div class="col-md-12"><label class="labels">City</label>
-
-                        <input type="text" class="form-control" placeholder="City" <?php renderValueDisabledAttributes($field = 'city', $table = $addressDetails);  ?>>
-
-                    </div>
-                    <div class="col-md-12"><label class="labels">Country</label>
-
-                        <input type="text" class="form-control" placeholder="Country" <?php renderValueDisabledAttributes($field = 'country', $table = $addressDetails);  ?>>
-
-                    </div>
-                    <div class="col-md-12"><label class="labels">Postcode</label>
-
-                        <input type="text" class="form-control" placeholder="zip code" <?php renderValueDisabledAttributes($field = 'zipCode', $table = $addressDetails);  ?>>
-
-                    </div>
-
-
                 </div>
+                <div class="row mt-3">
+                    <div class="col-md-12"><label class="labels">Address Line 1</label>
+                        <input type="text" class="form-control" placeholder="-" <?php renderValueDisabledAttributes($field = 'address_1', $table = $addressDetails);  ?>>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12"><label class="labels">Address Line 2</label>
+                        <input type="text" class="form-control" placeholder="-" <?php renderValueDisabledAttributes($field = 'address_2', $table = $addressDetails);  ?>>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12"><label class="labels">Address Line 3</label>
+                        <input type="text" class="form-control" placeholder="-" <?php renderValueDisabledAttributes($field = 'address_3', $table = $addressDetails);  ?>>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12"><label class="labels">City</label>
+                        <input type="text" class="form-control" placeholder="City" <?php renderValueDisabledAttributes($field = 'city', $table = $addressDetails);  ?>>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12"><label class="labels">Country</label>
+                        <input type="text" class="form-control" placeholder="Country" <?php renderValueDisabledAttributes($field = 'country', $table = $addressDetails);  ?>>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12"><label class="labels">Postcode</label>
+                        <input type="text" class="form-control" placeholder="zip code" <?php renderValueDisabledAttributes($field = 'zipCode', $table = $addressDetails);  ?>>
+                    </div>
+                </div>
+
+
+
             </div>
 
         </div>
