@@ -38,6 +38,15 @@ $formErrors = [
     "password2" => [],
     "firstName" => [],
     "lastName" => [],
+    "paymentMethod" => [],
+    "paymentDetails" => [],
+    "phoneNumber" => [],
+    "address_1" => [],
+    "address_2" => [],
+    "address_3" => [],
+    "city" => [],
+    "country" => [],
+    "postcode" => [],
 ];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -46,6 +55,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password2 = $_POST['password2'];
     $firstName = $_POST['firstName'];
     $lastName = $_POST['lastName'];
+
+    $paymentMethod = $_POST['paymentMethod'];
+    $paymentDetails = $_POST['paymentDetails'];
+
+    $phoneNumber = $_POST['phoneNumber'];
+    $address_1 = $_POST['address_1'];
+    $address_2 = $_POST['address_2'];
+    $address_3 = $_POST['address_3'];
+    $city = $_POST['city'];
+    $country = $_POST['country'];
+    $postcode = $_POST['postcode'];
 
     $form_is_valid = true;
 
@@ -104,12 +124,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($form_is_valid) {
 
+        // CREATE USER
         $queryInsertNewUser = "INSERT INTO User 
         (email, password, firstName, lastName, isActive, isSuperuser)
         VALUES 
         ('{$email}', '{$hashedPass}', '{$firstName}', '{$lastName}', FALSE, FALSE);";
 
         runQuery($queryInsertNewUser);
+
+        // GET USER ID
+        $userId = runQuery("SELECT userId FROM User WHERE email = '{$email}'")->fetch_assoc()['userId'];
+
+        // INSERT PAYMENT
+        $updatePaymentQuery = "INSERT INTO Payment (paymentMethod, paymentDetails, userId) VALUES ('{$paymentMethod}', '{$paymentDetails}', {$userId})";
+        runQuery($updatePaymentQuery);
+
+        // INSERT ADDRESS
+        $updateAddressQuery = "INSERT INTO Address (phoneNumber, address_1, address_2, address_3, city, country, zipCode, userId) VALUES ('{$phoneNumber}', '{$address_1}', '{$address_2}', '{$address_3}', '{$city}', '{$country}', '{$postcode}', {$userId})";
+        runQuery($updateAddressQuery);
 
         // SEND EMAIL IF CONFIG.EMAIL_SENDING == True
         if ($EMAIL_SENDING) {
@@ -121,12 +153,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $confirmation_link = "https://localhost/db-fundamentals/confirm_email.php?token={$token}&email={$email}";
             $message = "Hi {$firstName},\n\nPlease click here to activate your account:\n\n{$confirmation_link}\n\nThanks,\nThe Db-Friends Team";
             $header = "From: anchit97123@gmail.com";
-            if (mail($to, $subject, $message, $header)) {
-                header("Location:successful_registration.php");
-            } else {
+            if (!mail($to, $subject, $message, $header)) {
                 echo "Sorry, failed while sending mail!";
             }
         }
+
+        header("Location:successful_registration.php");
     }
 }
 ?>
@@ -167,6 +199,68 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <input type="password" class="form-control" name='password2' id="inputPassword2" aria-describedby="pw2Help">
                 <div id="pw2Help" class="form-text">Please type your password again.</div>
             </div>
+
+            <!-- PAYMENT DETAILS -->
+            <div class="d-flex justify-content-between align-items-center mb-3 pt-4">
+                <h4 class="text-right">Payment Details</h4>
+            </div>
+            <div class="mb-3">
+                <label for="paymentMethod" class="form-label">Payment Method</label>
+                <?php renderFormErrors($formErrors["paymentMethod"]); ?>
+                <select type="password" class="form-control" name='paymentMethod' id="paymentMethod">
+                    <option value="Direct Debit">Direct Debit</option>
+                    <option value="Paypal">Paypal</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="paymentDetails" class="form-label">Details</label>
+                <?php renderFormErrors($formErrors["paymentDetails"]); ?>
+                <input type="text" class="form-control" name='paymentDetails' id="paymentDetails">
+            </div>
+
+            <!-- ADDRESS -->
+            <div class="d-flex justify-content-between align-items-center mb-3 pt-4">
+                <h4 class="text-right">Address</h4>
+            </div>
+            <div class="mb-3">
+                <label for="phoneNumber" class="form-label">Mobile Number</label>
+                <?php renderFormErrors($formErrors["phoneNumber"]); ?>
+                <input type="text" class="form-control" name='phoneNumber' id="phoneNumber">
+            </div>
+            <div class="mb-3">
+                <label for="address_1" class="form-label">Address 1</label>
+                <?php renderFormErrors($formErrors["address_1"]); ?>
+                <input type="text" class="form-control" name='address_1' id="address_1">
+            </div>
+            <div class="mb-3">
+                <label for="address_2" class="form-label">Address 2</label>
+                <?php renderFormErrors($formErrors["address_2"]); ?>
+                <input type="text" class="form-control" name='address_2' id="address_2">
+            </div>
+            <div class="mb-3">
+                <label for="address_3" class="form-label">Address 3</label>
+                <?php renderFormErrors($formErrors["address_3"]); ?>
+                <input type="text" class="form-control" name='address_3' id="address_3">
+            </div>
+            <div class="mb-3">
+                <label for="city" class="form-label">City</label>
+                <?php renderFormErrors($formErrors["city"]); ?>
+                <input type="text" class="form-control" name='city' id="city">
+            </div>
+            <div class="row mb-3">
+                <div class="col-6">
+                    <label for="country" class="form-label">Country</label>
+                    <?php renderFormErrors($formErrors["country"]); ?>
+                    <input type="text" class="form-control" name='country' id="country">
+                </div>
+                <div class="col-6">
+                    <label for="postcode" class="form-label">Postcode</label>
+                    <?php renderFormErrors($formErrors["postcode"]); ?>
+                    <input type="text" class="form-control" name='postcode' id="postcode">
+                </div>
+            </div>
+
+            <!--  SUBMIT BUTTONS -->
             <button type="submit" class="btn btn-primary">Create account</button>
             <a class="btn btn-secondary" href='login.php'>Login</a>
         </form>

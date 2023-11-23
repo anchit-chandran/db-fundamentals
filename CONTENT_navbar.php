@@ -11,7 +11,7 @@
                 <?php
                 if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
                     $name = runQuery("SELECT firstName FROM User WHERE userId={$_SESSION['userId']}")->fetch_assoc()['firstName'];
-                    echo "<a class='nav-link' href='profile.php'>Hey, {$name} 👋</a>";
+                    echo "<a class='nav-link' href='myprofile.php'>Hey, {$name} 👋</a>";
                     $is_superuser = runQuery("SELECT isSuperuser FROM User WHERE userId={$_SESSION['userId']}")->fetch_assoc()['isSuperuser'];
 
                     if ($is_superuser) {

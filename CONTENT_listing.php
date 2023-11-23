@@ -22,6 +22,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
   $n_bids = $bids->num_rows;
 }
 
+  // USER DETAILS
+  $user = runQuery("SELECT * FROM User WHERE userId = {$productDetails['userId']}")->fetch_assoc();
+
 ?>
 
 <div class="row">
@@ -34,6 +37,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     <div class="row">
       <div class="col-8">
         <h2 class="fw-lighter"><?php echo $productDetails["name"] ?></h2>
+        <h4 class="fw-lighter">Created by <?php 
+        $userId = $user["userId"];
+        $userFirstName = $user["firstName"];
+        echo "<a href='https://localhost/db-fundamentals/profile.php?userId={$userId}'>{$userFirstName}</a>" 
+        ?>
+        </h4>
         
         <p class="text-muted">Auction started at <?php echo $productDetails["auctionStartDatetime"] ?>.</p>
         <?php
@@ -82,12 +91,16 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
             if ($bids) {
               while ($row = $bids->fetch_assoc()) {
+                $userId = $row['userId'];
+                $userDetails = runQuery("SELECT * FROM User WHERE userId = {$userId}")->fetch_assoc();
+
+
                 $userFirstName = (array_values(runQuery("SELECT firstName FROM User WHERE userId = " . $row['userId'])->fetch_assoc())[0]);
                 $userLastName = (array_values(runQuery("SELECT lastName FROM User WHERE userId = " . $row['userId'])->fetch_assoc())[0]);
                 echo "<tr>
                   <th scope='row'>{$row['bidTime']}</th>
                   <td>£{$row['amount']}</td>
-                  <td>{$userFirstName} {$userLastName}</td>
+                  <td><a href='https://localhost/db-fundamentals/profile.php?userId={$userId}'>{$userFirstName} {$userLastName}</a></td>
                 </tr>";
               }
             }
