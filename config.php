@@ -1,3 +1,3 @@
 <?php
-    $EMAIL_SENDING = True;
+    $EMAIL_SENDING = False;
 ?>
