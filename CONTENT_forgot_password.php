@@ -30,7 +30,7 @@ include_once("utilities.php");
     }
 ?>
 
-<div class="row justify-content-center signin_row">
+<div class="row mt-5 justify-content-center signin_row">
     <div class="signin_form_col col-6">
         <h2 class='pb-2 border-bottom'>Forgot Password</h2>
         <form method="POST" action='#'>
