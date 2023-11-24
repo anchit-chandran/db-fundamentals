@@ -42,7 +42,13 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $userFirstName = $user["firstName"];
         echo "<a href='http://localhost/db-fundamentals/profile.php?userId={$userId}'>{$userFirstName}</a>";
 
-        echo " (Seller rating: ";
+        
+        ?>
+        </h4>
+
+        <h4 class="fw-lighter">
+        Average seller rating: 
+        <?php 
         $avgSellerRating = runQuery(
           "SELECT ROUND(AVG(rating), 2) AS avgRating
           FROM Product P
@@ -52,15 +58,16 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
           "
         )->fetch_assoc()["avgRating"];
         if ($avgSellerRating) {
-          echo $avgSellerRating;
-          echo " / 5";
+          include("CONTENT_rating.php");
+          echo "( {$avgSellerRating} / 5)";
         } else {
           echo "no ratings yet";
         }
-        echo ")";
         ?>
         </h4>
         
+        
+
         <p class="text-muted">Auction started at <?php echo $productDetails["auctionStartDatetime"] ?>.</p>
         <?php
         if ($productDetails["image"] != null) {
