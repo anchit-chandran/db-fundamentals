@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 <div class="row">
   <div class="col pt-3">
     <div class="row">
-      <div class="col">
+      <div class="col mb-3">
         <h1>Make a bid - <?php echo $productDetails["name"] ?></h1>
       </div>
     </div>
