@@ -4,13 +4,13 @@
 
 <div>
     <h3>Product Feedback</h3>
-    <h4 class="fw-lighter">
+    <p>
         Product rating: 
         <?php 
             include("CONTENT_rating.php");
         ?>
         <?php echo "( {$rating} / 5 )"; ?>
-    </h4>
+    </p>
 
     <?php 
         if ($feedback['comment'] != null) {

@@ -31,21 +31,36 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
   <div class="col pt-3">
     <div class="row">
       <div class="col">
-        <h1>Make a bid</h1>
+        <h1>Make a bid - <?php echo $productDetails["name"] ?></h1>
       </div>
     </div>
     <div class="row">
-      <div class="col-8">
-        <h2 class="fw-lighter"><?php echo $productDetails["name"] ?></h2>
-        <h4 class="fw-lighter">Created by <?php 
+      <div class="col-8">        
+        <p><span class="fw-bold">Description:</span> <?php echo $productDetails["description"] ?></p>
+        <p><span class="fw-bold">Condition:</span> <?php echo $productDetails["state"] ?></p>
+        <?php
+        if ($productDetails["image"] != null) {
+          $image = $productDetails["image"];
+          $base64image = base64_encode($image);
+
+          echo "<div class='d-flex' width='400' height='400'><img src='data:image/jpeg;base64," . $base64image . "' alt='Blob Image' style='object-fit:contain' width='400' height='400'></div>";
+        } else {
+          echo "<p>No image uploaded with this listing</p>";
+        }
+        ?>
+        <p class="text-muted">Auction started at <?php echo $productDetails["auctionStartDatetime"] ?>.</p>
+
+
+        <h3>Seller Information</h3>
+        <p>Created by <?php 
         $userId = $user["userId"];
         $userFirstName = $user["firstName"];
         echo "<a href='http://localhost/db-fundamentals/profile.php?userId={$userId}'>{$userFirstName}</a>";        
         ?>
-        </h4>
+        </p>
 
-        <h4 class="fw-lighter">
-        Average seller rating: 
+        <p>
+        Average seller rating:
         <?php 
         $avgSellerRating = runQuery(
           "SELECT ROUND(AVG(rating), 1) AS avgRating
@@ -63,23 +78,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
           echo "no ratings yet";
         }
         ?>
-        </h4>
+        </p>
         
         
 
-        <p class="text-muted">Auction started at <?php echo $productDetails["auctionStartDatetime"] ?>.</p>
-        <?php
-        if ($productDetails["image"] != null) {
-          $image = $productDetails["image"];
-          $base64image = base64_encode($image);
-
-          echo "<div class='d-flex' width='400' height='400'><img src='data:image/jpeg;base64," . $base64image . "' alt='Blob Image' style='object-fit:contain' width='400' height='400'></div>";
-        } else {
-          echo "<p><span class='fw-bold'>No image uploaded with this listing</span></p>";
-        }
-        ?>
-        <p><span class="fw-bold">Description:</span> <?php echo $productDetails["description"] ?></p>
-        <p><span class="fw-bold">Condition:</span> <?php echo $productDetails["state"] ?></p>
+        
 
         <?php 
           $feedback = runQuery(
