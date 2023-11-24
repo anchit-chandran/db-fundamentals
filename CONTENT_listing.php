@@ -40,9 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         <h4 class="fw-lighter">Created by <?php 
         $userId = $user["userId"];
         $userFirstName = $user["firstName"];
-        echo "<a href='http://localhost/db-fundamentals/profile.php?userId={$userId}'>{$userFirstName}</a>";
-
-        
+        echo "<a href='http://localhost/db-fundamentals/profile.php?userId={$userId}'>{$userFirstName}</a>";        
         ?>
         </h4>
 
