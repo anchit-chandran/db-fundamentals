@@ -82,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 //  Product details
                 $productDetails = runQuery("SELECT * FROM Product WHERE productId = {$product_id}")->fetch_assoc();
 
-                $productLink = "https://localhost/db-fundamentals/listing.php?productId={$product_id}";
+                $productLink = "http://localhost/db-fundamentals/listing.php?productId={$product_id}";
 
                 $to = $beatenUserEmail;
                 $subject = "You've been outbid!";

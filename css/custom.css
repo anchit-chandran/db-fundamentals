@@ -29,3 +29,15 @@ main.container {
 .table_row_muted, .table_row_muted>* {
     color: #212529bf !important;
 }
+
+/* RATING STARS */
+.ratings{
+    margin-right:10px;
+}
+.ratings i{
+    color:#cecece;
+    font-size:26px;
+}
+.rating-color{
+    color:#fbc634 !important;
+}

@@ -78,7 +78,7 @@ $addressDetails = runQuery("SELECT * FROM Address WHERE userId = {$userId}")->fe
             if ($is_edit) {
                 echo "<button class='btn btn-success profile-button w-100' type='submit'>Confirm</button>";
             } else {
-                echo "<a class='btn btn-primary profile-button w-100' type='button' href='https://localhost/db-fundamentals/profile.php?is_edit=true'>Update Profile</a>";
+                echo "<a class='btn btn-primary profile-button w-100' type='button' href='http://localhost/db-fundamentals/profile.php?is_edit=true'>Update Profile</a>";
             }
             ?>
 

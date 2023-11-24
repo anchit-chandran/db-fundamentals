@@ -66,8 +66,9 @@ VALUES
 ('Moldy Bread From The Sink', 'Try at your peril', '2022-10-03 21:54:13', '{$now}', 'Used', NULL, 2, 2),
 ('Apple', 'This is an apple', '2022-10-03 21:54:13', '{$in_1_min}', 'Brand New', NULL, 2, 2),
 ('orange', 'This is an orange', '2022-10-03 21:54:13', '{$in_1_hr}', 'Brand New', NULL, 2, 2),
-('Banana', 'This is an banana', '2022-10-03 21:54:13', '2023-12-31 18:08:41', 'Used', NULL, 2, 2),
-('Lime', 'This is a lime', '2022-10-03 21:54:13', '2023-12-31 18:08:41', 'Used', NULL, 2, 2),
+('Banana', 'This is a banana', '2022-10-03 21:54:13', '2023-12-31 18:08:41', 'Used', NULL, 2, 2),
+('Lime', 'This is a lime', '2022-10-03 21:54:13', '2022-12-31 18:08:41', 'Used', NULL, 2, 2),
+('Strawberry', 'This is a strawberry', '2022-11-03 21:54:13', '2022-10-31 18:08:41', 'Slightly Used', NULL, 2, 2),
 ('EXPIRED Moldy Bread From The Sink', 'Try at your peril', '2022-10-03 21:54:13', '2024-12-31 18:08:41', 'Used', NULL, 2, 2)
 
 

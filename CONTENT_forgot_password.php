@@ -15,7 +15,7 @@ include_once("utilities.php");
             $to = $email;
             $subject = "Reset Password";
             $token = password_hash($email, PASSWORD_DEFAULT);
-            $confirmation_link = "https://localhost/db-fundamentals/reset_password.php?token={$token}&email={$email}";
+            $confirmation_link = "http://localhost/db-fundamentals/reset_password.php?token={$token}&email={$email}";
             $message = "Hi,\n\nPlease click here to reset your password:\n\n{$confirmation_link}\n\nThanks,\nThe Db-Friends Team";
             $header = "From: anchit97123@gmail.com";
             if (mail($to, $subject, $message, $header)) {

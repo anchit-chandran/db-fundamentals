@@ -30,21 +30,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 <div class="row">
   <div class="col pt-3">
     <div class="row">
-      <div class="col">
-        <h1>Make a bid</h1>
+      <div class="col mb-3">
+        <h1>Make a bid - <?php echo $productDetails["name"] ?></h1>
       </div>
     </div>
     <div class="row">
-      <div class="col-8">
-        <h2 class="fw-lighter"><?php echo $productDetails["name"] ?></h2>
-        <h4 class="fw-lighter">Created by <?php 
-        $userId = $user["userId"];
-        $userFirstName = $user["firstName"];
-        echo "<a href='https://localhost/db-fundamentals/profile.php?userId={$userId}'>{$userFirstName}</a>" 
-        ?>
-        </h4>
-        
-        <p class="text-muted">Auction started at <?php echo $productDetails["auctionStartDatetime"] ?>.</p>
+      <div class="col-8">        
+        <p><span class="fw-bold">Description:</span> <?php echo $productDetails["description"] ?></p>
+        <p><span class="fw-bold">Condition:</span> <?php echo $productDetails["state"] ?></p>
         <?php
         if ($productDetails["image"] != null) {
           $image = $productDetails["image"];
@@ -52,11 +45,44 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
           echo "<div class='d-flex' width='400' height='400'><img src='data:image/jpeg;base64," . $base64image . "' alt='Blob Image' style='object-fit:contain' width='400' height='400'></div>";
         } else {
-          echo "<p><span class='fw-bold'>No image uploaded with this listing</span></p>";
+          echo "<p>No image uploaded with this listing</p>";
         }
         ?>
-        <p><span class="fw-bold">Description:</span> <?php echo $productDetails["description"] ?></p>
-        <p><span class="fw-bold">Condition:</span> <?php echo $productDetails["state"] ?></p>
+        <p class="text-muted">Auction started at <?php echo $productDetails["auctionStartDatetime"] ?>.</p>
+
+
+        <h3>Seller Information</h3>
+        <p>Created by <?php 
+        $userId = $user["userId"];
+        $userFirstName = $user["firstName"];
+        echo "<a href='http://localhost/db-fundamentals/profile.php?userId={$userId}'>{$userFirstName}</a>";        
+        ?>
+        </p>
+
+        <p>
+        Average seller rating:
+        <?php 
+        $avgSellerRating = runQuery(
+          "SELECT ROUND(AVG(rating), 1) AS avgRating
+          FROM Product P
+          JOIN Feedback F
+          ON P.productId = F.productId
+          WHERE P.userId = {$userId};
+          "
+        )->fetch_assoc()["avgRating"];
+        if ($avgSellerRating) {
+          $rating = $avgSellerRating;
+          include("CONTENT_rating.php");
+          echo "( {$avgSellerRating} / 5 )";
+        } else {
+          echo "no ratings yet";
+        }
+        ?>
+        </p>
+        
+        
+
+        
 
         <?php 
           $feedback = runQuery(
@@ -94,19 +120,15 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 $userId = $row['userId'];
                 $userDetails = runQuery("SELECT * FROM User WHERE userId = {$userId}")->fetch_assoc();
 
-
                 $userFirstName = (array_values(runQuery("SELECT firstName FROM User WHERE userId = " . $row['userId'])->fetch_assoc())[0]);
                 $userLastName = (array_values(runQuery("SELECT lastName FROM User WHERE userId = " . $row['userId'])->fetch_assoc())[0]);
                 echo "<tr>
                   <th scope='row'>{$row['bidTime']}</th>
                   <td>£{$row['amount']}</td>
-                  <td><a href='https://localhost/db-fundamentals/profile.php?userId={$userId}'>{$userFirstName} {$userLastName}</a></td>
+                  <td><a href='http://localhost/db-fundamentals/profile.php?userId={$userId}'>{$userFirstName} {$userLastName}</a></td>
                 </tr>";
               }
             }
-
-
-
             ?>
           </tbody>
         </table>

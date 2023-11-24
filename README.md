@@ -7,11 +7,11 @@ Repo to host the Database Fundamentals coursework
 
 2. Ensure a database named `db-fundamentals` exists in phpMyAdmin.
 
-3. Visit [seed](https://localhost/db-fundamentals/create_tables.php) page to create tables and seed.
+3. Visit [seed](http://localhost/db-fundamentals/create_tables.php) page to create tables and seed.
 
 # Authorization and Authentication
 
-There are 3 normal users and 1 superuser - details can be seen at [seed](https://localhost/db-fundamentals/create_tables.php) page.
+There are 3 normal users and 1 superuser - details can be seen at [seed](http://localhost/db-fundamentals/create_tables.php) page.
 
 **Normal user**
 

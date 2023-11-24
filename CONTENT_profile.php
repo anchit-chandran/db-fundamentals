@@ -61,6 +61,37 @@ GROUP BY
 
         </div>
 
+        <?php
+        $avgSellerRating = runQuery(
+            "SELECT ROUND(AVG(rating), 1) AS avgRating
+            FROM Product P
+            JOIN Feedback F
+            ON P.productId = F.productId
+            WHERE P.userId = {$userId};
+            "
+        )->fetch_assoc()["avgRating"];
+        ?>
+        <div class="d-flex flex-column align-items-center text-center mt-2">
+            <p class="fw-lighter">Average seller rating: 
+                <?php
+                    if ($avgSellerRating) {
+                        echo $avgSellerRating;
+                        echo " / 5";
+                    } else {
+                        echo "no ratings yet";
+                    }
+                ?> 
+            </p>
+            <p class="fw-lighter">
+                <?php
+                if ($avgSellerRating) {
+                    $rating = $avgSellerRating;
+                    include("CONTENT_rating.php");
+                }
+                ?>
+            </p>
+        </div>
+
     </div>
     <div class="col border-right">
         <div class="p-3 py-5">
