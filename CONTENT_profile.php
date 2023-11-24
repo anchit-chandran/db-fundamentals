@@ -63,7 +63,7 @@ GROUP BY
 
         <?php
         $avgSellerRating = runQuery(
-            "SELECT ROUND(AVG(rating), 2) AS avgRating
+            "SELECT ROUND(AVG(rating), 1) AS avgRating
             FROM Product P
             JOIN Feedback F
             ON P.productId = F.productId
@@ -85,6 +85,7 @@ GROUP BY
             <p class="fw-lighter">
                 <?php
                 if ($avgSellerRating) {
+                    $rating = $avgSellerRating;
                     include("CONTENT_rating.php");
                 }
                 ?>
