@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         <h4 class="fw-lighter">Created by <?php 
         $userId = $user["userId"];
         $userFirstName = $user["firstName"];
-        echo "<a href='https://localhost/db-fundamentals/profile.php?userId={$userId}'>{$userFirstName}</a>" 
+        echo "<a href='http://localhost/db-fundamentals/profile.php?userId={$userId}'>{$userFirstName}</a>" 
         ?>
         </h4>
         
@@ -94,19 +94,15 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 $userId = $row['userId'];
                 $userDetails = runQuery("SELECT * FROM User WHERE userId = {$userId}")->fetch_assoc();
 
-
                 $userFirstName = (array_values(runQuery("SELECT firstName FROM User WHERE userId = " . $row['userId'])->fetch_assoc())[0]);
                 $userLastName = (array_values(runQuery("SELECT lastName FROM User WHERE userId = " . $row['userId'])->fetch_assoc())[0]);
                 echo "<tr>
                   <th scope='row'>{$row['bidTime']}</th>
                   <td>£{$row['amount']}</td>
-                  <td><a href='https://localhost/db-fundamentals/profile.php?userId={$userId}'>{$userFirstName} {$userLastName}</a></td>
+                  <td><a href='http://localhost/db-fundamentals/profile.php?userId={$userId}'>{$userFirstName} {$userLastName}</a></td>
                 </tr>";
               }
             }
-
-
-
             ?>
           </tbody>
         </table>
