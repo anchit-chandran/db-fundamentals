@@ -40,7 +40,24 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         <h4 class="fw-lighter">Created by <?php 
         $userId = $user["userId"];
         $userFirstName = $user["firstName"];
-        echo "<a href='http://localhost/db-fundamentals/profile.php?userId={$userId}'>{$userFirstName}</a>" 
+        echo "<a href='http://localhost/db-fundamentals/profile.php?userId={$userId}'>{$userFirstName}</a>";
+
+        echo " (Seller rating: ";
+        $avgSellerRating = runQuery(
+          "SELECT ROUND(AVG(rating), 2) AS avgRating
+          FROM Product P
+          JOIN Feedback F
+          ON P.productId = F.productId
+          WHERE P.userId = {$userId};
+          "
+        )->fetch_assoc()["avgRating"];
+        if ($avgSellerRating) {
+          echo $avgSellerRating;
+          echo " / 5";
+        } else {
+          echo "no ratings yet";
+        }
+        echo ")";
         ?>
         </h4>
         
