@@ -25,7 +25,7 @@ include_once("utilities.php");
                     FROM WatchItem w 
                     JOIN Product p 
                         ON w.productId = p.productId 
-                    WHERE w.userId = {$userId} AND p.auctionEndDatetime > DATE_SUB(NOW(), INTERVAL 1 HOUR)
+                    WHERE w.userId = {$userId} AND p.auctionEndDatetime > DATE_ADD(NOW(), INTERVAL 1 HOUR)
                     ORDER BY w.watchItemId DESC"
                 );
                 $watchlist = array();

@@ -7,7 +7,7 @@ include_once("utilities.php");
 $winners_to_email = runQuery("WITH productsToEmail AS (
     SELECT productId 
     FROM `product` 
-    WHERE auctionEndDatetime < DATE_SUB(NOW(), INTERVAL 1 HOUR) AND orderEmailSent = 0
+    WHERE auctionEndDatetime < DATE_ADD(NOW(), INTERVAL 1 HOUR) AND orderEmailSent = 0
     )
    SELECT MAX(amount) AS 'winningBidAmount', userId AS 'winningUser', productId
 FROM bid

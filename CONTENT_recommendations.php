@@ -43,7 +43,7 @@ function getProductsForBidSubCategories($subCategoryid)
     LEFT JOIN 
         bid AS B ON P.productId = B.productId
     WHERE 
-      P.auctionEndDatetime > DATE_SUB(NOW(), INTERVAL 1 HOUR)
+      P.auctionEndDatetime > DATE_ADD(NOW(), INTERVAL 1 HOUR)
       AND P.subcategoryId = {$subCategoryid}
       AND P.productId NOT IN (SELECT productId FROM bid WHERE userId = {$_SESSION['userId']})
     GROUP BY

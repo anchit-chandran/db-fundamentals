@@ -49,9 +49,9 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
     }
 
     if ($where_conditions) {
-        $where_clause = "WHERE P.auctionEndDatetime > DATE_SUB(NOW(), INTERVAL 1 HOUR) AND " . implode(' AND ', $where_conditions) . " ";
+        $where_clause = "WHERE P.auctionEndDatetime > DATE_ADD(NOW(), INTERVAL 1 HOUR) AND " . implode(' AND ', $where_conditions) . " ";
     } else {
-        $where_clause = 'WHERE P.auctionEndDatetime > DATE_SUB(NOW(), INTERVAL 1 HOUR) ';
+        $where_clause = 'WHERE P.auctionEndDatetime > DATE_ADD(NOW(), INTERVAL 1 HOUR) ';
     }
 
     $product_table_query = "SELECT
