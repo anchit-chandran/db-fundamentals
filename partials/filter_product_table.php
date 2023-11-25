@@ -112,6 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
     // FINALLY RUN QUERY
     $filtered_products = runQuery($product_table_query);
 
+
     // RENDER HEAD OF TABLE
     echo "<thead>
     <tr>
@@ -154,13 +155,15 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
             $image = $row["image"];
             $base64image = base64_encode($image);
             $imageField = "<div class='d-flex align-itemes-center justify-content-center' width='100' height='100'><img src='data:image/jpeg;base64," . $base64image . "' alt='Blob Image' style='object-fit:contain' width='100' height='100'></div>";
-          } else {
+        } else {
             $imageField = "<p><span class='fw-bold'>No image uploaded with this listing</span></p>";
-          }
-        echo "<tr>
+        }
+
+        $productLink = "listing.php?productId={$row['productId']}";
+        echo "<tr data-url='{$productLink}' class='clickable_tr'>
         <td class='col-1'>$imageField</td>
 
-        <th scope='row'><a href='listing.php?productId={$row['productId']}'>{$row['name']}</a></th>
+        <th scope='row'><a href='{$productLink}'>{$row['name']}</a></th>
         <td>{$row['description']}</td>
         <td>{$highestBidAmount}</td>
         <td>{$num_bids}</td>
@@ -173,3 +176,5 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
 
     echo "</tbody>";
 }
+
+?>

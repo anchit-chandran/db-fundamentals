@@ -55,14 +55,6 @@ date_default_timezone_set('Europe/London');
 
 </body>
 
-<script>
-    document.addEventListener('DOMContentLoaded', (event) => {
-        document.querySelectorAll('tr[data-url]').forEach(row => {
-            row.addEventListener('click', () => {
-                window.location.href = row.dataset.url;
-            });
-        });
-    });
-</script>
+<?php include_once('scripts.php') ?>
 
 </html>
