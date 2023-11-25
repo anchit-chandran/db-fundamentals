@@ -11,5 +11,5 @@
     <a class="nav-link <?php return_active_if_current_nav($page='watchlist') ?>" href="watchlist.php">Watchlist</a>
 </li>
 <li class="nav-item ml-3">
-    <a class="nav-link <?php return_active_if_current_nav($page='create_auction') ?> btn border-light" href="create_auction.php">+ Create auction</a>
+    <a class="nav-link <?php return_active_if_current_nav($page='create_auction') ?>" href="create_auction.php">+ Create auction</a>
 </li>

@@ -3,7 +3,27 @@
 :root {
     --danger: red;
     --valid: green;
+    --main: #AB2020;
+    --main-dark: #650001;
+    --secondary: #0A0F0D;
+    --white-muted: #f7f6f6;
   }
+
+/* BOOTSTRAP OVERRIDES */
+.btn-primary {
+    background-color: var(--main);
+    border-color: var(--main);
+}
+.btn-primary:hover {
+    background-color: var(--secondary);
+    border-color: var(--secondary);
+}
+.site_navigation_items {
+background-color: var(--main-dark) !important;
+}
+.site_navigation_items .nav-link:not(.active){
+    color: var(--white-muted) !important;
+}
 
 body {
     display: flex;
@@ -46,3 +66,4 @@ main.container {
 tr.clickable_tr {
     cursor: pointer;
 }
+
