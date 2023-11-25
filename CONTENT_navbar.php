@@ -5,7 +5,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light mx-2 justify-content-between">
     <div class="container">
         <a class="navbar-brand" href="index.php">Db-friends</a>
-        <ul class="navbar-nav ml-auto">
+        <ul class="navbar-nav ml-auto nav-underline">
 
             <li class='nav-item'>
                 <?php
@@ -44,11 +44,11 @@
         </ul>
     </div>
 </nav>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark site_navigation_items">
     <div class="container">
-        <ul class="navbar-nav align-middle">
+        <ul class="navbar-nav align-middle nav-underline">
             <li class="nav-item mx-1">
-                <a class="nav-link" href="index.php">Browse</a>
+                <a class="nav-link <?php return_active_if_current_nav($page='browse'); ?>" href="index.php">Browse</a>
             </li>
             <?php
             if (logged_in()) {

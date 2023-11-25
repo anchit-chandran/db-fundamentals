@@ -55,4 +55,6 @@ date_default_timezone_set('Europe/London');
 
 </body>
 
+<?php include_once('scripts.php') ?>
+
 </html>

@@ -25,7 +25,7 @@ include_once("utilities.php");
                     FROM WatchItem w 
                     JOIN Product p 
                         ON w.productId = p.productId 
-                    WHERE w.userId = {$userId} AND p.auctionEndDatetime > NOW()
+                    WHERE w.userId = {$userId} AND p.auctionEndDatetime > DATE_ADD(NOW(), INTERVAL 1 HOUR)
                     ORDER BY w.watchItemId DESC"
                 );
                 $watchlist = array();
@@ -57,8 +57,8 @@ include_once("utilities.php");
 
 
 
-    <div class="table table-hover mt-5">
-        <table class="table" id="watchlist">
+    <div class="table  mt-5">
+        <table class="table table-hover" id="watchlist">
             <thead>
                 <tr>
                     <th>Name</th>
@@ -74,8 +74,9 @@ include_once("utilities.php");
                 <?php
                 foreach ($watchlist as $row) {
                     $watchItemIdObj = json_encode(array("operation" => "delete", "watchItemId" => $row[0]));
-                    echo "<tr>
-                        <th><a href='listing.php?productId={$row[1]}'>{$row[2]}</a></th>
+                    $productLink = "listing.php?productId={$row[1]}";
+                    echo "<tr data-url='{$productLink}' class='clickable_tr'>
+                        <th><a href='{$productLink}'>{$row[2]}</a></th>
                         <td>{$row[3]}</td>
                         <td>{$row[4]}</td>
                         <td>{$row[5]}</td>

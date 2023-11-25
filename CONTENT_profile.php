@@ -27,7 +27,7 @@ FROM Product as P
 LEFT JOIN 
     bid AS B ON P.productId = B.productId
 WHERE 
-  P.auctionEndDatetime > NOW()
+  P.auctionEndDatetime > DATE_ADD(NOW(), INTERVAL 1 HOUR)
   AND P.userId = {$userId}
 GROUP BY
     P.productId,
@@ -148,9 +148,10 @@ GROUP BY
                     } else {
                         $imageField = "<p><span class='fw-bold'>No image uploaded with this listing</span></p>";
                     }
-                    echo "<tr>
+                    $productLink = "listing.php?productId={$row['productId']}";
+                    echo "<tr data-url='{$productLink}' class='clickable_tr'>
               <td class='col-1'>$imageField</td>
-                  <th scope='row'><a href='listing.php?productId={$row['productId']}'>{$row['name']}</a></th>
+                  <td><a href='{$productLink}'>{$row['name']}</a></th>
                   <td>{$row['description']}</td>
                   <td>{$highestBidAmount}</td>
                   <td>{$num_bids}</td>
