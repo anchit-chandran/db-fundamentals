@@ -6,5 +6,6 @@ include_once("utilities.php");
 
 $content = 'CONTENT_mybids.php';
 $title = 'My Bids';
+$currentPage = 'mybids';
 include('templates/base.php');
 ?>

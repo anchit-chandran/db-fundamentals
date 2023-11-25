@@ -46,9 +46,9 @@
 </nav>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <ul class="navbar-nav align-middle">
+        <ul class="navbar-nav align-middle nav-underline">
             <li class="nav-item mx-1">
-                <a class="nav-link" href="index.php">Browse</a>
+                <a class="nav-link <?php return_active_if_current_nav($page='browse'); ?>" href="index.php">Browse</a>
             </li>
             <?php
             if (logged_in()) {
