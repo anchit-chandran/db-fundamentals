@@ -57,9 +57,9 @@
                                 $status = "Closed (non-winning bid)";
                             }
                         }
-
-                        echo "<tr>
-                            <th><a href='listing.php?productId={$productId}'>{$productName}</a></th>
+                        $productLink = "listing.php?productId={$productId}";
+                        echo "<tr data-url='{$productLink}' class='clickable_tr'>
+                            <th><a href='{$productLink}'>{$productName}</a></th>
                             <td>£{$row['amount']}</td>
                             <td>{$row['bidTime']}</td>
                             <td>{$status}</td>

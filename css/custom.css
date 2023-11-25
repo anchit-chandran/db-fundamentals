@@ -41,3 +41,8 @@ main.container {
 .rating-color{
     color:#fbc634 !important;
 }
+
+/* TABLE STYLINGS */
+tr.clickable_tr {
+    cursor: pointer;
+}

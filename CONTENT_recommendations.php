@@ -43,7 +43,7 @@ function getProductsForBidSubCategories($subCategoryid)
     LEFT JOIN 
         bid AS B ON P.productId = B.productId
     WHERE 
-      P.auctionEndDatetime > NOW()
+      P.auctionEndDatetime > DATE_SUB(NOW(), INTERVAL 1 HOUR)
       AND P.subcategoryId = {$subCategoryid}
       AND P.productId NOT IN (SELECT productId FROM bid WHERE userId = {$_SESSION['userId']})
     GROUP BY
@@ -106,9 +106,9 @@ function renderProductTableForBidCategories($products)
         } else {
             $highestBidAmount = "No bids!";
         }
-
-        echo "<tr> 
-                            <th scope='row'><a href='listing.php?productId={$row['productId']}'>{$row['name']}</a></th>
+        $productLink = "listing.php?productId={$row['productId']}";
+        echo "<tr data-url='{$productLink}' class='clickable_tr'> 
+                            <th scope='row'><a href='{$productLink}'>{$row['name']}</a></th>
                             <td>{$row['description']}</td>
                             <td>{$highestBidAmount}</td>
                             <td>{$num_bids}</td>

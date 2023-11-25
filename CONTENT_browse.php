@@ -26,7 +26,7 @@ $product_table_query = "SELECT
     LEFT JOIN 
         bid AS B ON P.productId = B.productId
     WHERE 
-      P.auctionEndDatetime > NOW()
+      P.auctionEndDatetime > DATE_SUB(NOW(), INTERVAL 1 HOUR)
     GROUP BY
         P.productId,
         P.name,
@@ -125,7 +125,7 @@ $n_pages = ceil($n_products / $products_per_page);
   <table class="table table-hover" id='auction_items_table'>
     <thead>
       <tr>
-      <th scope="col">Auction Image</th>
+        <th scope="col">Auction Image</th>
         <th scope="col">Name</th>
         <th scope="col">Description</th>
         <th scope="col">Highest bid <?php echo '⬇️' ?></th>
@@ -158,7 +158,7 @@ $n_pages = ceil($n_products / $products_per_page);
         } else {
           $highestBidAmount = "No bids!";
         }
-        
+
         if ($row["image"] != null) {
           $image = $row["image"];
           $base64image = base64_encode($image);
@@ -166,9 +166,10 @@ $n_pages = ceil($n_products / $products_per_page);
         } else {
           $imageField = "<p><span class='fw-bold'>No image uploaded with this listing</span></p>";
         }
-      echo "<tr>
-      <td class='col-1'>$imageField</td>
-          <th scope='row'><a href='listing.php?productId={$row['productId']}'>{$row['name']}</a></th>
+        $productLink = "listing.php?productId={$row['productId']}";
+        echo "<tr data-url='{$productLink}' class='clickable_tr'>
+          <td class='col-1'>$imageField</td>
+          <th scope='row'><a href='{$productLink}'>{$row['name']}</a></th>
           <td>{$row['description']}</td>
           <td>{$highestBidAmount}</td>
           <td>{$num_bids}</td>
