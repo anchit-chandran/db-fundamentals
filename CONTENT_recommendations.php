@@ -145,7 +145,7 @@ function renderProductTableForBidCategories($products)
                 if ($products->num_rows > 0) {
                     renderProductTableForBidCategories($products);
                 } else {
-                    echo "<h6 class='text-muted mt-4'>There aren't any active auctions for this category yet! We'll keep an eye out!</h6>";
+                    echo "<h6 class='text-muted mt-4'>There aren't any live auctions for this category yet (that you haven't made bids on)! We'll keep an eye out!</h6>";
                 }
                 echo "</div>";
             }
