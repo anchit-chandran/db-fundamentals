@@ -76,7 +76,7 @@ include_once("utilities.php");
                     $watchItemIdObj = json_encode(array("operation" => "delete", "watchItemId" => $row[0]));
                     $productLink = "listing.php?productId={$row[1]}";
                     echo "<tr data-url='{$productLink}' class='clickable_tr'>
-                        <th><a href='{$productLink}'>{$row[2]}</a></th>
+                        <td class='fw-bold'><a href='{$productLink}'>{$row[2]}</a></td>
                         <td>{$row[3]}</td>
                         <td>{$row[4]}</td>
                         <td>{$row[5]}</td>

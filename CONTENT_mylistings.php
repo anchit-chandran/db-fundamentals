@@ -40,7 +40,7 @@
                         $category_name = (array_values(runQuery("SELECT categoryName FROM Category WHERE categoryId = " . $category_id)->fetch_assoc())[0]);
                         $productLink = "listing.php?productId={$row['productId']}";
                         echo "<tr data-url='{$productLink}' class='clickable_tr'>
-                            <th><a href='{$productLink}'>{$row['name']}</a></th>
+                            <td class='fw-bold'><a href='{$productLink}'>{$row['name']}</a></td>
                             <td>{$row['startPrice']}</td>
                             <td>{$row['reservePrice']}</td>
                             <td>{$highest_bid}</td>
