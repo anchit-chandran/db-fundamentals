@@ -60,7 +60,7 @@
 
                         echo "<tr>
                             <th><a href='listing.php?productId={$productId}'>{$productName}</a></th>
-                            <td>{$row['amount']}</td>
+                            <td>£{$row['amount']}</td>
                             <td>{$row['bidTime']}</td>
                             <td>{$status}</td>
                         </tr>";
