@@ -24,7 +24,11 @@ background-color: var(--main-dark) !important;
 .site_navigation_items .nav-link:not(.active){
     color: var(--white-muted) !important;
 }
+a {
+    color: var(--main);
+}
 
+/* CUSTOM STYLES */
 body {
     display: flex;
     flex-direction: column;
@@ -65,5 +69,10 @@ main.container {
 /* TABLE STYLINGS */
 tr.clickable_tr {
     cursor: pointer;
+}
+
+/* adds transition hover */
+.table-hover > tbody > tr > * {
+    transition: all .3s ease;
 }
 
