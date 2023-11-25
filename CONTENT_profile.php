@@ -151,7 +151,7 @@ GROUP BY
                     $productLink = "listing.php?productId={$row['productId']}";
                     echo "<tr data-url='{$productLink}' class='clickable_tr'>
               <td class='col-1'>$imageField</td>
-                  <th scope='row'><a href='{$productLink}'>{$row['name']}</a></th>
+                  <td><a href='{$productLink}'>{$row['name']}</a></th>
                   <td>{$row['description']}</td>
                   <td>{$highestBidAmount}</td>
                   <td>{$num_bids}</td>

@@ -123,7 +123,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 $userFirstName = (array_values(runQuery("SELECT firstName FROM User WHERE userId = " . $row['userId'])->fetch_assoc())[0]);
                 $userLastName = (array_values(runQuery("SELECT lastName FROM User WHERE userId = " . $row['userId'])->fetch_assoc())[0]);
                 echo "<tr>
-                  <th scope='row'>{$row['bidTime']}</th>
+                  <td>{$row['bidTime']}</th>
                   <td>£{$row['amount']}</td>
                   <td><a href='http://localhost/db-fundamentals/profile.php?userId={$userId}'>{$userFirstName} {$userLastName}</a></td>
                 </tr>";

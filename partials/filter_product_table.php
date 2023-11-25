@@ -163,7 +163,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
         echo "<tr data-url='{$productLink}' class='clickable_tr'>
         <td class='col-1'>$imageField</td>
 
-        <th scope='row'><a href='{$productLink}'>{$row['name']}</a></th>
+        <td class='fw-bold'><a href='{$productLink}'>{$row['name']}</a></th>
         <td>{$row['description']}</td>
         <td>{$highestBidAmount}</td>
         <td>{$num_bids}</td>

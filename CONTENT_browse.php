@@ -169,7 +169,7 @@ $n_pages = ceil($n_products / $products_per_page);
         $productLink = "listing.php?productId={$row['productId']}";
         echo "<tr data-url='{$productLink}' class='clickable_tr'>
           <td class='col-1'>$imageField</td>
-          <th scope='row'><a href='{$productLink}'>{$row['name']}</a></th>
+          <td class='fw-bold'><a href='{$productLink}'>{$row['name']}</a></td>
           <td>{$row['description']}</td>
           <td>{$highestBidAmount}</td>
           <td>{$num_bids}</td>

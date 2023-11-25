@@ -1,78 +1,96 @@
 /* Any custom CSS you would like to specify for your site can go here. */
 
 :root {
-    --danger: red;
-    --valid: green;
-    --main: #AB2020;
-    --main-dark: #650001;
-    --secondary: #0A0F0D;
-    --white-muted: #f7f6f6;
-  }
+  --danger: red;
+  --valid: green;
+  --main: #ab2020;
+  --main-dark: #650001;
+  --secondary: #0a0f0d;
+  --white-muted: #f7f6f6;
+}
 
 /* BOOTSTRAP OVERRIDES */
 .btn-primary {
-    background-color: var(--main);
-    border-color: var(--main);
+  background-color: var(--main);
+  border-color: var(--main);
 }
 .btn-primary:hover {
-    background-color: var(--secondary);
-    border-color: var(--secondary);
+  background-color: var(--secondary);
+  border-color: var(--secondary);
 }
 .site_navigation_items {
-background-color: var(--main-dark) !important;
+  background-color: var(--main-dark) !important;
 }
-.site_navigation_items .nav-link:not(.active){
-    color: var(--white-muted) !important;
+.site_navigation_items .nav-link:not(.active) {
+  color: var(--white-muted) !important;
 }
 a {
-    color: var(--main);
+  color: var(--main);
+}
+
+.page-link {
+  color: var(--main);
+}
+.page-link:hover {
+  color: var(--secondary);
 }
 
 /* CUSTOM STYLES */
 body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
 }
 
 /* MAIN CONTENT CONTAINTER */
 main.container {
-    flex:1;
+  flex: 1;
 }
 
 /* LOGIN FORM */
 
 /* FORM STYLINGS */
 .form_error {
-    color: var(--danger);
+  color: var(--danger);
 }
 .form_valid {
-    color: var(--valid);
+  color: var(--valid);
 }
-.table_row_muted, .table_row_muted>* {
-    color: #212529bf !important;
+.table_row_muted,
+.table_row_muted > * {
+  color: #212529bf !important;
 }
 
 /* RATING STARS */
-.ratings{
-    margin-right:10px;
+.ratings {
+  margin-right: 10px;
 }
-.ratings i{
-    color:#cecece;
-    font-size:26px;
+.ratings i {
+  color: #cecece;
+  font-size: 26px;
 }
-.rating-color{
-    color:#fbc634 !important;
+.rating-color {
+  color: #fbc634 !important;
 }
 
 /* TABLE STYLINGS */
 tr.clickable_tr {
-    cursor: pointer;
+  cursor: pointer;
 }
+/* Normal state of the table cells */
+.table-hover > tbody > tr > td {
+    transition: transform 0.3s ease;
+    /* Other styles as needed */
+}
+
+/* Hover state of the table row */
+.table-hover > tbody > tr:hover > td {
+    transform: translateY(-5px); /* Adjust the pixel value as needed */
+}
+
 
 /* adds transition hover */
 .table-hover > tbody > tr > * {
-    transition: all .3s ease;
+  transition: all 0.3s ease;
 }
-

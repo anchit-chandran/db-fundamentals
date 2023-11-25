@@ -59,7 +59,7 @@
                         }
                         $productLink = "listing.php?productId={$productId}";
                         echo "<tr data-url='{$productLink}' class='clickable_tr'>
-                            <th><a href='{$productLink}'>{$productName}</a></th>
+                            <td class='fw-bold'><a href='{$productLink}'>{$productName}</a></td>
                             <td>£{$row['amount']}</td>
                             <td>{$row['bidTime']}</td>
                             <td>{$status}</td>

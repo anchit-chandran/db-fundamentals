@@ -108,7 +108,7 @@ function renderProductTableForBidCategories($products)
         }
         $productLink = "listing.php?productId={$row['productId']}";
         echo "<tr data-url='{$productLink}' class='clickable_tr'> 
-                            <th scope='row'><a href='{$productLink}'>{$row['name']}</a></th>
+                            <td><a href='{$productLink}'>{$row['name']}</a></th>
                             <td>{$row['description']}</td>
                             <td>{$highestBidAmount}</td>
                             <td>{$num_bids}</td>
@@ -140,12 +140,14 @@ function renderProductTableForBidCategories($products)
                 $products = getProductsForBidSubCategories($subCategoryId);
                 $subCategoryName = array_values(runQuery("SELECT subCategoryName FROM subcategory WHERE subCategoryId = {$subCategoryId}")->fetch_assoc())[0];
 
+                echo "<div class='mt-5'>";
+                echo "<h4 class='text-muted'>Because you bid on products in the <b>{$subCategoryName}</b> category:</h4>";
                 if ($products->num_rows > 0) {
-                    echo "<div class='mt-5'>";
-                    echo "<h4 class='text-muted'>Because you bid on products in the <b>{$subCategoryName}</b> category:</h4>";
                     renderProductTableForBidCategories($products);
-                    echo "</div>";
+                } else {
+                    echo "<h6 class='text-muted mt-4'>There aren't any active auctions for this category yet! We'll keep an eye out!</h6>";
                 }
+                echo "</div>";
             }
         } else {
             echo "<h4 class='text-muted mt-4'>You haven't bid on any products yet, so we can't recommend anything for you!</h4>";
