@@ -6,7 +6,10 @@ include_once("utilities.php");
 
 $userId = $_GET['userId'];
 $userDetails = runQuery("SELECT * FROM User WHERE userId = {$userId}")->fetch_assoc();
-$showSoldAuctions = false;
+if (!isset($_SESSION['showSoldAuctions']))
+{
+    $_SESSION['showSoldAuctions'] = false;
+}
 
 $products = runQuery("SELECT
 P.productId,
@@ -96,14 +99,22 @@ GROUP BY
     <div class="col border-right">
         <div class="p-3 py-5">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h4 class="text-right">Auctions</h4>
-                <button class="btn btn-primary" type="button" 
-                hx-get="partials/toggle_profile_auctions?userId=<?php echo $userId?>&sold=<?php if ($showSoldAuctions) {echo "true";} else {echo "false";} ?>"
-                hx-trigger="click"
-                hx-target="#profile_auctions"
-                hx-swap="innerHTML"
-                >
-                    See Sold Auctions
+                <h4 id="profile-auction-title" class="text-right">
+                <?php 
+                    if ($_SESSION['showSoldAuctions']) {
+                        echo "Auctions (sold)";
+                    } else {
+                        echo "Auctions (on-going)";
+                    }
+                ?></h4>
+                <button id="profile-auction-button" class="btn btn-primary" type="button" hx-get="partials/toggle_profile_auctions?userId=<?php echo $userId ?>" hx-trigger="click" hx-target="#profile_auctions" hx-swap="innerHTML">
+                    <?php 
+                    if ($_SESSION['showSoldAuctions']) {
+                        echo "See on-going auctions";
+                    } else {
+                        echo "See sold auctions";
+                    }
+                    ?>
                 </button>
             </div>
 
@@ -181,3 +192,4 @@ GROUP BY
 
 
 </form>
+

@@ -4,9 +4,12 @@ include_once("../CONTENT_header.php");
 include_once("../database.php");
 include_once("../utilities.php");
 
+if (session_id() == '' || !isset($_SESSION) || session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $userId = $_GET['userId'];
-    $sold = $_GET['sold'];
 }
 
 $products = runQuery("SELECT
@@ -51,6 +54,13 @@ GROUP BY
 ?>
 
 <?php
+
+$_SESSION['showSoldAuctions'] = !$_SESSION['showSoldAuctions'];
+if ($_SESSION['showSoldAuctions']) {
+    echo "showing sold auctions";
+} else {
+    echo "showing ongoing auctions";
+}
 
 if (mysqli_num_rows($products) == 0) {
     echo "<p>This user has not made any auctions yet.</p>";
@@ -116,3 +126,26 @@ if (mysqli_num_rows($products) == 0) {
 }
 
 ?>
+
+<div id="profile-auction-button" hx-swap-oob="true">
+    <button id="profile-auction-button" class="btn btn-primary" type="button" hx-get="partials/toggle_profile_auctions?userId=<?php echo $userId ?>" hx-trigger="click" hx-target="#profile_auctions" hx-swap="innerHTML">
+        <?php
+        if ($_SESSION['showSoldAuctions']) {
+            echo "See on-going auctions";
+        } else {
+            echo "See sold auctions";
+        }
+        ?>
+    </button>
+</div>
+
+<div id="profile-auction-title" hx-swap-oob="true">
+    <h4 id="profile-auction-title" class="text-right">
+        <?php
+        if ($_SESSION['showSoldAuctions']) {
+            echo "Auctions (sold)";
+        } else {
+            echo "Auctions (on-going)";
+        }
+        ?></h4>
+</div>
