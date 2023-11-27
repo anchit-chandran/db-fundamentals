@@ -40,6 +40,7 @@ if ($_SESSION['showSoldAuctions']) {
         MB.maxBidAmount AS soldFor,
         F.rating,
         F.comment,
+        U.userId,
         U.firstName,
         U.lastName
     FROM maxBidCTE AS MB
@@ -64,6 +65,7 @@ if ($_SESSION['showSoldAuctions']) {
         <tbody>";
         while ($row = $sold_products->fetch_assoc()) {
             $productLink = "listing.php?productId={$row['productId']}";
+            $profileLink = "profile.php?userId={$row['userId']}";
             $fullName = $row['firstName'] . " " . $row['lastName'];
             if ($row["image"] != null) {
                 $image = $row["image"];
@@ -78,7 +80,7 @@ if ($_SESSION['showSoldAuctions']) {
                       <td>{$row['soldFor']}</td>
                       <td>{$row['rating']}</td>
                       <td>{$row['comment']}</td>
-                      <td>{$fullName}</td>
+                      <td class='fw-bold'><a href='{$profileLink}'>{$fullName}</a></th>
                       </tr>";
         };
 
