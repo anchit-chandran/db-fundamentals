@@ -4,7 +4,7 @@
   --danger: red;
   --valid: green;
   --main: #059669;
-  --main-dark: #650001;
+  --main-dark: #056848;
   --secondary: #0a0f0d;
   --white-muted: #f7f6f6;
 }
@@ -13,6 +13,10 @@
 .btn-primary {
   background-color: var(--main);
   border-color: var(--main);
+}
+.btn-success {
+  background-color: var(--secondary);
+  border-color: var(--secondary);
 }
 .btn-primary:hover {
   background-color: var(--secondary);
