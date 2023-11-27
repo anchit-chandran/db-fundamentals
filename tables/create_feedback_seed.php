@@ -38,7 +38,7 @@ if (runQuery($createFeedbackTable)) {
 $seedFeedbacks = "INSERT INTO Feedback (comment, rating, productId, userId)
     VALUES 
     ('Nice product. Highly Recommended.', 5, 4, 2),
-    ('Not gonna lie, spent way too much on this strawberry', 4, 9, 5),
+    ('Not gonna lie, spent way too much on this strawberry', 4, 9, 1),
     ('It\'s alright. Bit sour for my taste.', 4, 8, 1),
     ('Order did not arrive.', 1, 1, 1);";
 

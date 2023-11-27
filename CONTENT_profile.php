@@ -119,7 +119,7 @@ GROUP BY
             <div id="profile_auctions">
                 <?php
                 if (mysqli_num_rows($products) == 0) {
-                    echo "<p>This user has not made any auctions yet.</p>";
+                    echo "<p>This user has no ongoing auctions.</p>";
                 } else {
                     echo "<table class='table table-hover' id='auction_items_table'>
                             <thead>

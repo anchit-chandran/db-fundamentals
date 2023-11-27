@@ -49,7 +49,7 @@ if ($_SESSION['showSoldAuctions']) {
     LEFT JOIN User as U
     ON F.userId = U.userId;");
     if (mysqli_num_rows($sold_products) == 0) {
-        echo "<p>This user has not sold any products yet.</p>";
+        echo "<p>This user has not sold any products in an auction yet.</p>";
     } else {
         echo "<table class='table table-hover' id='auction_items_table'>
         <thead>
@@ -77,7 +77,7 @@ if ($_SESSION['showSoldAuctions']) {
             echo "<tr data-url='{$productLink}' class='clickable_tr'>
                     <td class='col-1'>$imageField</td>
                       <td class='fw-bold'><a href='{$productLink}'>{$row['name']}</a></th>
-                      <td>{$row['soldFor']}</td>
+                      <td>£{$row['soldFor']}</td>
                       <td>{$row['rating']}</td>
                       <td>{$row['comment']}</td>
                       <td class='fw-bold'><a href='{$profileLink}'>{$fullName}</a></th>
@@ -127,7 +127,7 @@ if ($_SESSION['showSoldAuctions']) {
     ORDER BY
         highestBidAmount DESC");
     if (mysqli_num_rows($ongoing_products) == 0) {
-        echo "<p>This user has not made any auctions yet.</p>";
+        echo "<p>This user has no ongoing auctions.</p>";
     } else {
         echo "<table class='table table-hover' id='auction_items_table'>
                             <thead>
