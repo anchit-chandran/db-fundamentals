@@ -191,7 +191,7 @@ if ($_SESSION['showSoldAuctions']) {
 ?>
 
 <div id="profile-auction-button" hx-swap-oob="true">
-    <button id="profile-auction-button" class="btn btn-primary" type="button" hx-get="partials/toggle_profile_auctions?userId=<?php echo $userId ?>" hx-trigger="click" hx-target="#profile_auctions" hx-swap="innerHTML">
+    <button id="profile-auction-button" class="btn btn-primary" type="button" hx-get="partials/toggle_profile_auctions.php?userId=<?php echo $userId ?>" hx-trigger="click" hx-target="#profile_auctions" hx-swap="innerHTML">
         <?php
         if ($_SESSION['showSoldAuctions']) {
             echo "See on-going auctions";
