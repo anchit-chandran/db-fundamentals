@@ -57,7 +57,11 @@ GROUP BY
             <img class="rounded-circle mt-5" width="150px" src="https://t3.ftcdn.net/jpg/05/71/08/24/360_F_571082432_Qq45LQGlZsuby0ZGbrd79aUTSQikgcgc.jpg">
 
             <span class="font-weight-bold">
-                <?php echo ucfirst($userDetails['firstName']) ?>
+                
+                <?php 
+                $firstName = ucfirst($userDetails['firstName']);
+                $lastName = ucfirst($userDetails['lastName']);
+                echo "{$firstName} {$lastName}" ?>
             </span>
 
         </div>
