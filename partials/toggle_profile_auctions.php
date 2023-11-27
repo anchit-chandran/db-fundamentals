@@ -19,9 +19,74 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
 $_SESSION['showSoldAuctions'] = !$_SESSION['showSoldAuctions'];
 if ($_SESSION['showSoldAuctions']) {
-    echo "showing sold auctions";
+    $sold_products = runQuery("WITH maxBidCTE as (
+        SELECT 
+        P.productId,
+        P.name,
+        P.image,
+        P.reservePrice,
+        COALESCE(MAX(B.amount), 0) AS maxBidAmount
+    FROM product AS P
+    LEFT JOIN bid AS B 
+    ON P.productId = B.productId
+    WHERE P.userId={$userId} AND P.auctionEndDatetime < NOW()
+    GROUP BY productId
+    HAVING COALESCE(MAX(B.amount), 0) >= P.reservePrice
+    )
+    SELECT 
+        MB.productId,
+        MB.name,
+        MB.image, 
+        MB.maxBidAmount AS soldFor,
+        F.rating,
+        F.comment,
+        U.firstName,
+        U.lastName
+    FROM maxBidCTE AS MB
+    INNER JOIN Feedback AS F
+    ON MB.productId = F.productId
+    LEFT JOIN User as U
+    ON F.userId = U.userId;");
+    if (mysqli_num_rows($sold_products) == 0) {
+        echo "<p>This user has not sold any products yet.</p>";
+    } else {
+        echo "<table class='table table-hover' id='auction_items_table'>
+        <thead>
+            <tr>
+                <th scope='col'>Auction Image</th>
+                <th scope='col'>Name</th>
+                <th scope='col'>Sold for</th>
+                <th scope='col'>Rating</th>
+                <th scope='col'>Comment</th>
+                <th scope='col'>Bought By</th>
+            </tr>
+        </thead>
+        <tbody>";
+        while ($row = $sold_products->fetch_assoc()) {
+            $productLink = "listing.php?productId={$row['productId']}";
+            $fullName = $row['firstName'] . " " . $row['lastName'];
+            if ($row["image"] != null) {
+                $image = $row["image"];
+                $base64image = base64_encode($image);
+                $imageField = "<div class='d-flex align-itemes-center justify-content-center' width='100' height='100'><img src='data:image/jpeg;base64," . $base64image . "' alt='Blob Image' style='object-fit:contain' width='100' height='100'></div>";
+            } else {
+                $imageField = "<p><span class='fw-bold'>No image uploaded with this listing</span></p>";
+            }
+            echo "<tr data-url='{$productLink}' class='clickable_tr'>
+                    <td class='col-1'>$imageField</td>
+                      <td class='fw-bold'><a href='{$productLink}'>{$row['name']}</a></th>
+                      <td>{$row['soldFor']}</td>
+                      <td>{$row['rating']}</td>
+                      <td>{$row['comment']}</td>
+                      <td>{$fullName}</td>
+                      </tr>";
+        };
+
+
+        echo "</tbody>";
+    }
 } else {
-    $products = runQuery("SELECT
+    $ongoing_products = runQuery("SELECT
     P.productId,
     P.name,
     P.description,
@@ -59,7 +124,7 @@ if ($_SESSION['showSoldAuctions']) {
 
     ORDER BY
         highestBidAmount DESC");
-    if (mysqli_num_rows($products) == 0) {
+    if (mysqli_num_rows($ongoing_products) == 0) {
         echo "<p>This user has not made any auctions yet.</p>";
     } else {
         echo "<table class='table table-hover' id='auction_items_table'>
@@ -75,12 +140,12 @@ if ($_SESSION['showSoldAuctions']) {
                             </thead>
                             <tbody>
                             ";
-    
-        while ($row = $products->fetch_assoc()) {
-    
+
+        while ($row = $ongoing_products->fetch_assoc()) {
+
             // GET N BIDS
             $num_bids = (array_values(runQuery("SELECT COUNT(*) FROM Bid WHERE productId = " . $row['productId'])->fetch_assoc())[0]);
-    
+
             // GET TIME REMAINING
             $end_date_str = $row['auctionEndDatetime'];
             $now = new DateTime();
@@ -92,14 +157,14 @@ if ($_SESSION['showSoldAuctions']) {
                 $time_to_end = date_diff($now, $end_date);
                 $time_remaining = display_time_remaining($time_to_end);
             }
-    
+
             //  RENDER HIGHEST BID AMOUNT
             if ($row['highestBidAmount'] > 0) {
                 $highestBidAmount = "£{$row['highestBidAmount']}";
             } else {
                 $highestBidAmount = "No bids!";
             }
-    
+
             if ($row["image"] != null) {
                 $image = $row["image"];
                 $base64image = base64_encode($image);
@@ -120,8 +185,6 @@ if ($_SESSION['showSoldAuctions']) {
         echo "</tbody></table>";
     }
 }
-
-
 
 ?>
 

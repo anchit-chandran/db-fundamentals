@@ -6,10 +6,7 @@ include_once("utilities.php");
 
 $userId = $_GET['userId'];
 $userDetails = runQuery("SELECT * FROM User WHERE userId = {$userId}")->fetch_assoc();
-if (!isset($_SESSION['showSoldAuctions']))
-{
-    $_SESSION['showSoldAuctions'] = false;
-}
+$_SESSION['showSoldAuctions'] = false;
 
 $products = runQuery("SELECT
 P.productId,
