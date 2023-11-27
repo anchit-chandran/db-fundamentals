@@ -49,7 +49,8 @@ GROUP BY
 
 ?>
 
-<form class="row" method='POST'>
+<!-- <form class="row" method='POST'> -->
+<div class="row">
     <div class="col-md-3 border-right">
         <div class="d-flex flex-column align-items-center text-center">
 
@@ -97,15 +98,15 @@ GROUP BY
         <div class="p-3 py-5">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h4 id="profile-auction-title" class="text-right">
-                <?php 
+                    <?php
                     if ($_SESSION['showSoldAuctions']) {
                         echo "Auctions (sold)";
                     } else {
                         echo "Auctions (on-going)";
                     }
-                ?></h4>
+                    ?></h4>
                 <button id="profile-auction-button" class="btn btn-primary" type="button" hx-get="partials/toggle_profile_auctions?userId=<?php echo $userId ?>" hx-trigger="click" hx-target="#profile_auctions" hx-swap="innerHTML">
-                    <?php 
+                    <?php
                     if ($_SESSION['showSoldAuctions']) {
                         echo "See on-going auctions";
                     } else {
@@ -183,10 +184,8 @@ GROUP BY
             </div>
 
         </div>
-
     </div>
+</div>
 
 
-
-</form>
-
+<!-- </form> -->
