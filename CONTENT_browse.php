@@ -26,7 +26,7 @@ $product_table_query = "SELECT
     LEFT JOIN 
         bid AS B ON P.productId = B.productId
     WHERE 
-      P.auctionEndDatetime > DATE_ADD(NOW(), INTERVAL 1 HOUR)
+      P.auctionEndDatetime > NOW()
     GROUP BY
         P.productId,
         P.name,
