@@ -61,9 +61,9 @@ $in_1_hr = $in_1_hr->format("Y-m-d H:i:s");
 $seedProducts = "INSERT INTO Product (name, description, auctionStartDatetime, auctionEndDatetime, state, orderEmailSent, userId, subcategoryId, image)
 VALUES 
 
-('Tesco Extra Mature Cheddar Cheese, 400g', 'Tasteless lump of rubber', '2016-06-18 10:34:09', '2022-02-23 21:14:54', 'Brand New', true, 1, 1,''),
-('Sainsbury''s Gouda Cheese, 256g', 'Half eaten', '2021-06-18 10:34:09', '2025-09-24 01:03:55', 'Slightly Used', NULL, 2, 1,''),
-('Death Lurk II Team Skateboard Deck - 8', 'The Lurk II deck from Death features a cyclops creature printed down the length of the board with a mushroom growing out of its tongue. Death branding is featured on the tail.', '2022-07-19 10:36:09', '2025-09-14 11:13:55', 'Brand New', NULL, 2, 3,''),
+('Tesco Extra Mature Cheddar Cheese, 400g', 'Tasteless lump of rubber', '2016-06-18 10:34:09', '2022-02-23 21:14:54', 'Brand New', true, 1, 1,'cheese.jpg'),
+('Sainsbury''s Gouda Cheese, 256g', 'Half eaten', '2021-06-18 10:34:09', '2025-09-24 01:03:55', 'Slightly Used', NULL, 2, 1,'cheese.jpg'),
+('Death Lurk II Team Skateboard Deck - 8', 'The Lurk II deck from Death features a cyclops creature printed down the length of the board with a mushroom growing out of its tongue. Death branding is featured on the tail.', '2022-07-19 10:36:09', '2025-09-14 11:13:55', 'Brand New', NULL, 2, 3,'https://plus.unsplash.com/premium_photo-1684964177934-21190c1abc00?q=80&w=1972&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
 ('Moldy Bread From The Sink', 'Try at your peril', '2022-10-03 21:54:13', '{$now}', 'Used', NULL, 2, 2,''),
 ('Apple', 'This is an apple', '2022-10-03 21:54:13', '{$in_1_min}', 'Brand New', NULL, 2, 2,''),
 ('orange', 'This is an orange', '2022-10-03 21:54:13', '{$in_1_hr}', 'Brand New', NULL, 2, 2,''),
