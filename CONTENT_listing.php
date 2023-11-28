@@ -48,9 +48,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         <?php
         if ($productDetails["image"] != null) {
           $image = $productDetails["image"];
-          $base64image = base64_encode($image);
+          // $base64image = base64_encode($image);
 
-          echo "<div class='d-flex' width='400' height='400'><img src='data:image/jpeg;base64," . $base64image . "' alt='Blob Image' style='object-fit:contain' width='400' height='400'></div>";
+          echo "<div class='d-flex' width='400' height='400'><img src='$image' alt='Blob Image' style='object-fit:contain' width='400' height='400'></div>";
         } else {
           echo "<p>No image uploaded with this listing</p>";
         }

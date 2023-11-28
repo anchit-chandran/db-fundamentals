@@ -69,8 +69,8 @@ if ($_SESSION['showSoldAuctions']) {
             $fullName = $row['firstName'] . " " . $row['lastName'];
             if ($row["image"] != null) {
                 $image = $row["image"];
-                $base64image = base64_encode($image);
-                $imageField = "<div class='d-flex align-itemes-center justify-content-center' width='100' height='100'><img src='data:image/jpeg;base64," . $base64image . "' alt='Blob Image' style='object-fit:contain' width='100' height='100'></div>";
+                // $base64image = base64_encode($image);
+                $imageField = "<div class='d-flex align-itemes-center justify-content-center' width='100' height='100'><img src='$image' alt='Blob Image' style='object-fit:contain' width='100' height='100'></div>";
             } else {
                 $imageField = "<p><span class='fw-bold'>No image uploaded with this listing</span></p>";
             }
@@ -169,8 +169,8 @@ if ($_SESSION['showSoldAuctions']) {
 
             if ($row["image"] != null) {
                 $image = $row["image"];
-                $base64image = base64_encode($image);
-                $imageField = "<div class='d-flex align-itemes-center justify-content-center' width='100' height='100'><img src='data:image/jpeg;base64," . $base64image . "' alt='Blob Image' style='object-fit:contain' width='100' height='100'></div>";
+                // $base64image = base64_encode($image);
+                $imageField = "<div class='d-flex align-itemes-center justify-content-center' width='100' height='100'><img src='$image' alt='Blob Image' style='object-fit:contain' width='100' height='100'></div>";
             } else {
                 $imageField = "<p><span class='fw-bold'>No image uploaded with this listing</span></p>";
             }
