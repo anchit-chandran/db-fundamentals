@@ -1,7 +1,7 @@
 <!-- Footer -->
 <footer class="bg-dark text-center text-white mt-auto py-3">
      <div class="container">
-          <p class="m-0">Copyright &copy; 2023 db-friends</p>
+          <p class="m-0">Copyright &copy; 2023 Your Company</p>
      </div>
 </footer>
 

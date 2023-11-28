@@ -4,7 +4,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light mx-2 justify-content-between">
     <div class="container">
-        <a class="navbar-brand" href="index.php">db-friends</a>
+        <a class="navbar-brand" href="index.php">Db-friends</a>
         <ul class="navbar-nav ml-auto nav-underline">
 
             <li class='nav-item'>
