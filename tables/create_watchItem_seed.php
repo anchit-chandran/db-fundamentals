@@ -34,6 +34,7 @@ if (runQuery($createWatchItemTable)) {
 
 $seedWatchItems = "INSERT INTO WatchItem (userId, productId)
     VALUES 
+    (6,7),
     (1, 2),
     (1, 1),
     (4,7),

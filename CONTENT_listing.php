@@ -20,10 +20,17 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     ORDER BY amount DESC;
   ");
   $n_bids = $bids->num_rows;
+
+  // CHECK IF ONGOING
+  $now = new DateTime();
+  $auctionEndDatetime = new DateTime($productDetails["auctionEndDatetime"]);
+  $auction_ended = $auctionEndDatetime < $now;
 }
 
   // USER DETAILS
   $user = runQuery("SELECT * FROM User WHERE userId = {$productDetails['userId']}")->fetch_assoc();
+
+  $title = $auction_ended ? "Auction Ended" : "Auction Ongoing";
 
 ?>
 
@@ -31,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
   <div class="col pt-3">
     <div class="row">
       <div class="col mb-3">
-        <h1>Make a bid - <?php echo $productDetails["name"] ?></h1>
+        <h1><?php echo $title . " - " . $productDetails["name"] ?></h1>
       </div>
     </div>
     <div class="row">
@@ -146,8 +153,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
             echo "<button class='btn btn-danger text-nowrap' hx-confirm='Are you sure you want to remove from watchlist?' hx-post='watchitem_button.php' hx-swap='outerHTML' hx-trigger='click' name='remove-watchitem' hx-vals=$watchItemIdObj id='remove-watchitem'>- Remove from watchlist</button> <br>";
           } else {
+            $watchItemButtonDisabled = $auction_ended ? "disabled" : "";
             $watchItemObj = json_encode(array("operation" => "insert", "productId" => $productId));
-            echo "<button class='btn btn-success text-nowrap' hx-post='watchitem_button.php' hx-swap='outerHTML' hx-trigger='click' name='add_watchitem' hx-vals=$watchItemObj>+ Add to watchlist</button>
+            echo "<button class='btn btn-success text-nowrap' hx-post='watchitem_button.php' hx-swap='outerHTML' hx-trigger='click' name='add_watchitem' hx-vals=$watchItemObj {$watchItemButtonDisabled}>+ Add to watchlist</button>
             <br>";
           }
         } ?>
@@ -182,7 +190,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             <input name="user_id" type="hidden" value=<?php if (isset($_SESSION['logged_in'])) {
                                                         echo $_SESSION['userId'];
                                                       } ?>>
-            <input name="bid_amount" type="number" step="0.01" min="0" class="form-control" placeholder="Bid amount" aria-label="bid-amount" aria-describedby="bid-amount" <?php if (!$user_logged_in) {
+            <input name="bid_amount" type="number" step="0.01" min="0" class="form-control" placeholder="Bid amount" aria-label="bid-amount" aria-describedby="bid-amount" <?php if (!$user_logged_in or $auction_ended) {
                                                                                                                                                                               echo "disabled";
                                                                                                                                                                             } ?>>
           </div>
@@ -190,7 +198,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                               echo "btn-primary";
                                             } else {
                                               echo "btn-secondary";
-                                            } ?>" <?php if (!$user_logged_in) {
+                                            } ?>" <?php if (!$user_logged_in or $auction_ended) {
                                                                                                                               echo "disabled";
                                                                                                                             } ?>>
             Place Bid
