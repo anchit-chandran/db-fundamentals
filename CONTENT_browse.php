@@ -43,7 +43,7 @@ $product_table_query = "SELECT
         P.subcategoryId
     
       ORDER BY
-        P.auctionEndDatetime DESC
+        P.auctionEndDatetime ASC
         ";
 $product_table_query_first_page = $product_table_query . "LIMIT 5";
 
@@ -64,9 +64,6 @@ $n_pages = ceil($n_products / $products_per_page);
 </div>
 
 <div id="searchSpecs" class='container'>
-  <!-- When this form is submitted, this PHP page is what processes it.
-     Search/sort specs are passed to this page through parameters in the URL
-     (GET method of passing data to a page). -->
   <form id="filter-form" hx-get='partials/filter_product_table.php' hx-target='#auction_items_table' hx-swap='innerHTML'>
     <div class="row">
       <div class="col-md-4 pr-0">
@@ -102,10 +99,10 @@ $n_pages = ceil($n_products / $products_per_page);
         <div class="form-inline">
           <label class="mx-2" for="order_by">Sort by:</label>
           <select name="sort-option" class="form-control" id="order_by">
-            <option value="amount-DESC">Price (highest)</option>
-            <option value="amount-ASC">Price (lowest)</option>
             <option value="date-ASC">Expiry (soonest)</option>
             <option value="date-DESC">Expiry (latest)</option>
+            <option value="amount-DESC">Bid (highest)</option>
+            <option value="amount-ASC">Bid (lowest)</option>
           </select>
         </div>
       </div>
@@ -128,14 +125,15 @@ $n_pages = ceil($n_products / $products_per_page);
         <th scope="col">Auction Image</th>
         <th scope="col">Name</th>
         <th scope="col">Description</th>
-        <th scope="col">Highest bid <?php echo '⬇️' ?></th>
+        <th scope="col">Highest bid</th>
         <th scope="col">Number of bids</th>
-        <th scope="col">Remaining time</th>
+        <th scope="col">Remaining time <?php echo '⬆️' ?></th>
       </tr>
     </thead>
     <tbody>
       <?php
       while ($row = $products_first_page->fetch_assoc()) {
+
 
         // GET N BIDS
         $num_bids = (array_values(runQuery("SELECT COUNT(*) FROM Bid WHERE productId = " . $row['productId'])->fetch_assoc())[0]);
@@ -144,12 +142,12 @@ $n_pages = ceil($n_products / $products_per_page);
         $end_date_str = $row['auctionEndDatetime'];
         $now = new DateTime();
         $end_date = datetime::createFromFormat('Y-m-d H:i:s', $end_date_str);
-        if ($now > $end_date) {
+        $time_left = date_diff($now, $end_date);
+
+        if ($time_left->invert == 1) {
           $time_remaining = 'This auction has ended';
         } else {
-          // Get interval:
-          $time_to_end = date_diff($now, $end_date);
-          $time_remaining = display_time_remaining($time_to_end);
+          $time_remaining = display_time_remaining($time_left);
         }
 
         //  RENDER HIGHEST BID AMOUNT
