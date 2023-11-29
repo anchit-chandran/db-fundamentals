@@ -36,7 +36,9 @@ $seedSubCategories = "INSERT INTO SubCategory (subCategoryName, categoryId)
     ('Cheese', 1),
     ('Food but not cheese', 1),
     ('Skateboard', 2),
-    ('Toothbrush', 2);";
+    ('Toothbrush', 2),
+    ('Homework', 3)
+    ";
 
 if (runQuery($seedSubCategories)) {
     echo "Successfully seeded SubCategories. <br>";

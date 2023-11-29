@@ -32,7 +32,9 @@ if (runQuery($createCategoryTable)) {
 $seedCategories = "INSERT INTO Category (categoryName)
     VALUES 
     ('Food'),
-    ('Not Food');";
+    ('Not Food'),
+    ('Submissions')
+    ";
 
 if (runQuery($seedCategories)) {
     echo "Successfully seeded Categories. <br>";
