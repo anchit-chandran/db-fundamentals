@@ -16,6 +16,7 @@ date_default_timezone_set('Europe/London');
 
 <head>
     <?php include('CONTENT_header.php') ?>
+    <link rel="icon" href="logo.png" type="image/ico">
     <title>
         <?php
         if (isset($title)) {

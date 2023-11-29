@@ -1,7 +1,7 @@
 <?php
 include_once("../database.php");
 include_once("../utilities.php");
-
+date_default_timezone_set('Europe/London');
 // GET PARAMETERS: [search_term] => [category-option] => 1 [subcategory] => 1 [sort-option] => bidlow
 if ($_SERVER['REQUEST_METHOD'] == "GET") {
 
@@ -49,9 +49,9 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
     }
 
     if ($where_conditions) {
-        $where_clause = "WHERE P.auctionEndDatetime > DATE_ADD(NOW(), INTERVAL 1 HOUR) AND " . implode(' AND ', $where_conditions) . " ";
+        $where_clause = "WHERE P.auctionEndDatetime > NOW() AND " . implode(' AND ', $where_conditions) . " ";
     } else {
-        $where_clause = 'WHERE P.auctionEndDatetime > DATE_ADD(NOW(), INTERVAL 1 HOUR) ';
+        $where_clause = 'WHERE P.auctionEndDatetime > NOW() ';
     }
 
     $product_table_query = "SELECT
@@ -136,12 +136,12 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
         $end_date_str = $row['auctionEndDatetime'];
         $now = new DateTime();
         $end_date = datetime::createFromFormat('Y-m-d H:i:s', $end_date_str);
-        if ($now > $end_date) {
-            $time_remaining = 'This auction has ended';
+        $time_left = date_diff($now, $end_date);
+
+        if ($time_left->invert == 1) {
+          $time_remaining = 'This auction has ended';
         } else {
-            // Get interval:
-            $time_to_end = date_diff($now, $end_date);
-            $time_remaining = display_time_remaining($time_to_end);
+          $time_remaining = display_time_remaining($time_left);
         }
 
         //  RENDER HIGHEST BID AMOUNT

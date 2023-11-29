@@ -2,6 +2,7 @@
 
 include_once("../database.php");
 include_once("../utilities.php");
+date_default_timezone_set('Europe/London');
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
