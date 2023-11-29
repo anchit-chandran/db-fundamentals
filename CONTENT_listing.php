@@ -31,14 +31,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 $user = runQuery("SELECT * FROM User WHERE userId = {$productDetails['userId']}")->fetch_assoc();
 
 $title = $auction_ended ? "Auction Ended" : "Auction Ongoing";
-
+$header_h1 = $auction_ended ? "<h1 ><span class='form_error'>$title</span>  - {$productDetails['name']}</h1>" : "<h1 ><span class='form_valid'>$title</span>  - {$productDetails['name']}</h1>"
 ?>
 
 <div class="row">
   <div class="col pt-3">
     <div class="row">
       <div class="col mb-3">
-        <h1><?php echo $title . " - " . $productDetails["name"] ?></h1>
+        <?php echo $header_h1 ?>
       </div>
     </div>
     <div class="row">
