@@ -337,7 +337,7 @@ if ($result) {
           const image = imageInput.files[0]
           const imageSize = image.size;
           if (imageSize > maxSize) {
-                imageInput.value = "";
+                imageInput.value = null;
                 imageHelp.innerHTML = "File is too large. Maximum size is 5 MB.";
                 return false;
           }

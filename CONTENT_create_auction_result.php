@@ -70,6 +70,7 @@ function checkSubCategory($subcategory , $category) {
 
 include_once("database.php");
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $targetDirectory = __DIR__;
     if(session_id() == '' || !isset($_SESSION) || session_status() === PHP_SESSION_NONE) {
         session_start();
     }
@@ -89,12 +90,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         $reservePrice = number_format(round(trim($_POST["auctionReservePrice"]), 2), 2);
     }
-    if (isset($_FILES["auctionImage"])) {
+    $maxFileSize = 5 * 1024 * 1024;
+    if (isset($_FILES["auctionImage"]) && $_FILES["auctionImage"]["size"] < $maxFileSize) {
         $imageTmpPath = $_FILES["auctionImage"]["tmp_name"];
-        $auctionImage = addslashes(file_get_contents($imageTmpPath));
+        if (!empty($_FILES["auctionImage"]["name"])){
+            $fileName = pathinfo(basename($_FILES["auctionImage"]["name"]), PATHINFO_FILENAME);
+            $fileType = pathinfo(basename($_FILES["auctionImage"]["name"]), PATHINFO_EXTENSION);
+            $targetFilePath = $fileName . '.' . $fileType;
+            $check = getimagesize($imageTmpPath);
+            $counter = 1;
+            while (file_exists($targetFilePath)) {
+                $fileNameLoop = $fileName . '_' . $counter . '.' . $fileType;
+                $targetFilePath = $fileNameLoop;
+                $counter++;
+            }
+            move_uploaded_file($_FILES["auctionImage"]["tmp_name"], $targetFilePath);
+            $auctionImage = $targetFilePath;
+        } else {
+            $auctionImage = null;
+        }
     } else {
         $auctionImage = null;
     }
+
+
+    
     $check = checkDates($auctionStart, $auctionEnd);
     $catcheck = checkSubCategory($subcategory, $category);
     if (!checkTitle($title)) {
