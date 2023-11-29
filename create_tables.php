@@ -1,5 +1,5 @@
 <?php
-
+date_default_timezone_set('Europe/London');
 // order matters: create tables with no FK first (topological sort)
 
 include 'tables/create_category_seed.php';

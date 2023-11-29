@@ -1,5 +1,7 @@
 <?php include_once '../database.php' ?>
-<?php include_once("../utilities.php") ?>
+<?php include_once("../utilities.php");
+date_default_timezone_set('Europe/London');
+?>
 
 <?php
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
