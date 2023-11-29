@@ -27,10 +27,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
   $auction_ended = $auctionEndDatetime < $now;
 }
 
-  // USER DETAILS
-  $user = runQuery("SELECT * FROM User WHERE userId = {$productDetails['userId']}")->fetch_assoc();
+// USER DETAILS
+$user = runQuery("SELECT * FROM User WHERE userId = {$productDetails['userId']}")->fetch_assoc();
 
-  $title = $auction_ended ? "Auction Ended" : "Auction Ongoing";
+$title = $auction_ended ? "Auction Ended" : "Auction Ongoing";
 
 ?>
 
@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
       </div>
     </div>
     <div class="row">
-      <div class="col-8">        
+      <div class="col-8">
         <p><span class="fw-bold">Description:</span> <?php echo $productDetails["description"] ?></p>
         <p><span class="fw-bold">Condition:</span> <?php echo $productDetails["state"] ?></p>
         <?php
@@ -59,47 +59,47 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
 
         <h3>Seller Information</h3>
-        <p>Created by <?php 
-        $userId = $user["userId"];
-        $userFirstName = $user["firstName"];
-        echo "<a href='http://localhost/db-fundamentals/profile.php?userId={$userId}'>{$userFirstName}</a>";        
-        ?>
+        <p>Created by <?php
+                      $userId = $user["userId"];
+                      $userFirstName = $user["firstName"];
+                      echo "<a href='http://localhost/db-fundamentals/profile.php?userId={$userId}'>{$userFirstName}</a>";
+                      ?>
         </p>
 
         <p>
-        Average seller rating:
-        <?php 
-        $avgSellerRating = runQuery(
-          "SELECT ROUND(AVG(rating), 1) AS avgRating
+          Average seller rating:
+          <?php
+          $avgSellerRating = runQuery(
+            "SELECT ROUND(AVG(rating), 1) AS avgRating
           FROM Product P
           JOIN Feedback F
           ON P.productId = F.productId
           WHERE P.userId = {$userId};
           "
-        )->fetch_assoc()["avgRating"];
-        if ($avgSellerRating) {
-          $rating = $avgSellerRating;
-          include("CONTENT_rating.php");
-          echo "( {$avgSellerRating} / 5 )";
-        } else {
-          echo "no ratings yet";
-        }
-        ?>
+          )->fetch_assoc()["avgRating"];
+          if ($avgSellerRating) {
+            $rating = $avgSellerRating;
+            include("CONTENT_rating.php");
+            echo "( {$avgSellerRating} / 5 )";
+          } else {
+            echo "no ratings yet";
+          }
+          ?>
         </p>
-        
-        
 
-        
 
-        <?php 
-          $feedback = runQuery(
-            "SELECT *
+
+
+
+        <?php
+        $feedback = runQuery(
+          "SELECT *
             FROM Feedback
             WHERE productId = {$productId}"
-          )->fetch_assoc();
-          if ($feedback != null) {
-            include("CONTENT_listing_feedback.php");
-          }
+        )->fetch_assoc();
+        if ($feedback != null) {
+          include("CONTENT_listing_feedback.php");
+        }
         ?>
 
         <h3>Most Recent Bids -
@@ -142,9 +142,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
       </div>
       <div class="col">
         <?php $user_logged_in = (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) ?>
-        <?php if (!$user_logged_in) {
-          echo "<button class='btn btn-info text-nowrap'>Log in to add items to watch list</button>";
-        } else {
+        <?php
+        if ($user_logged_in) {
+
           $userId = $_SESSION["userId"];
           $watchItemId = (runQuery("SELECT watchItemId FROM WatchItem WHERE userId = {$userId} AND productId = {$productId}")->fetch_assoc());
           if ($watchItemId !== null) {
@@ -199,8 +199,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                             } else {
                                               echo "btn-secondary";
                                             } ?>" <?php if (!$user_logged_in or $auction_ended) {
-                                                                                                                              echo "disabled";
-                                                                                                                            } ?>>
+                                                    echo "disabled";
+                                                  } ?>>
             Place Bid
           </button>
           <?php if (!$user_logged_in) {
