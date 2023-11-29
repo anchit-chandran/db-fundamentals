@@ -15,18 +15,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
         $userId = $row['userId'];
 
+
         echo "<td>" . $userId . "</td>";
         echo "<td>" . $row['email'] . "</td>";
         echo "<td>" . $row['firstName'] . "</td>";
         echo "<td>" . $row['lastName'] . "</td>";
-
-        $active_text = $row['isActive'] ?  "<p class='form_valid'>Active</p>" : "<p class='form_error'>Disabled</p>";
+        $active_text = $row['isActive'] ? "<p class='form_valid'>Active</p>" : "<p class='form_error'>Disabled</p>";
         echo "<td>" . $active_text . "</td>";
-        echo "<td>" . $row['isSuperuser'] . "</td>";
-
+        $superuserText = $row['isSuperuser'] ? "✅" : "❌";
+        echo "<td>" . $superuserText . "</td>";
         $toggle_text = $row['isActive'] ? "Disable" : "Activate";
         $toggle_colour = $row['isActive'] ? "btn-danger" : "btn-success";
-        echo "<td>" . "<button hx-get='partials/toggle_account_activation.php?userId={$userId}' hx-target='#row{$userId}' hx-swap='innerHTML' class='btn {$toggle_colour}'>{$toggle_text}</button>" . "</td>";
+        echo "<td>" . "<button hx-get='partials/toggle_account_activation.php?userId={$userId}' hx-target='#row-userId-{$userId}' hx-swap='innerHTML' class='btn {$toggle_colour}'>{$toggle_text}</button>" . "</td>";
+
     }
 }
 ?>
