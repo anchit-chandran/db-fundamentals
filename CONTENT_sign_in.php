@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 };
 ?>
 
-<div class="row justify-content-center signin_row">
+<div class="row justify-content-center signin_row mt-4">
     <div class="signin_form_col col-6">
         <h2 class='pb-2 border-bottom'>Sign in</h2>
         <form method="POST" action='#'>
