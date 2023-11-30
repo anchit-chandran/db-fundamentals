@@ -61,7 +61,6 @@ $watchlist_to_email = runQuery(
 while ($row = $watchlist_to_email->fetch_assoc()) {
     $userId = $row['userId'];
     $productId = $row['productId'];
-    print_r($row);
 
     $userDetails = runQuery("SELECT * FROM User WHERE userId = {$userId}")->fetch_assoc();  
     $productDetails = runQuery("SELECT * FROM Product WHERE productId = {$productId}")->fetch_assoc();
