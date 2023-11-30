@@ -95,15 +95,16 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
     // ADD PAGINATION
     $requested_page = 1;
     $offset = 0;
+    $products_per_page = 5;
     if (isset($_GET['page'])) {
 
         if ($_GET['page'] != 1) {
             $requested_page = $_GET['page'];
-            $offset = $requested_page;
+            $offset = ($requested_page * $products_per_page) - 5;
         }
     }
 
-    $products_per_page = 5;
+
 
     $product_table_query .= " LIMIT {$products_per_page} ";
     $product_table_query .= " OFFSET {$offset} ";
@@ -111,7 +112,6 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
 
     // FINALLY RUN QUERY
     $filtered_products = runQuery($product_table_query);
-
 
     // RENDER HEAD OF TABLE
     echo "<thead>

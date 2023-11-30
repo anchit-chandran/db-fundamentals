@@ -39,8 +39,8 @@ $hashedPass = password_hash("pw", PASSWORD_DEFAULT);
 
 $seedUsers = "INSERT INTO User (email, password, firstName, lastName, isActive, isSuperuser) 
     VALUES 
-    ('user1@example.com', '{$hashedPass}', 'John', 'Doe', TRUE, FALSE),
-    ('user2@example.com', '{$hashedPass}', 'Jane', 'Smith', TRUE, FALSE),
+    ('user1@example.com', '{$hashedPass}', 'Daenarys', 'Targaryen', TRUE, FALSE),
+    ('user2@example.com', '{$hashedPass}', 'John', 'Snow', TRUE, FALSE),
     ('user3@example.com', '{$hashedPass}', 'Saul', 'Goodman', TRUE, FALSE),
     ('anchit97123@gmail.com', '{$hashedPass}', 'Jesse', 'Pinkman', TRUE, FALSE),
     ('ucaba71@ucl.ac.uk', '{$hashedPass}', 'Gus', 'Fring(ucl)', TRUE, FALSE),
