@@ -42,9 +42,9 @@ $seedUsers = "INSERT INTO User (email, password, firstName, lastName, isActive, 
     ('user1@example.com', '{$hashedPass}', 'John', 'Doe', TRUE, FALSE),
     ('user2@example.com', '{$hashedPass}', 'Jane', 'Smith', TRUE, FALSE),
     ('user3@example.com', '{$hashedPass}', 'Saul', 'Goodman', TRUE, FALSE),
-    ('anchit97123@gmail.com', '{$hashedPass}', 'gmail', 'Chand', TRUE, FALSE),
-    ('ucaba71@ucl.ac.uk', '{$hashedPass}', 'ucl', 'Chand', TRUE, FALSE),
-    ('superuser@example.com', '{$hashedPass}', 'Alice', 'Johnson', True, TRUE),
+    ('anchit97123@gmail.com', '{$hashedPass}', 'Jesse', 'Pinkman', TRUE, FALSE),
+    ('ucaba71@ucl.ac.uk', '{$hashedPass}', 'Gus', 'Fring(ucl)', TRUE, FALSE),
+    ('superuser@example.com', '{$hashedPass}', 'Walter', '\'Admin\' White', True, TRUE),
     ('anchit96@live.co.uk', '{$hashedPass}', 'Darth', 'Vader', True, TRUE)
     ;";
 
