@@ -49,7 +49,10 @@ $seedBids = "INSERT INTO Bid (amount, bidTime, productId, userId)
     
     (1.29, '2022-11-11 10:09:46', 8, 4),
 
-    (900.00, '2022-11-11 10:11:41', 4, 5);";
+    (900.00, '2022-11-11 10:11:41', 4, 5),
+    (905.00, '2022-11-11 10:11:41', 8, 6)
+    
+    ";
 
 if (runQuery($seedBids)) {
     echo "Successfully seeded Bids. <br>";
