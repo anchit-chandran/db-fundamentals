@@ -3,9 +3,9 @@ include_once("database.php");
 include_once("config.php");
 include_once("utilities.php");
 
-// Get all auctions that have ended
+// Get all auctions that have ended, with max bid equal to or exceeding reserve price
 $winners_to_email = runQuery("WITH productsToEmail AS (
-    SELECT productId 
+    SELECT productId, reservePrice
     FROM `product` 
     WHERE auctionEndDatetime < DATE_ADD(NOW(), INTERVAL 1 HOUR) AND orderEmailSent = 0
     )
@@ -14,8 +14,7 @@ FROM bid
 WHERE 
     bid.productId in (SELECT productId FROM productsToEmail)
 GROUP BY productId
-    ;
-");
+HAVING MAX(amount) >= (SELECT reservePrice FROM productsToEmail);");
 
 $product_ids_to_set_emailed = array();
 
