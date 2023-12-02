@@ -20,7 +20,7 @@ runQuery("SET GLOBAL FOREIGN_KEY_CHECKS = 1;");
 // create User table
 $createUserTable = "CREATE TABLE User (
       userId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-      email VARCHAR(254) NOT NULL,
+      email VARCHAR(255) NOT NULL,
       password CHAR(60) NOT NULL,
       firstName VARCHAR(100) NOT NULL,
       lastName VARCHAR(100) NOT NULL,

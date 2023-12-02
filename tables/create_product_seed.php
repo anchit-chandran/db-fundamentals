@@ -30,7 +30,7 @@ $createProductTable = "CREATE TABLE Product (
     startPrice DECIMAL(10,2) DEFAULT 0,
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-    image VARCHAR(500) DEFAULT NULL,
+    image TEXT DEFAULT NULL,
     state ENUM('Brand New', 'Slightly Used', 'Used'),
     orderEmailSent BOOLEAN DEFAULT FALSE,
     userId INT NOT NULL,
